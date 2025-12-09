@@ -1,0 +1,1859 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEFR Teacher Dashboard - 학생 결과 관리</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --primary: #3B82F6;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --dark: #1E293B;
+            --muted: #64748B;
+            --border: #E2E8F0;
+            --background: #F8FAFC;
+            --card: #FFFFFF;
+
+            /* Level Colors */
+            --prea1: #EC4899;
+            --a1: #3B82F6;
+            --a2: #10B981;
+            --b1: #F59E0B;
+            --b2: #8B5CF6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
+            background: var(--background);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1E40AF 100%);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Controls */
+        .controls {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .control-group label {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        .control-group input,
+        .control-group select {
+            padding: 10px 14px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .control-group input:focus,
+        .control-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563EB;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.875rem;
+        }
+
+        /* Results Section */
+        .results-section {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Results Table */
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .results-table th {
+            background: var(--background);
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 2px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .results-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .results-table tbody tr:hover {
+            background: #F8FAFC;
+        }
+
+        .level-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .level-PRE-A1 { background: var(--prea1); }
+        .level-A1 { background: var(--a1); }
+        .level-A2 { background: var(--a2); }
+        .level-B1 { background: var(--b1); }
+        .level-B2 { background: var(--b2); }
+
+        .score-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .score-excellent {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .score-good {
+            background: #DBEAFE;
+            color: #1E40AF;
+        }
+
+        .score-pass {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .score-fail {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+
+        /* Charts Section */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .chart-container {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+        }
+
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        /* Student Details Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 900px;
+            max-height: 80vh;
+            overflow-y: auto;
+            width: 90%;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--muted);
+            padding: 5px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .close-btn:hover {
+            background: var(--background);
+            color: var(--dark);
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--muted);
+        }
+
+        .loading i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--muted);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .header-stats {
+                gap: 15px;
+            }
+
+            .stat-item {
+                padding: 10px 15px;
+            }
+
+            .controls-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .results-table {
+                font-size: 0.9rem;
+            }
+
+            .results-table th,
+            .results-table td {
+                padding: 8px;
+            }
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-muted { color: var(--muted); }
+        .mb-20 { margin-bottom: 20px; }
+        .mt-20 { margin-top: 20px; }
+        .hide { display: none; }
+        .show { display: block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <div>
+                    <h1>
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        CEFR Teacher Dashboard
+                    </h1>
+                    <p style="opacity: 0.9; margin-top: 10px;">학생 테스트 결과 및 분석 관리 시스템</p>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-item">
+                        <span class="stat-value" id="totalStudents">0</span>
+                        <span class="stat-label">전체 학생</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="avgScore">0%</span>
+                        <span class="stat-label">평균 점수</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="passRate">0%</span>
+                        <span class="stat-label">합격률</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <div class="controls-grid">
+                <div class="control-group">
+                    <label for="searchInput">학생 검색</label>
+                    <input type="text" id="searchInput" placeholder="이름, 학교, 반 검색...">
+                </div>
+                <div class="control-group">
+                    <label for="levelFilter">레벨 필터</label>
+                    <select id="levelFilter">
+                        <option value="">전체 레벨</option>
+                        <option value="PRE-A1">PRE-A1</option>
+                        <option value="A1">A1</option>
+                        <option value="A2">A2</option>
+                        <option value="B1">B1</option>
+                        <option value="B2">B2</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="dateFilter">기간 필터</label>
+                    <select id="dateFilter">
+                        <option value="">전체 기간</option>
+                        <option value="today">오늘</option>
+                        <option value="week">최근 7일</option>
+                        <option value="month">최근 30일</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="sortBy">정렬 방식</label>
+                    <select id="sortBy">
+                        <option value="date-desc">최신순</option>
+                        <option value="date-asc">오래된순</option>
+                        <option value="score-desc">점수 높은순</option>
+                        <option value="score-asc">점수 낮은순</option>
+                        <option value="name">이름순</option>
+                        <option value="school">학교순</option>
+                        <option value="level">레벨순</option>
+                        <option value="pass-fail">합격/불합격순</option>
+                    </select>
+                </div>
+            </div>
+            <div class="controls-grid" style="margin-bottom: 0;">
+                <div class="control-group">
+                    <button class="btn btn-primary" onclick="loadSubmissions()">
+                        <i class="fas fa-sync-alt"></i>
+                        결과 새로고침
+                    </button>
+                </div>
+                <div class="control-group">
+                    <button class="btn btn-success" onclick="exportResults()">
+                        <i class="fas fa-download"></i>
+                        결과 내보내기
+                    </button>
+                </div>
+                <div class="control-group">
+                    <button class="btn btn-warning" onclick="generateReport()">
+                        <i class="fas fa-chart-bar"></i>
+                        리포트 생성
+                    </button>
+                </div>
+                <div class="control-group">
+                    <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                        <i class="fas fa-upload"></i>
+                        파일 업로드
+                    </button>
+                    <input type="file" id="fileInput" accept=".json" multiple style="display: none;" onchange="handleFileUpload(event)">
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Table -->
+        <div class="results-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-users"></i>
+                    학생 결과 목록
+                </h2>
+                <span class="text-muted" id="resultCount">총 0건의 결과</span>
+            </div>
+
+            <div id="resultsContainer">
+                <div class="loading">
+                    <i class="fas fa-spinner"></i>
+                    <p>학생 결과를 로딩중입니다...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-grid">
+            <div class="chart-container">
+                <h3 class="chart-title">레벨별 분포</h3>
+                <canvas id="levelDistributionChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3 class="chart-title">점수 분포</h3>
+                <canvas id="scoreDistributionChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3 class="chart-title">시간별 추세</h3>
+                <canvas id="timeTrendChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3 class="chart-title">섹션별 평균 점수</h3>
+                <canvas id="sectionAverageChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Details Modal -->
+    <div id="studentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">학생 상세 결과</h2>
+                <button class="close-btn" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="modalBody">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/answer-data.js"></script>
+    <script src="js/answer-checker.js"></script>
+    <script src="js/chart-config.js"></script>
+    <script src="js/submission-handler.js"></script>
+    <script>
+        // Global variables
+        let allSubmissions = [];
+        let filteredSubmissions = [];
+        let charts = {};
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSubmissions();
+            setupEventListeners();
+        });
+
+        // Setup event listeners
+        function setupEventListeners() {
+            document.getElementById('searchInput').addEventListener('input', filterResults);
+            document.getElementById('levelFilter').addEventListener('change', filterResults);
+            document.getElementById('dateFilter').addEventListener('change', filterResults);
+            document.getElementById('sortBy').addEventListener('change', sortResults);
+
+            // Modal close on background click
+            document.getElementById('studentModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal();
+                }
+            });
+        }
+
+        // Load submissions using submission handler
+        async function loadSubmissions() {
+            try {
+                showLoading();
+
+                // Use submission handler to get submissions
+                if (window.submissionHandler) {
+                    allSubmissions = await window.submissionHandler.getSubmissions();
+                    console.log('Loaded submissions via handler:', allSubmissions.length);
+                } else {
+                    // Fallback to direct API call
+                    const response = await fetch('api/submissions');
+                    if (response.ok) {
+                        allSubmissions = await response.json();
+                        console.log('Loaded submissions via API:', allSubmissions.length);
+                    } else {
+                        // Load sample data as last resort
+                        allSubmissions = await loadSampleSubmissions();
+                        console.log('Loaded sample submissions:', allSubmissions.length);
+                    }
+                }
+
+                // If still no submissions, try to load sample data
+                if (allSubmissions.length === 0) {
+                    allSubmissions = await loadSampleSubmissions();
+                    console.log('No submissions found, using sample data');
+                }
+
+                // Process submissions (grade them if not already graded)
+                allSubmissions = await processSubmissions(allSubmissions);
+                console.log('Processed submissions:', allSubmissions.length);
+
+                filterResults();
+                updateStatistics();
+                updateCharts();
+
+            } catch (error) {
+                console.error('Error loading submissions:', error);
+                // Load sample data as fallback
+                allSubmissions = await loadSampleSubmissions();
+                allSubmissions = await processSubmissions(allSubmissions);
+                filterResults();
+                updateStatistics();
+                updateCharts();
+            }
+        }
+
+        // Load sample submissions for demo
+        async function loadSampleSubmissions() {
+            try {
+                const sampleFiles = [
+                    'submissions/sample_student1_A1_20251209.json',
+                    'submissions/sample_student2_A1_20251209.json',
+                    'submissions/sample_student3_A1_20251209.json'
+                ];
+
+                const submissions = [];
+                for (const file of sampleFiles) {
+                    try {
+                        const response = await fetch(file);
+                        if (response.ok) {
+                            const data = await response.json();
+                            submissions.push(data);
+                        }
+                    } catch (e) {
+                        console.warn('Could not load sample file:', file);
+                    }
+                }
+
+                return submissions;
+            } catch (error) {
+                console.error('Error loading sample submissions:', error);
+                return [];
+            }
+        }
+
+        // Process submissions (grade them)
+        async function processSubmissions(submissions) {
+            const processed = [];
+
+            for (const submission of submissions) {
+                try {
+                    // Check if AnswerChecker is available
+                    if (typeof AnswerChecker !== 'undefined') {
+                        const checker = new AnswerChecker(submission.level);
+                        const gradedResult = checker.gradeSubmission(submission);
+
+                        // Add additional processing for teacher dashboard
+                        gradedResult.originalSubmission = submission;
+                        gradedResult.processedAt = new Date().toISOString();
+
+                        processed.push(gradedResult);
+                    } else {
+                        // Fallback processing if AnswerChecker not available
+                        const processedSubmission = {
+                            ...submission,
+                            score: 0,
+                            passed: false,
+                            processedAt: new Date().toISOString()
+                        };
+                        processed.push(processedSubmission);
+                    }
+                } catch (error) {
+                    console.error('Error grading submission:', error);
+                    // Include the original submission even if grading fails
+                    processed.push({
+                        ...submission,
+                        score: 0,
+                        passed: false,
+                        error: error.message,
+                        processedAt: new Date().toISOString()
+                    });
+                }
+            }
+
+            return processed;
+        }
+
+        // Filter results based on controls with enhanced capabilities
+        function filterResults() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const levelFilter = document.getElementById('levelFilter').value;
+            const dateFilter = document.getElementById('dateFilter').value;
+
+            filteredSubmissions = allSubmissions.filter(submission => {
+                // Enhanced search filter - searches across multiple fields
+                if (searchTerm) {
+                    const searchableText = [
+                        submission.studentInfo?.name || '',
+                        submission.studentInfo?.school || '',
+                        submission.studentInfo?.class || '',
+                        submission.studentInfo?.grade || '',
+                        submission.level || '',
+                        (submission.score || 0).toString(),
+                        submission.passed ? 'pass' : 'fail',
+                        submission.passed ? '합격' : '불합격'
+                    ].join(' ').toLowerCase();
+
+                    // Support multiple search terms
+                    const searchTerms = searchTerm.split(' ').filter(term => term.length > 0);
+                    const matchesAllTerms = searchTerms.every(term => searchableText.includes(term));
+
+                    if (!matchesAllTerms) {
+                        return false;
+                    }
+                }
+
+                // Level filter
+                if (levelFilter && submission.level !== levelFilter) {
+                    return false;
+                }
+
+                // Enhanced date filter
+                if (dateFilter) {
+                    const submittedDate = new Date(submission.submittedAt);
+                    const now = new Date();
+                    now.setHours(23, 59, 59, 999); // End of today
+
+                    switch (dateFilter) {
+                        case 'today':
+                            const today = new Date();
+                            today.setHours(0, 0, 0, 0);
+                            if (submittedDate < today || submittedDate > now) {
+                                return false;
+                            }
+                            break;
+                        case 'week':
+                            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                            weekAgo.setHours(0, 0, 0, 0);
+                            if (submittedDate < weekAgo) {
+                                return false;
+                            }
+                            break;
+                        case 'month':
+                            const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+                            monthAgo.setHours(0, 0, 0, 0);
+                            if (submittedDate < monthAgo) {
+                                return false;
+                            }
+                            break;
+                    }
+                }
+
+                return true;
+            });
+
+            sortResults();
+        }
+
+        // Enhanced sort results with multiple criteria
+        function sortResults() {
+            const sortBy = document.getElementById('sortBy').value;
+
+            filteredSubmissions.sort((a, b) => {
+                switch (sortBy) {
+                    case 'date-desc':
+                        return new Date(b.submittedAt) - new Date(a.submittedAt);
+                    case 'date-asc':
+                        return new Date(a.submittedAt) - new Date(b.submittedAt);
+                    case 'score-desc':
+                        return (b.score || 0) - (a.score || 0);
+                    case 'score-asc':
+                        return (a.score || 0) - (b.score || 0);
+                    case 'name':
+                        const nameA = a.studentInfo?.name || '';
+                        const nameB = b.studentInfo?.name || '';
+                        return nameA.localeCompare(nameB, 'ko', { numeric: true });
+                    case 'school':
+                        const schoolA = a.studentInfo?.school || '';
+                        const schoolB = b.studentInfo?.school || '';
+                        const schoolCompare = schoolA.localeCompare(schoolB, 'ko');
+                        if (schoolCompare !== 0) return schoolCompare;
+                        // Secondary sort by name if schools are same
+                        const nameA2 = a.studentInfo?.name || '';
+                        const nameB2 = b.studentInfo?.name || '';
+                        return nameA2.localeCompare(nameB2, 'ko');
+                    case 'level':
+                        const levelOrder = { 'PRE-A1': 0, 'A1': 1, 'A2': 2, 'B1': 3, 'B2': 4 };
+                        const levelA = levelOrder[a.level] || 999;
+                        const levelB = levelOrder[b.level] || 999;
+                        if (levelA !== levelB) return levelA - levelB;
+                        // Secondary sort by score if levels are same
+                        return (b.score || 0) - (a.score || 0);
+                    case 'pass-fail':
+                        // Sort by passed status first, then by score
+                        if (a.passed && !b.passed) return -1;
+                        if (!a.passed && b.passed) return 1;
+                        return (b.score || 0) - (a.score || 0);
+                    default:
+                        return 0;
+                }
+            });
+
+            displayResults();
+        }
+
+        // Display results in table
+        function displayResults() {
+            const container = document.getElementById('resultsContainer');
+            document.getElementById('resultCount').textContent = `총 ${filteredSubmissions.length}건의 결과`;
+
+            if (filteredSubmissions.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <h3>표시할 결과가 없습니다</h3>
+                        <p>다른 필터 조건을 선택하거나 결과를 새로고침하세요.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const tableHTML = `
+                <div class="table-responsive">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>학생 정보</th>
+                                <th>레벨</th>
+                                <th>점수</th>
+                                <th>결과</th>
+                                <th>제출 시간</th>
+                                <th>작업</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${filteredSubmissions.map(submission => `
+                                <tr>
+                                    <td>
+                                        <div style="font-weight: 600;">${submission.studentInfo?.name || 'Unknown'}</div>
+                                        <div style="font-size: 0.9rem; color: var(--muted);">
+                                            ${submission.studentInfo?.school || ''} ${submission.studentInfo?.class || ''}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="level-badge level-${submission.level}">${submission.level}</span>
+                                    </td>
+                                    <td>
+                                        <span class="score-badge ${getScoreClass(submission.score)}">
+                                            ${submission.score || 0}점
+                                        </span>
+                                    </td>
+                                    <td>
+                                        ${submission.passed ?
+                                            '<span style="color: var(--success); font-weight: 600;"><i class="fas fa-check-circle"></i> 합격</span>' :
+                                            '<span style="color: var(--danger); font-weight: 600;"><i class="fas fa-times-circle"></i> 불합격</span>'
+                                        }
+                                    </td>
+                                    <td>
+                                        <div style="font-size: 0.9rem;">
+                                            ${formatDate(submission.submittedAt)}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary" onclick="showStudentDetails('${submission.studentInfo?.name}', '${submission.level}', '${submission.submittedAt}')">
+                                            <i class="fas fa-eye"></i> 상세
+                                        </button>
+                                        <button class="btn btn-sm btn-success" onclick="showStudentProgress('${submission.studentInfo?.name}')" style="margin-left: 5px;">
+                                            <i class="fas fa-chart-line"></i> 진행
+                                        </button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            container.innerHTML = tableHTML;
+        }
+
+        // Show student details modal
+        function showStudentDetails(studentName, level, submittedAt) {
+            const submission = allSubmissions.find(s =>
+                s.studentInfo?.name === studentName &&
+                s.level === level &&
+                s.submittedAt === submittedAt
+            );
+
+            if (!submission) return;
+
+            const modalBody = document.getElementById('modalBody');
+
+            let detailsHTML = `
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                    <div>
+                        <h3 style="margin-bottom: 20px; color: var(--primary);">
+                            <i class="fas fa-user"></i> 학생 정보
+                        </h3>
+                        <div style="background: var(--background); padding: 20px; border-radius: 12px;">
+                            <p><strong>이름:</strong> ${submission.studentInfo?.name || 'Unknown'}</p>
+                            <p><strong>학교:</strong> ${submission.studentInfo?.school || 'N/A'}</p>
+                            <p><strong>학년:</strong> ${submission.studentInfo?.grade || 'N/A'}</p>
+                            <p><strong>반:</strong> ${submission.studentInfo?.class || 'N/A'}</p>
+                            <p><strong>레벨:</strong> <span class="level-badge level-${submission.level}">${submission.level}</span></p>
+                            <p><strong>제출 시간:</strong> ${formatDate(submission.submittedAt)}</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 style="margin-bottom: 20px; color: var(--primary);">
+                            <i class="fas fa-chart-line"></i> 시험 결과
+                        </h3>
+                        <div style="background: var(--background); padding: 20px; border-radius: 12px;">
+                            <p style="font-size: 1.2rem; font-weight: 600; margin-bottom: 15px;">
+                                총점: <span style="color: ${submission.score >= 70 ? 'var(--success)' : 'var(--danger)'};">${submission.score || 0}점</span>
+                                (${submission.passed ? '합격' : '불합격'})
+                            </p>
+                            <div style="margin-top: 20px;">
+                                <canvas id="studentSectionChart" width="300" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            if (submission.sectionResults && submission.sectionResults.length > 0) {
+                detailsHTML += `
+                    <div style="margin-top: 30px;">
+                        <h3 style="margin-bottom: 20px; color: var(--primary);">
+                            <i class="fas fa-list-check"></i> 섹션별 결과
+                        </h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                            ${submission.sectionResults.map(section => `
+                                <div style="background: var(--background); padding: 15px; border-radius: 12px; text-align: center;">
+                                    <div style="font-weight: 600; margin-bottom: 10px;">${section.name}</div>
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary);">${section.percentage}%</div>
+                                    <div style="font-size: 0.9rem; color: var(--muted);">${section.correct}/${section.total} 정답</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (submission.feedback) {
+                detailsHTML += `
+                    <div style="margin-top: 30px;">
+                        <h3 style="margin-bottom: 20px; color: var(--primary);">
+                            <i class="fas fa-comment"></i> 피드백
+                        </h3>
+                        <div style="background: #E0F2FE; border: 2px solid var(--primary); border-radius: 12px; padding: 20px;">
+                            <p style="font-size: 1.1rem; margin-bottom: 15px;">${submission.feedback.message}</p>
+                            ${submission.feedback.recommendations && submission.feedback.recommendations.length > 0 ? `
+                                <ul style="margin-left: 20px;">
+                                    ${submission.feedback.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                                </ul>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }
+
+            modalBody.innerHTML = detailsHTML;
+
+            // Show modal
+            document.getElementById('studentModal').classList.add('active');
+
+            // Draw student section chart
+            setTimeout(() => {
+                if (submission.sectionResults) {
+                    drawStudentSectionChart(submission.sectionResults);
+                }
+            }, 100);
+        }
+
+        // Draw student section chart
+        function drawStudentSectionChart(sectionResults) {
+            const ctx = document.getElementById('studentSectionChart');
+            if (!ctx) return;
+
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: sectionResults.map(s => s.name),
+                    datasets: [{
+                        label: '점수',
+                        data: sectionResults.map(s => s.percentage),
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(59, 130, 246, 1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                stepSize: 20
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('studentModal').classList.remove('active');
+        }
+
+        // Update statistics
+        function updateStatistics() {
+            const totalStudents = allSubmissions.length;
+            const avgScore = totalStudents > 0 ?
+                Math.round(allSubmissions.reduce((sum, s) => sum + (s.score || 0), 0) / totalStudents) : 0;
+            const passRate = totalStudents > 0 ?
+                Math.round((allSubmissions.filter(s => s.passed).length / totalStudents) * 100) : 0;
+
+            document.getElementById('totalStudents').textContent = totalStudents;
+            document.getElementById('avgScore').textContent = avgScore + '%';
+            document.getElementById('passRate').textContent = passRate + '%';
+        }
+
+        // Update charts
+        function updateCharts() {
+            updateLevelDistributionChart();
+            updateScoreDistributionChart();
+            updateTimeTrendChart();
+            updateSectionAverageChart();
+        }
+
+        // Update level distribution chart
+        function updateLevelDistributionChart() {
+            const ctx = document.getElementById('levelDistributionChart');
+            if (!ctx) return;
+
+            const levelCounts = {};
+            allSubmissions.forEach(s => {
+                levelCounts[s.level] = (levelCounts[s.level] || 0) + 1;
+            });
+
+            if (charts.levelDistribution) {
+                charts.levelDistribution.destroy();
+            }
+
+            charts.levelDistribution = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(levelCounts),
+                    datasets: [{
+                        data: Object.values(levelCounts),
+                        backgroundColor: [
+                            '#EC4899',
+                            '#3B82F6',
+                            '#10B981',
+                            '#F59E0B',
+                            '#8B5CF6'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update score distribution chart
+        function updateScoreDistributionChart() {
+            const ctx = document.getElementById('scoreDistributionChart');
+            if (!ctx) return;
+
+            const scoreRanges = {
+                '90-100': 0,
+                '80-89': 0,
+                '70-79': 0,
+                '60-69': 0,
+                '50-59': 0,
+                '0-49': 0
+            };
+
+            allSubmissions.forEach(s => {
+                const score = s.score || 0;
+                if (score >= 90) scoreRanges['90-100']++;
+                else if (score >= 80) scoreRanges['80-89']++;
+                else if (score >= 70) scoreRanges['70-79']++;
+                else if (score >= 60) scoreRanges['60-69']++;
+                else if (score >= 50) scoreRanges['50-59']++;
+                else scoreRanges['0-49']++;
+            });
+
+            if (charts.scoreDistribution) {
+                charts.scoreDistribution.destroy();
+            }
+
+            charts.scoreDistribution = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(scoreRanges),
+                    datasets: [{
+                        label: '학생 수',
+                        data: Object.values(scoreRanges),
+                        backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update time trend chart
+        function updateTimeTrendChart() {
+            const ctx = document.getElementById('timeTrendChart');
+            if (!ctx) return;
+
+            // Group submissions by date
+            const dateGroups = {};
+            allSubmissions.forEach(s => {
+                const date = new Date(s.submittedAt).toLocaleDateString();
+                if (!dateGroups[date]) {
+                    dateGroups[date] = [];
+                }
+                dateGroups[date].push(s);
+            });
+
+            const sortedDates = Object.keys(dateGroups).sort();
+            const avgScores = sortedDates.map(date => {
+                const submissions = dateGroups[date];
+                const total = submissions.reduce((sum, s) => sum + (s.score || 0), 0);
+                return Math.round(total / submissions.length);
+            });
+
+            if (charts.timeTrend) {
+                charts.timeTrend.destroy();
+            }
+
+            charts.timeTrend = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: sortedDates,
+                    datasets: [{
+                        label: '평균 점수',
+                        data: avgScores,
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update section average chart
+        function updateSectionAverageChart() {
+            const ctx = document.getElementById('sectionAverageChart');
+            if (!ctx) return;
+
+            // Collect all section data
+            const sectionData = {};
+            allSubmissions.forEach(s => {
+                if (s.sectionResults) {
+                    s.sectionResults.forEach(section => {
+                        if (!sectionData[section.name]) {
+                            sectionData[section.name] = [];
+                        }
+                        sectionData[section.name].push(section.percentage);
+                    });
+                }
+            });
+
+            // Calculate averages
+            const sectionAverages = {};
+            Object.keys(sectionData).forEach(name => {
+                const scores = sectionData[name];
+                sectionAverages[name] = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
+            });
+
+            if (charts.sectionAverage) {
+                charts.sectionAverage.destroy();
+            }
+
+            charts.sectionAverage = new Chart(ctx, {
+                type: 'horizontalBar',
+                data: {
+                    labels: Object.keys(sectionAverages),
+                    datasets: [{
+                        label: '평균 점수',
+                        data: Object.values(sectionAverages),
+                        backgroundColor: 'rgba(16, 185, 129, 0.8)',
+                        borderColor: 'rgba(16, 185, 129, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        }
+
+        // Enhanced export results with multiple formats
+        function exportResults() {
+            if (filteredSubmissions.length === 0) {
+                alert('내보낼 결과가 없습니다.');
+                return;
+            }
+
+            // Show export format selection dialog
+            const format = prompt('내보낼 형식을 선택하세요:\n1. CSV (기본)\n2. JSON\n3. Excel-compatible CSV\n4. Detailed Report\n\n숫자만 입력하세요 (1-4):', '1');
+
+            switch (format) {
+                case '1':
+                    exportCSV(filteredSubmissions, 'cefr_results.csv', false);
+                    break;
+                case '2':
+                    exportJSON(filteredSubmissions, 'cefr_results.json');
+                    break;
+                case '3':
+                    exportCSV(filteredSubmissions, 'cefr_results_excel.csv', true);
+                    break;
+                case '4':
+                    exportDetailedReport(filteredSubmissions, 'cefr_detailed_report.html');
+                    break;
+                default:
+                    exportCSV(filteredSubmissions, 'cefr_results.csv', false);
+            }
+        }
+
+        // Export CSV with enhanced formatting
+        function exportCSV(submissions, filename, excelCompatible = false) {
+            const headers = excelCompatible ?
+                ['Name', 'School', 'Grade', 'Class', 'Level', 'Score', 'Passed', 'Submission Date', 'Student ID'] :
+                ['이름', '학교', '학년', '반', '레벨', '점수', '합격여부', '제출시간', '학생 ID'];
+
+            const rows = submissions.map(s => {
+                const submittedDate = new Date(s.submittedAt);
+                return [
+                    s.studentInfo?.name || '',
+                    s.studentInfo?.school || '',
+                    s.studentInfo?.grade || '',
+                    s.studentInfo?.class || '',
+                    s.level || '',
+                    s.score || 0,
+                    s.passed ? (excelCompatible ? 'Yes' : '합격') : (excelCompatible ? 'No' : '불합격'),
+                    excelCompatible ? submittedDate.toISOString() : submittedDate.toLocaleString('ko-KR'),
+                    generateStudentId(s)
+                ];
+            });
+
+            let csvContent = [headers, ...rows]
+                .map(row => row.map(cell => `"${cell}"`).join(','))
+                .join('\n');
+
+            // Add summary at the end
+            if (!excelCompatible) {
+                const stats = calculateBasicStats(submissions);
+                csvContent += '\n\n' + [
+                    '"요약 통계"',
+                    `"총 학생 수","${stats.totalStudents}"`,
+                    `"평균 점수","${stats.averageScore}%"`,
+                    `"합격률","${stats.passRate}%"`,
+                    `"최고 점수","${stats.maxScore}점"`,
+                    `"최저 점수","${stats.minScore}점"`
+                ].join('\n');
+            }
+
+            downloadFile(csvContent, filename, 'text/csv;charset=utf-8;');
+        }
+
+        // Export JSON
+        function exportJSON(submissions, filename) {
+            const exportData = {
+                exportInfo: {
+                    timestamp: new Date().toISOString(),
+                    totalSubmissions: submissions.length,
+                    exportFormat: 'CEFR Teacher Dashboard'
+                },
+                submissions: submissions,
+                statistics: calculateBasicStats(submissions),
+                levelDistribution: calculateLevelDistribution(submissions)
+            };
+
+            const jsonContent = JSON.stringify(exportData, null, 2);
+            downloadFile(jsonContent, filename, 'application/json;charset=utf-8;');
+        }
+
+        // Export detailed HTML report
+        function exportDetailedReport(submissions, filename) {
+            const stats = calculateBasicStats(submissions);
+            const levelDist = calculateLevelDistribution(submissions);
+
+            const htmlContent = `
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEFR 테스트 결과 상세 리포트</title>
+    <style>
+        body { font-family: 'Malgun Gothic', sans-serif; margin: 20px; line-height: 1.6; }
+        .header { text-align: center; border-bottom: 2px solid #3B82F6; padding-bottom: 20px; margin-bottom: 30px; }
+        .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .summary-item { background: #f8fafc; padding: 15px; border-radius: 8px; text-align: center; }
+        .summary-value { font-size: 2rem; font-weight: bold; color: #3B82F6; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+        th, td { border: 1px solid #e2e8f0; padding: 10px; text-align: left; }
+        th { background: #f1f5f9; font-weight: 600; }
+        .pass { color: #10B981; font-weight: 600; }
+        .fail { color: #EF4444; font-weight: 600; }
+        @media print { .no-print { display: none; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>CEFR 테스트 결과 상세 리포트</h1>
+        <p>생성일: ${new Date().toLocaleString('ko-KR')}</p>
+        <p>총 ${submissions.length}개의 결과</p>
+    </div>
+
+    <div class="summary">
+        <div class="summary-item">
+            <div class="summary-value">${stats.totalStudents}</div>
+            <div>전체 학생</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-value">${stats.averageScore}%</div>
+            <div>평균 점수</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-value">${stats.passRate}%</div>
+            <div>합격률</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-value">${stats.maxScore}점</div>
+            <div>최고 점수</div>
+        </div>
+    </div>
+
+    <h2>레벨별 분포</h2>
+    <table>
+        <tr><th>레벨</th><th>학생 수</th><th>평균 점수</th><th>합격률</th></tr>
+        ${Object.entries(levelDist).map(([level, data]) => `
+            <tr>
+                <td>${level}</td>
+                <td>${data.count}</td>
+                <td>${data.avgScore}%</td>
+                <td>${data.passRate}%</td>
+            </tr>
+        `).join('')}
+    </table>
+
+    <h2>학생별 결과</h2>
+    <table>
+        <tr>
+            <th>이름</th><th>학교</th><th>학년/반</th><th>레벨</th><th>점수</th><th>결과</th><th>제출일</th>
+        </tr>
+        ${submissions.map(s => `
+            <tr>
+                <td>${s.studentInfo?.name || ''}</td>
+                <td>${s.studentInfo?.school || ''}</td>
+                <td>${s.studentInfo?.grade || ''} ${s.studentInfo?.class || ''}</td>
+                <td>${s.level}</td>
+                <td>${s.score || 0}점</td>
+                <td class="${s.passed ? 'pass' : 'fail'}">${s.passed ? '합격' : '불합격'}</td>
+                <td>${new Date(s.submittedAt).toLocaleDateString('ko-KR')}</td>
+            </tr>
+        `).join('')}
+    </table>
+
+    <div class="no-print">
+        <p style="text-align: center; color: #64748B; margin-top: 30px;">
+            이 리포트는 CEFR Teacher Dashboard에서 생성되었습니다.
+        </p>
+    </div>
+</body>
+</html>`;
+
+            downloadFile(htmlContent, filename, 'text/html;charset=utf-8;');
+        }
+
+        // Calculate basic statistics
+        function calculateBasicStats(submissions) {
+            const totalStudents = submissions.length;
+            const averageScore = totalStudents > 0 ?
+                Math.round(submissions.reduce((sum, s) => sum + (s.score || 0), 0) / totalStudents) : 0;
+            const passRate = totalStudents > 0 ?
+                Math.round((submissions.filter(s => s.passed).length / totalStudents) * 100) : 0;
+            const maxScore = totalStudents > 0 ? Math.max(...submissions.map(s => s.score || 0)) : 0;
+            const minScore = totalStudents > 0 ? Math.min(...submissions.map(s => s.score || 0)) : 0;
+
+            return { totalStudents, averageScore, passRate, maxScore, minScore };
+        }
+
+        // Calculate level distribution
+        function calculateLevelDistribution(submissions) {
+            const levelDist = {};
+
+            submissions.forEach(s => {
+                if (!levelDist[s.level]) {
+                    levelDist[s.level] = { count: 0, totalScore: 0, passed: 0 };
+                }
+                levelDist[s.level].count++;
+                levelDist[s.level].totalScore += s.score || 0;
+                if (s.passed) levelDist[s.level].passed++;
+            });
+
+            // Calculate averages
+            Object.keys(levelDist).forEach(level => {
+                const data = levelDist[level];
+                data.avgScore = Math.round(data.totalScore / data.count);
+                data.passRate = Math.round((data.passed / data.count) * 100);
+            });
+
+            return levelDist;
+        }
+
+        // Generate student ID
+        function generateStudentId(submission) {
+            const name = submission.studentInfo?.name || '';
+            const date = new Date(submission.submittedAt);
+            const timestamp = date.getTime().toString(36);
+            return `${name}_${timestamp}`.replace(/\s+/g, '_').toUpperCase();
+        }
+
+        // Generic download file function
+        function downloadFile(content, filename, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+
+        // Generate comprehensive report
+        function generateReport() {
+            // This would open a new window or modal with a comprehensive report
+            alert('리포트 생성 기능은 현재 개발 중입니다. report-generator.html을 참조해주세요.');
+        }
+
+        // Handle file upload
+        function handleFileUpload(event) {
+            const files = event.target.files;
+
+            for (const file of files) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const submission = JSON.parse(e.target.result);
+                        allSubmissions.push(submission);
+                    } catch (error) {
+                        console.error('Error parsing file:', error);
+                        alert(`파일을 파싱하는 중 오류가 발생했습니다: ${file.name}`);
+                    }
+                };
+                reader.readAsText(file);
+            }
+
+            // Process new submissions and refresh display
+            setTimeout(() => {
+                processSubmissions(allSubmissions).then(processed => {
+                    allSubmissions = processed;
+                    filterResults();
+                    updateStatistics();
+                    updateCharts();
+                });
+            }, 1000);
+
+            // Clear file input
+            event.target.value = '';
+        }
+
+        // Student progress tracking
+        function trackStudentProgress(studentName) {
+            const studentSubmissions = allSubmissions.filter(s =>
+                s.studentInfo?.name === studentName
+            ).sort((a, b) => new Date(a.submittedAt) - new Date(b.submittedAt));
+
+            if (studentSubmissions.length === 0) {
+                return null;
+            }
+
+            const progress = {
+                studentName: studentName,
+                totalTests: studentSubmissions.length,
+                testHistory: studentSubmissions.map(s => ({
+                    date: s.submittedAt,
+                    level: s.level,
+                    score: s.score,
+                    passed: s.passed,
+                    sections: s.sectionResults || []
+                })),
+                averageScore: Math.round(
+                    studentSubmissions.reduce((sum, s) => sum + (s.score || 0), 0) / studentSubmissions.length
+                ),
+                bestScore: Math.max(...studentSubmissions.map(s => s.score || 0)),
+                currentLevel: studentSubmissions[studentSubmissions.length - 1]?.level,
+                improvementTrend: calculateImprovementTrend(studentSubmissions),
+                levelProgression: calculateLevelProgression(studentSubmissions)
+            };
+
+            return progress;
+        }
+
+        // Calculate improvement trend
+        function calculateImprovementTrend(submissions) {
+            if (submissions.length < 2) return 'insufficient_data';
+
+            const recent = submissions.slice(-3); // Last 3 tests
+            const earlier = submissions.slice(0, -3); // Earlier tests
+
+            if (earlier.length === 0) return 'insufficient_data';
+
+            const recentAvg = recent.reduce((sum, s) => sum + (s.score || 0), 0) / recent.length;
+            const earlierAvg = earlier.reduce((sum, s) => sum + (s.score || 0), 0) / earlier.length;
+
+            const improvement = recentAvg - earlierAvg;
+
+            if (improvement > 10) return 'significant_improvement';
+            if (improvement > 5) return 'moderate_improvement';
+            if (improvement > -5) return 'stable';
+            if (improvement > -10) return 'decline';
+            return 'significant_decline';
+        }
+
+        // Calculate level progression
+        function calculateLevelProgression(submissions) {
+            const levelOrder = { 'PRE-A1': 0, 'A1': 1, 'A2': 2, 'B1': 3, 'B2': 4 };
+            const uniqueLevels = [...new Set(submissions.map(s => s.level))];
+
+            return {
+                levelsCompleted: uniqueLevels.length,
+                currentLevelIndex: Math.max(...uniqueLevels.map(l => levelOrder[l] || 0)),
+                progressionPath: uniqueLevels.sort((a, b) => (levelOrder[a] || 0) - (levelOrder[b] || 0)),
+                readyForNextLevel: checkReadinessForNextLevel(submissions)
+            };
+        }
+
+        // Check if student is ready for next level
+        function checkReadinessForNextLevel(submissions) {
+            const levelOrder = { 'PRE-A1': 0, 'A1': 1, 'A2': 2, 'B1': 3, 'B2': 4 };
+            const latestSubmission = submissions[submissions.length - 1];
+
+            if (!latestSubmission) return false;
+
+            const currentLevelIndex = levelOrder[latestSubmission.level] || 0;
+            const recentScore = latestSubmission.score || 0;
+            const hasConsistentlyPassed = submissions.slice(-3).filter(s => s.passed).length >= 2;
+
+            return recentScore >= 75 && hasConsistentlyPassed && currentLevelIndex < 4;
+        }
+
+        // Show student progress modal
+        function showStudentProgress(studentName) {
+            const progress = trackStudentProgress(studentName);
+
+            if (!progress) {
+                alert('이 학생의 진행 데이터를 찾을 수 없습니다.');
+                return;
+            }
+
+            const modalBody = document.getElementById('modalBody');
+
+            let trendMessage = '';
+            switch (progress.improvementTrend) {
+                case 'significant_improvement':
+                    trendMessage = '🎉 매우 큰 향상이 있습니다!';
+                    break;
+                case 'moderate_improvement':
+                    trendMessage = '📈 꾸준한 향상이 있습니다.';
+                    break;
+                case 'stable':
+                    trendMessage = '📊 안정적인 성과를 보입니다.';
+                    break;
+                case 'decline':
+                    trendMessage = '📉 약간의 하락세가 있습니다.';
+                    break;
+                case 'significant_decline':
+                    trendMessage = '⚠️ 주의가 필요한 하락세입니다.';
+                    break;
+                default:
+                    trendMessage = '📋 더 많은 데이터가 필요합니다.';
+            }
+
+            const progressHTML = `
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <h2 style="color: var(--primary); margin-bottom: 10px;">${progress.studentName} 학생 진행 현황</h2>
+                    <p style="font-size: 1.1rem; color: var(--muted);">총 ${progress.totalTests}회의 테스트 기록</p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                    <div style="background: var(--background); padding: 20px; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 2rem; font-weight: 700; color: var(--primary);">${progress.averageScore}점</div>
+                        <div style="color: var(--muted);">평균 점수</div>
+                    </div>
+                    <div style="background: var(--background); padding: 20px; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 2rem; font-weight: 700; color: var(--success);">${progress.bestScore}점</div>
+                        <div style="color: var(--muted);">최고 점수</div>
+                    </div>
+                    <div style="background: var(--background); padding: 20px; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 2rem; font-weight: 700; color: var(--warning);">${progress.levelProgression.levelsCompleted}</div>
+                        <div style="color: var(--muted);">완료 레벨</div>
+                    </div>
+                    <div style="background: var(--background); padding: 20px; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--a1);">${progress.currentLevel}</div>
+                        <div style="color: var(--muted);">현재 레벨</div>
+                    </div>
+                </div>
+
+                <div style="background: #E0F2FE; border-radius: 12px; padding: 20px; margin-bottom: 30px;">
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">학습 추세</h3>
+                    <p style="font-size: 1.1rem;">${trendMessage}</p>
+                    ${progress.levelProgression.readyForNextLevel ?
+                        '<p style="color: var(--success); font-weight: 600;">✅ 다음 레벨로 진행할 준비가 되었습니다!</p>' :
+                        '<p style="color: var(--warning);">⏳ 현재 레벨에서 더 연습이 필요합니다.</p>'
+                    }
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 15px;">테스트 기록</h3>
+                    <div style="max-height: 300px; overflow-y: auto;">
+                        ${progress.testHistory.map(test => `
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; margin-bottom: 10px; background: var(--background); border-radius: 8px;">
+                                <div>
+                                    <span class="level-badge level-${test.level}">${test.level}</span>
+                                    <span style="margin-left: 10px; color: var(--muted);">${formatDate(test.date)}</span>
+                                </div>
+                                <div>
+                                    <span style="font-weight: 600; color: ${test.passed ? 'var(--success)' : 'var(--danger)'};">${test.score}점</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <div>
+                    <canvas id="progressChart" width="400" height="200"></canvas>
+                </div>
+            `;
+
+            modalBody.innerHTML = progressHTML;
+            document.getElementById('studentModal').classList.add('active');
+
+            // Draw progress chart
+            setTimeout(() => {
+                drawProgressChart(progress.testHistory);
+            }, 100);
+        }
+
+        // Draw progress chart
+        function drawProgressChart(testHistory) {
+            const ctx = document.getElementById('progressChart');
+            if (!ctx) return;
+
+            const labels = testHistory.map(test => new Date(test.date).toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' }));
+            const scores = testHistory.map(test => test.score);
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '점수',
+                        data: scores,
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 6,
+                        pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                stepSize: 20
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                afterLabel: function(context) {
+                                    const index = context.dataIndex;
+                                    const test = testHistory[index];
+                                    return `레벨: ${test.level}\n합격: ${test.passed ? '예' : '아니오'}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Utility functions
+        function getScoreClass(score) {
+            if (score >= 80) return 'score-excellent';
+            if (score >= 60) return 'score-good';
+            if (score >= 50) return 'score-pass';
+            return 'score-fail';
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            if (diffDays === 1) {
+                return '오늘';
+            } else if (diffDays <= 7) {
+                return `${diffDays}일 전`;
+            } else {
+                return date.toLocaleDateString('ko-KR');
+            }
+        }
+
+        function showLoading() {
+            document.getElementById('resultsContainer').innerHTML = `
+                <div class="loading">
+                    <i class="fas fa-spinner"></i>
+                    <p>학생 결과를 로딩중입니다...</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
