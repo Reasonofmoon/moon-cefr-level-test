@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEFR A2 Level English Test - Teacher Version</title>
+    <style>
+        :root {
+            --a2: #10B981;
+            --a2-light: #D1FAE5;
+            --a2-dark: #065F46;
+            --success: #10B981;
+            --error: #EF4444;
+            --warning: #F59E0B;
+            --background: #F8FAFC;
+            --card: #FFFFFF;
+            --text: #1E293B;
+            --muted: #64748B;
+            --border: #E2E8F0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .test-header {
+            background: linear-gradient(135deg, var(--a2) 0%, var(--a2-dark) 100%);
+            color: white;
+            padding: 35px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+        .test-header h1 { font-size: 2rem; margin-bottom: 10px; }
+        .teacher-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.35);
+            padding: 12px 28px;
+            border-radius: 25px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            border: 2px solid rgba(255,255,255,0.5);
+        }
+        .test-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+        }
+        .section {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--a2-light);
+        }
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--a2-light);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        .section-title { font-size: 1.3rem; color: var(--a2-dark); font-weight: 600; }
+        .section-count {
+            margin-left: auto;
+            background: var(--a2-light);
+            color: var(--a2-dark);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .answer-key {
+            background: #FEF3C7;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .answer-key h4 { color: var(--warning); margin-bottom: 10px; font-size: 0.95rem; }
+        .answer-key p { margin: 5px 0; font-size: 0.9rem; }
+        .key-letter { font-weight: 700; color: var(--success); }
+        .question-block {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #F9FAFB;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        .question-num {
+            display: inline-block;
+            background: var(--a2);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-right: 10px;
+        }
+        .question-text { font-weight: 600; margin: 10px 0; color: var(--text); }
+        .guidance-box {
+            background: #ECFDF5;
+            border-left: 4px solid var(--success);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        .guidance-box h5 { color: var(--a2-dark); margin-bottom: 8px; }
+        .guidance-box p { margin: 5px 0; line-height: 1.5; }
+        .cefr-section {
+            background: linear-gradient(135deg, #D1FAE5 0%, #ECFDF5 100%);
+            border: 2px solid var(--a2);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+        }
+        .cefr-section h3 { color: var(--a2-dark); margin-bottom: 15px; font-size: 1.2rem; }
+        .cefr-list { margin-left: 20px; }
+        .cefr-list li { margin: 8px 0; list-style: none; }
+        .cefr-list li:before { content: "✓ "; color: var(--success); font-weight: 700; }
+        .remediation {
+            background: #F3E8FF;
+            border-left: 4px solid #8B5CF6;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        .remediation h5 { color: #6D28D9; margin-bottom: 8px; }
+        .passage-label {
+            display: inline-block;
+            background: var(--a2);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+        .passage {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+        .test-footer { text-align: center; padding: 20px; color: var(--muted); font-size: 0.85rem; }
+        .scoring-guide {
+            background: #F0F4F8;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        .scoring-guide h3 { color: var(--text); margin-bottom: 15px; }
+        .score-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 6px;
+            border-left: 4px solid var(--a2);
+        }
+        .score-range { font-weight: 600; color: var(--a2-dark); }
+        .score-level { font-style: italic; color: var(--muted); }
+        @media (max-width: 640px) {
+            body { padding: 10px; }
+            .test-header { padding: 20px; }
+            .test-header h1 { font-size: 1.5rem; }
+            .section { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header class="test-header">
+        <div class="teacher-badge">👨‍🏫 TEACHER VERSION</div>
+        <h1>CEFR A2 Level English Test</h1>
+        <p style="margin-bottom: 15px;">Elementary Level Assessment - Complete Answer Keys & Guidance</p>
+        <div class="test-info">
+            <span>📝 40 Questions</span>
+            <span>⏱️ 60 Minutes</span>
+            <span>📊 Passing Score: 60% (24/40)</span>
+        </div>
+    </header>
+
+    <!-- Scoring Guide -->
+    <div class="scoring-guide">
+        <h3>📊 Scoring Guide</h3>
+        <div class="score-row">
+            <span class="score-range">90-100% (36-40)</span>
+            <span class="score-level">Excellent - Ready for B1</span>
+        </div>
+        <div class="score-row">
+            <span class="score-range">80-89% (32-35)</span>
+            <span class="score-level">Very Good - Strong A2</span>
+        </div>
+        <div class="score-row">
+            <span class="score-range">70-79% (28-31)</span>
+            <span class="score-level">Good - Solid A2</span>
+        </div>
+        <div class="score-row">
+            <span class="score-range">60-69% (24-27)</span>
+            <span class="score-level">Pass - Basic A2</span>
+        </div>
+        <div class="score-row">
+            <span class="score-range">Below 60% (<24)</span>
+            <span class="score-level">Needs Improvement - Restudy A2</span>
+        </div>
+    </div>
+
+    <!-- Section 1: Reading Comprehension -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-icon">📖</div>
+            <h2 class="section-title">Section 1: Reading Comprehension</h2>
+            <span class="section-count">8 Questions (Q1-Q8)</span>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">1</span>
+            <div class="question-text">Why was it a special day at the castle?</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">B</span></h4>
+                <p><strong>A new Dragon Master was arriving.</strong></p>
+                <p style="margin-top: 8px; color: #666; font-size: 0.85rem;">Students should identify the main reason from the text: "It was a special day. The new Dragon Master was coming!"</p>
+            </div>
+            <div class="guidance-box">
+                <h5>Teaching Tip:</h5>
+                <p>Check if students can extract the main idea from a narrative. This is literal comprehension at A2 level.</p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">2</span>
+            <div class="question-text">How old was the new Dragon Master?</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">B</span></h4>
+                <p><strong>Eight years old</strong></p>
+                <p style="margin-top: 8px; color: #666; font-size: 0.85rem;">Direct information from text: "And she is eight years old, like all of you."</p>
+            </div>
+            <div class="guidance-box">
+                <h5>Teaching Tip:</h5>
+                <p>A2 students should locate specific factual information in simple texts.</p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">3</span>
+            <div class="question-text">What did Annie and Jack find in the woods?</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">B</span></h4>
+                <p><strong>A tree house with books</strong></p>
+                <p style="margin-top: 8px; color: #666; font-size: 0.85rem;">Key details: "a rope ladder... at the top—was a tree house filled with books."</p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">4</span>
+            <div class="question-text">What was different about Jack and Annie?</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">B</span></h4>
+                <p><strong>Annie liked pretend, Jack liked real</strong></p>
+                <p style="margin-top: 8px; color: #666; font-size: 0.85rem;">From text: "Annie loved pretend stuff... Jack was eight and a half. He liked real things."</p>
+            </div>
+            <div class="guidance-box">
+                <h5>Teaching Tip:</h5>
+                <p>This requires comparing character traits—mid-level comprehension for A2.</p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">5</span>
+            <div class="question-text">Why was George bored?</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">B</span></h4>
+                <p><strong>No children to play with</strong></p>
+                <p style="margin-top: 8px; color: #666; font-size: 0.85rem;">Text states: "He didn't have a brother or sister... He never had children to play with."</p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">6</span>
+            <div class="question-text">What did Grandma ask George to do?</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">B</span></h4>
+                <p><strong>Make her tea</strong></p>
+                <p style="margin-top: 8px; color: #666; font-size: 0.85rem;">Direct instruction: "You can make me a nice cup of tea."</p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">7</span>
+            <div class="question-text">How could students win the tickets?</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">B</span></h4>
+                <p><strong>Be player of the match</strong></p>
+                <p style="margin-top: 8px; color: #666; font-size: 0.85rem;">From text: "The player of the match will win football tickets."</p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">8</span>
+            <div class="question-text">How did Henry feel about the tickets?</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">B</span></h4>
+                <p><strong>He really wanted them</strong></p>
+                <p style="margin-top: 8px; color: #666; font-size: 0.85rem;">Evidenced by: "Horrid Henry was stunned. He had to go to the game. He just had to!"</p>
+            </div>
+            <div class="guidance-box">
+                <h5>Teaching Tip:</h5>
+                <p>This requires inferring emotion from context—students should understand emotional impact.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Vocabulary -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-icon">📚</div>
+            <h2 class="section-title">Section 2: Vocabulary</h2>
+            <span class="section-count">12 Questions (Q9-Q20)</span>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">9</span>
+            <div class="question-text">The Dragon Stone was _______. It could choose children.</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">B</span></h4>
+                <p><strong>magical</strong></p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">10</span>
+            <div class="question-text">George's mother told him not to get into _______.</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">B</span></h4>
+                <p><strong>mischief</strong></p>
+                <p style="margin-top: 8px; color: #666; font-size: 0.85rem;">Collocation: "get into mischief" (cause trouble)</p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">11</span>
+            <div class="question-text">A person who does magic spells is called a _______.</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">C</span></h4>
+                <p><strong>wizard</strong></p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">12</span>
+            <div class="question-text">The tree house was at the _______ of the tall tree.</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">C</span></h4>
+                <p><strong>top</strong></p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">13</span>
+            <div class="question-text">Horrid Henry was _______ when he heard about the tickets.</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">B</span></h4>
+                <p><strong>stunned</strong></p>
+                <p style="margin-top: 8px; color: #666; font-size: 0.85rem;">Means: very surprised or shocked</p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">14</span>
+            <div class="question-text">The opposite of "grumpy" is _______.</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">A</span></h4>
+                <p><strong>cheerful</strong></p>
+                <p style="margin-top: 8px; color: #666; font-size: 0.85rem;">Antonyms: grumpy (unhappy) ↔ cheerful (happy)</p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">15</span>
+            <div class="question-text">A _______ is a large building where kings live.</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">C</span></h4>
+                <p><strong>castle</strong></p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">16</span>
+            <div class="question-text">The wizard's poison was very _______. It could melt rocks!</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">B</span></h4>
+                <p><strong>strong</strong></p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">17</span>
+            <div class="question-text">Jack climbed up the _______ to reach the tree house.</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">B</span></h4>
+                <p><strong>rope ladder</strong></p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">18</span>
+            <div class="question-text">The _______ decides who wins in a football match.</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">C</span></h4>
+                <p><strong>referee</strong></p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">19</span>
+            <div class="question-text">George decided to make a new _______ for Grandma.</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">B</span></h4>
+                <p><strong>medicine</strong></p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">20</span>
+            <div class="question-text">When something "disappeared," it means it _______.</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">B</span></h4>
+                <p><strong>went away and couldn't be seen</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Conversation -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-icon">💬</div>
+            <h2 class="section-title">Section 3: Conversation & Listening</h2>
+            <span class="section-count">8 Questions (Q21-Q28)</span>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">21</span>
+            <div class="question-text"><strong>Drake:</strong> Did the Dragon Stone tell you about the new Dragon Master?<br><strong>Griffith:</strong> _______</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">A</span></h4>
+                <p><strong>I don't know much, only her name.</strong></p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">22</span>
+            <div class="question-text"><strong>Annie:</strong> Look! A rope ladder to the tree house!<br><strong>Jack:</strong> _______</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">B</span></h4>
+                <p><strong>Let's climb up and see!</strong></p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">23</span>
+            <div class="question-text"><strong>Grandma:</strong> Make me a cup of tea, please.<br><strong>George:</strong> _______</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">A</span></h4>
+                <p><strong>Yes, Grandma. How much sugar?</strong></p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">24</span>
+            <div class="question-text"><strong>Miss:</strong> The player of the match wins tickets.<br><strong>Henry:</strong> _______</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">B</span></h4>
+                <p><strong>I have to win those tickets!</strong></p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">25</span>
+            <div class="question-text"><strong>Rori:</strong> The new Dragon Master is coming!<br><strong>Bo:</strong> _______</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">A</span></h4>
+                <p><strong>I hope she's friendly!</strong></p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">26</span>
+            <div class="question-text"><strong>Mother:</strong> Be good and don't get into mischief.<br><strong>George:</strong> _______</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">B</span></h4>
+                <p><strong>Don't worry, I'll be good.</strong></p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">27</span>
+            <div class="question-text"><strong>Jack:</strong> Where are we?<br><strong>Annie:</strong> There's a real dinosaur outside!<br><strong>Jack:</strong> _______</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">A</span></h4>
+                <p><strong>That's impossible!</strong></p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">28</span>
+            <div class="question-text"><strong>Drake:</strong> How old are you?<br><strong>Petra:</strong> _______</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">B</span></h4>
+                <p><strong>I am eight years old.</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Grammar -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-icon">✏️</div>
+            <h2 class="section-title">Section 4: Grammar</h2>
+            <span class="section-count">10 Questions (Q29-Q38)</span>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">29</span>
+            <div class="question-text">The Dragon Masters _______ at the gates yesterday.</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">C</span></h4>
+                <p><strong>waited</strong></p>
+                <p style="margin-top: 8px; color: #666; font-size: 0.85rem;"><strong>Grammar:</strong> Past tense (regular verb + -ed). Time marker: "yesterday"</p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">30</span>
+            <div class="question-text">George _______ going to make medicine for Grandma.</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">A</span></h4>
+                <p><strong>is</strong></p>
+                <p style="margin-top: 8px; color: #666; font-size: 0.85rem;"><strong>Grammar:</strong> "be going to" future + singular subject (George) = "is"</p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">31</span>
+            <div class="question-text">Annie ran into the woods _______ Jack stayed.</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">B</span></h4>
+                <p><strong>but</strong></p>
+                <p style="margin-top: 8px; color: #666; font-size: 0.85rem;"><strong>Grammar:</strong> Contrast conjunction showing two opposite actions</p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">32</span>
+            <div class="question-text">Henry wanted to win _______ he practiced hard.</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">C</span></h4>
+                <p><strong>so</strong></p>
+                <p style="margin-top: 8px; color: #666; font-size: 0.85rem;"><strong>Grammar:</strong> Cause-effect relationship (reason → result)</p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">33</span>
+            <div class="question-text">The hydra is _______ than a normal dragon.</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">B</span></h4>
+                <p><strong>more dangerous</strong></p>
+                <p style="margin-top: 8px; color: #666; font-size: 0.85rem;"><strong>Grammar:</strong> Comparative adjectives (multi-syllable: more + adjective)</p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">34</span>
+            <div class="question-text">Jack _______ already climbed when Annie called him.</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">B</span></h4>
+                <p><strong>had</strong></p>
+                <p style="margin-top: 8px; color: #666; font-size: 0.85rem;"><strong>Grammar:</strong> Past perfect (had + past participle) for action before another past action</p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">35</span>
+            <div class="question-text">George _______ make tea every morning.</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">B</span></h4>
+                <p><strong>has to</strong></p>
+                <p style="margin-top: 8px; color: #666; font-size: 0.85rem;"><strong>Grammar:</strong> Modal obligation + singular subject (George) = "has to"</p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">36</span>
+            <div class="question-text">The children _______ playing when it rained.</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">B</span></h4>
+                <p><strong>were</strong></p>
+                <p style="margin-top: 8px; color: #666; font-size: 0.85rem;"><strong>Grammar:</strong> Past continuous (was/were + -ing) + plural subject = "were"</p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">37</span>
+            <div class="question-text">If the medicine works, Grandma _______ feel better.</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">A</span></h4>
+                <p><strong>will</strong></p>
+                <p style="margin-top: 8px; color: #666; font-size: 0.85rem;"><strong>Grammar:</strong> First conditional (If + present, will + infinitive)</p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">38</span>
+            <div class="question-text">_______ you ever seen a real dragon?</div>
+            <div class="answer-key">
+                <h4>✓ Correct Answer: <span class="key-letter">B</span></h4>
+                <p><strong>Have</strong></p>
+                <p style="margin-top: 8px; color: #666; font-size: 0.85rem;"><strong>Grammar:</strong> Present perfect question (Have you + past participle?)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Writing Evaluation -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-icon">✍️</div>
+            <h2 class="section-title">Section 5: Writing Evaluation</h2>
+            <span class="section-count">2 Questions (Q39-Q40)</span>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">39</span>
+            <div class="question-text">Write a short email (60-80 words) to a friend about a book you read.</div>
+            <div class="guidance-box">
+                <h5>Evaluation Criteria:</h5>
+                <p><strong>✓ Word count:</strong> 60-80 words (±5 words acceptable)<br>
+                <strong>✓ Structure:</strong> Greeting → Main idea → Closing<br>
+                <strong>✓ Grammar:</strong> Simple past + simple adjectives acceptable<br>
+                <strong>✓ Vocabulary:</strong> A2 level (book, read, character, story, etc.)</p>
+            </div>
+            <div class="remediation">
+                <h5>Common Issues & Solutions:</h5>
+                <p>• <strong>Too short:</strong> Encourage more detail about the book<br>
+                • <strong>Grammar errors:</strong> Focus on past tense consistency<br>
+                • <strong>Off-topic:</strong> Remind students about email purpose</p>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-num">40</span>
+            <div class="question-text">Describe your favorite place (50-70 words).</div>
+            <div class="guidance-box">
+                <h5>Evaluation Criteria:</h5>
+                <p><strong>✓ Word count:</strong> 50-70 words<br>
+                <strong>✓ Content:</strong> Location + descriptive details (2-3)<br>
+                <strong>✓ Adjectives:</strong> Use of descriptive words (big, beautiful, quiet, etc.)<br>
+                <strong>✓ Grammar:</strong> Simple sentences with "is/are" + adjectives</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CEFR Can Do Statements -->
+    <div class="cefr-section">
+        <h3>CEFR A2 "Can Do" Statements</h3>
+        <p style="margin-bottom: 15px; color: var(--text);">Students at A2 Elementary level should be able to:</p>
+        <ul class="cefr-list">
+            <li>Understand main points in simple texts about familiar topics</li>
+            <li>Recognize and use common vocabulary for everyday situations</li>
+            <li>Hold simple conversations about personal information and daily activities</li>
+            <li>Write short, simple emails and descriptions</li>
+            <li>Use basic past, present, and future tenses correctly</li>
+            <li>Ask and answer common questions in everyday contexts</li>
+            <li>Understand the main points of conversations at normal speed</li>
+            <li>Use connecting words (and, but, because) to link simple sentences</li>
+        </ul>
+    </div>
+
+    <!-- Remediation Strategy -->
+    <div class="remediation" style="background: #FEF3C7; border-left-color: var(--warning);">
+        <h5 style="color: var(--warning);">📌 Remediation Strategies for Below 60%</h5>
+        <p><strong>Reading:</strong> Practice with children's stories and simple narratives. Focus on key words and main ideas.<br>
+        <strong>Vocabulary:</strong> Use flashcards and word associations. Emphasize common household and school vocabulary.<br>
+        <strong>Conversation:</strong> Conduct pair work. Practice dialogue patterns and responses to common questions.<br>
+        <strong>Grammar:</strong> Review past tense, "to be," and simple connectors. Use controlled practice exercises.<br>
+        <strong>Writing:</strong> Model emails and descriptions. Have students practice with guided outlines.</p>
+    </div>
+
+    <!-- Progression to B1 -->
+    <div class="guidance-box" style="background: linear-gradient(135deg, #DCFCE7 0%, #ECFDF5 100%); border-left: 4px solid var(--success);">
+        <h5>✨ Advancing to B1 Level</h5>
+        <p>Students scoring <strong>80%+</strong> are ready for B1 (Intermediate). They should:</p>
+        <p style="margin-top: 10px;"><strong>Focus on:</strong><br>
+        • Longer, more complex texts with implicit information<br>
+        • More sophisticated vocabulary and idioms<br>
+        • Sustained conversations and discussions<br>
+        • Complex sentence structures and tenses<br>
+        • Written tasks with narrative and description combined</p>
+    </div>
+
+    <footer class="test-footer">
+        <p>© CEFR-Architect v1.0 | CEFR A2 Elementary Level | Teacher Version</p>
+        <p>This document contains complete answer keys and pedagogical guidance for CEFR A2 assessment.</p>
+    </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,2093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRE-A1 CEFR English Level Test | Breakthrough</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pre-a1: #8B5CF6;
+            --pre-a1-light: #A78BFA;
+            --pre-a1-dark: #7C3AED;
+            --pre-a1-bg: #F3E8FF;
+            --success: #10B981;
+            --success-light: #D1FAE5;
+            --warning: #F59E0B;
+            --warning-light: #FEF3C7;
+            --error: #EF4444;
+            --error-light: #FEE2E2;
+            --background: #FAFBFF;
+            --card: #FFFFFF;
+            --text: #1E293B;
+            --muted: #64748B;
+            --border: #E2E8F0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--pre-a1) 0%, var(--pre-a1-dark) 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .level-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .header h1 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: var(--pre-a1-bg);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--pre-a1-light), var(--pre-a1));
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Section Headers */
+        .section-header {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            margin: 2rem 0 1.5rem;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.1);
+            border-left: 5px solid var(--pre-a1);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--pre-a1-bg);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .section-info h2 {
+            font-size: 1.3rem;
+            color: var(--pre-a1-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .section-info p {
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        /* Question Card */
+        .question-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .question-card:hover {
+            border-color: var(--pre-a1-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.15);
+        }
+
+        .question-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .question-number {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--pre-a1), var(--pre-a1-dark));
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .question-meta {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .question-tag {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .tag-reading { background: #DBEAFE; color: #1D4ED8; }
+        .tag-vocabulary { background: #D1FAE5; color: #047857; }
+        .tag-grammar { background: #FEF3C7; color: #B45309; }
+        .tag-conversation { background: #FCE7F3; color: #BE185D; }
+
+        /* Passage Box */
+        .passage-box {
+            background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .passage-box::before {
+            content: '📖';
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: white;
+            padding: 0 8px;
+            font-size: 1.2rem;
+        }
+
+        .passage-text {
+            font-family: 'Comic Neue', cursive;
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--text);
+        }
+
+        .passage-text .highlight {
+            background: linear-gradient(120deg, #FEF08A 0%, #FDE047 100%);
+            padding: 0 4px;
+            border-radius: 4px;
+        }
+
+        /* Question Stem */
+        .question-stem {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 1.25rem;
+            padding-left: 0.5rem;
+            border-left: 3px solid var(--pre-a1);
+        }
+
+        /* Options */
+        .options-grid {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            background: #F8FAFC;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .option:hover {
+            background: var(--pre-a1-bg);
+            border-color: var(--pre-a1-light);
+        }
+
+        .option.selected {
+            background: var(--pre-a1-bg);
+            border-color: var(--pre-a1);
+        }
+
+        .option.correct {
+            background: var(--success-light);
+            border-color: var(--success);
+        }
+
+        .option.incorrect {
+            background: var(--error-light);
+            border-color: var(--error);
+        }
+
+        .option-letter {
+            width: 36px;
+            height: 36px;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--muted);
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+
+        .option.selected .option-letter {
+            background: var(--pre-a1);
+            border-color: var(--pre-a1);
+            color: white;
+        }
+
+        .option.correct .option-letter {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .option.incorrect .option-letter {
+            background: var(--error);
+            border-color: var(--error);
+            color: white;
+        }
+
+        .option-text {
+            font-size: 1rem;
+            color: var(--text);
+        }
+
+        /* Analysis Panel */
+        .analysis-panel {
+            background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
+            border-radius: 16px;
+            margin-top: 1.5rem;
+            overflow: hidden;
+            border: 1px solid #BAE6FD;
+            display: none;
+        }
+
+        .analysis-panel.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .analysis-header {
+            background: linear-gradient(90deg, #0EA5E9, #0284C7);
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+        }
+
+        .analysis-content {
+            padding: 1.5rem;
+        }
+
+        .analysis-item {
+            margin-bottom: 1rem;
+        }
+
+        .analysis-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .analysis-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #0369A1;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        .analysis-value {
+            font-size: 0.95rem;
+            color: var(--text);
+        }
+
+        .correct-answer-box {
+            background: var(--success-light);
+            border: 1px solid var(--success);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            color: #047857;
+        }
+
+        /* Buttons */
+        .btn-container {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--pre-a1), var(--pre-a1-dark));
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--pre-a1);
+            border: 2px solid var(--pre-a1);
+        }
+
+        .btn-secondary:hover {
+            background: var(--pre-a1-bg);
+        }
+
+        /* Results Panel */
+        .results-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 40px rgba(139, 92, 246, 0.15);
+            text-align: center;
+            display: none;
+        }
+
+        .results-panel.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .results-score {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--pre-a1), var(--pre-a1-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .results-label {
+            font-size: 1.2rem;
+            color: var(--muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .results-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .breakdown-item {
+            text-align: center;
+        }
+
+        .breakdown-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--pre-a1);
+        }
+
+        .breakdown-label {
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        /* Writing Section */
+        .writing-prompt {
+            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 2px dashed #F59E0B;
+        }
+
+        .writing-prompt h4 {
+            color: #B45309;
+            margin-bottom: 0.5rem;
+        }
+
+        .writing-area {
+            width: 100%;
+            min-height: 150px;
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-family: 'Comic Neue', cursive;
+            font-size: 1.1rem;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        .writing-area:focus {
+            outline: none;
+            border-color: var(--pre-a1);
+        }
+
+        .word-count {
+            text-align: right;
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-top: 0.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .question-card {
+                padding: 1.5rem;
+            }
+
+            .section-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .btn-container {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <span class="level-badge">🌟 PRE-A1 • Breakthrough Level</span>
+            <h1>🎓 English Level Test</h1>
+            <p>CEFR 기반 영어 레벨 테스트 | 26문항 | 45분</p>
+        </div>
+    </header>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-info">
+            <span id="progress-text">진행률: 0/26 문항</span>
+            <span id="progress-percent">0%</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Results Panel (Hidden Initially) -->
+        <div class="results-panel" id="results-panel">
+            <h2>🎉 테스트 완료!</h2>
+            <div class="results-score" id="final-score">0/25</div>
+            <div class="results-label">정답 수 (객관식)</div>
+            <div class="results-breakdown">
+                <div class="breakdown-item">
+                    <div class="breakdown-value" id="reading-score">0/5</div>
+                    <div class="breakdown-label">📖 Reading</div>
+                </div>
+                <div class="breakdown-item">
+                    <div class="breakdown-value" id="vocab-score">0/8</div>
+                    <div class="breakdown-label">📚 Vocabulary</div>
+                </div>
+                <div class="breakdown-item">
+                    <div class="breakdown-value" id="convo-score">0/5</div>
+                    <div class="breakdown-label">💬 Conversation</div>
+                </div>
+                <div class="breakdown-item">
+                    <div class="breakdown-value" id="grammar-score">0/7</div>
+                    <div class="breakdown-label">✏️ Grammar</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 1: READING -->
+        <div class="section-header">
+            <div class="section-icon">📖</div>
+            <div class="section-info">
+                <h2>Section 1: Reading Comprehension</h2>
+                <p>읽기 이해 | 5문항</p>
+            </div>
+        </div>
+
+        <!-- Question 1 -->
+        <div class="question-card" data-question="1" data-section="reading" data-answer="B">
+            <div class="question-header">
+                <div class="question-number">1</div>
+                <div class="question-meta">
+                    <span class="question-tag tag-reading">Reading</span>
+                    <span class="question-tag" style="background:#F3E8FF; color:#7C3AED;">Detail</span>
+                </div>
+            </div>
+            <div class="passage-box">
+                <p class="passage-text">
+                    Pete lost a tooth!<br>
+                    "Put it under your pillow," his mom says.<br>
+                    "The Tooth Fairy will come."
+                </p>
+            </div>
+            <div class="question-stem">Where does Pete put the tooth?</div>
+            <div class="options-grid">
+                <div class="option" data-value="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text">On the table</span>
+                </div>
+                <div class="option" data-value="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text">Under the pillow</span>
+                </div>
+                <div class="option" data-value="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text">In his pocket</span>
+                </div>
+                <div class="option" data-value="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text">On the bed</span>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="analysis-header">📊 문항 분석</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">정답</div>
+                        <div class="correct-answer-box">B) Under the pillow</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">근거</div>
+                        <div class="analysis-value">"Put it under your pillow" - 지문에서 직접 언급</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">CEFR Can-Do</div>
+                        <div class="analysis-value">짧은 텍스트에서 구체적인 정보를 찾을 수 있다.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="question-card" data-question="2" data-section="reading" data-answer="C">
+            <div class="question-header">
+                <div class="question-number">2</div>
+                <div class="question-meta">
+                    <span class="question-tag tag-reading">Reading</span>
+                    <span class="question-tag" style="background:#F3E8FF; color:#7C3AED;">Detail</span>
+                </div>
+            </div>
+            <div class="passage-box">
+                <p class="passage-text">
+                    Froggy woke up. "Hurray!" he thought.<br>
+                    "No school today - it's my check-up day!"<br>
+                    "It's time to see Dr. Mugwort," said his mother.
+                </p>
+            </div>
+            <div class="question-stem">Where does Froggy go today?</div>
+            <div class="options-grid">
+                <div class="option" data-value="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text">To school</span>
+                </div>
+                <div class="option" data-value="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text">To the park</span>
+                </div>
+                <div class="option" data-value="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text">To the doctor</span>
+                </div>
+                <div class="option" data-value="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text">To his friend's house</span>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="analysis-header">📊 문항 분석</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">정답</div>
+                        <div class="correct-answer-box">C) To the doctor</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">근거</div>
+                        <div class="analysis-value">"It's time to see Dr. Mugwort" - Dr.는 의사를 의미</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">CEFR Can-Do</div>
+                        <div class="analysis-value">간단한 문장에서 장소 정보를 파악할 수 있다.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="question-card" data-question="3" data-section="reading" data-answer="A">
+            <div class="question-header">
+                <div class="question-number">3</div>
+                <div class="question-meta">
+                    <span class="question-tag tag-reading">Reading</span>
+                    <span class="question-tag" style="background:#F3E8FF; color:#7C3AED;">Main Idea</span>
+                </div>
+            </div>
+            <div class="passage-box">
+                <p class="passage-text">
+                    "Platypuses do not have teeth," says Gus.<br>
+                    "But I still want to be a part of the Tooth Fairy fun!"<br>
+                    "No worries!" says Pete.<br>
+                    Pete puts a coin under Gus's pillow.
+                </p>
+            </div>
+            <div class="question-stem">What is Pete like?</div>
+            <div class="options-grid">
+                <div class="option" data-value="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text">Kind and helpful</span>
+                </div>
+                <div class="option" data-value="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text">Sad and angry</span>
+                </div>
+                <div class="option" data-value="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text">Tired and sleepy</span>
+                </div>
+                <div class="option" data-value="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text">Hungry and thirsty</span>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="analysis-header">📊 문항 분석</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">정답</div>
+                        <div class="correct-answer-box">A) Kind and helpful</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">근거</div>
+                        <div class="analysis-value">Gus에게 이가 없어도 동전을 주는 Pete의 행동에서 친절함 추론</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">CEFR Can-Do</div>
+                        <div class="analysis-value">등장인물의 기본적인 특성을 이해할 수 있다.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="question-card" data-question="4" data-section="reading" data-answer="D">
+            <div class="question-header">
+                <div class="question-number">4</div>
+                <div class="question-meta">
+                    <span class="question-tag tag-reading">Reading</span>
+                    <span class="question-tag" style="background:#F3E8FF; color:#7C3AED;">Detail</span>
+                </div>
+            </div>
+            <div class="passage-box">
+                <p class="passage-text">
+                    Bella hits a home run.<br>
+                    We win the game by one run.<br>
+                    She may be the teacher's pet,<br>
+                    but we all want her on our team.
+                </p>
+            </div>
+            <div class="question-stem">What does Bella do in the game?</div>
+            <div class="options-grid">
+                <div class="option" data-value="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text">She falls down.</span>
+                </div>
+                <div class="option" data-value="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text">She runs away.</span>
+                </div>
+                <div class="option" data-value="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text">She misses the ball.</span>
+                </div>
+                <div class="option" data-value="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text">She hits a home run.</span>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="analysis-header">📊 문항 분석</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">정답</div>
+                        <div class="correct-answer-box">D) She hits a home run.</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">근거</div>
+                        <div class="analysis-value">"Bella hits a home run" - 지문에서 직접 언급</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">CEFR Can-Do</div>
+                        <div class="analysis-value">짧은 이야기에서 행동 정보를 찾을 수 있다.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 5 -->
+        <div class="question-card" data-question="5" data-section="reading" data-answer="B">
+            <div class="question-header">
+                <div class="question-number">5</div>
+                <div class="question-meta">
+                    <span class="question-tag tag-reading">Reading</span>
+                    <span class="question-tag" style="background:#F3E8FF; color:#7C3AED;">Detail</span>
+                </div>
+            </div>
+            <div class="passage-box">
+                <p class="passage-text">
+                    My kite gets caught in a tree.<br>
+                    Dad saves my kite, but my kite is all ripped up.<br>
+                    I cry. Dad says, "Don't worry. We can get another one."
+                </p>
+            </div>
+            <div class="question-stem">What happens to the kite?</div>
+            <div class="options-grid">
+                <div class="option" data-value="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text">It flies very high.</span>
+                </div>
+                <div class="option" data-value="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text">It gets ripped up.</span>
+                </div>
+                <div class="option" data-value="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text">It falls in the water.</span>
+                </div>
+                <div class="option" data-value="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text">It goes to Dad's house.</span>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="analysis-header">📊 문항 분석</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">정답</div>
+                        <div class="correct-answer-box">B) It gets ripped up.</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">근거</div>
+                        <div class="analysis-value">"my kite is all ripped up" - 지문에서 직접 언급</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">CEFR Can-Do</div>
+                        <div class="analysis-value">사건의 결과를 파악할 수 있다.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: VOCABULARY -->
+        <div class="section-header">
+            <div class="section-icon">📚</div>
+            <div class="section-info">
+                <h2>Section 2: Vocabulary</h2>
+                <p>어휘 | 8문항</p>
+            </div>
+        </div>
+
+        <!-- Question 6 -->
+        <div class="question-card" data-question="6" data-section="vocabulary" data-answer="C">
+            <div class="question-header">
+                <div class="question-number">6</div>
+                <div class="question-meta">
+                    <span class="question-tag tag-vocabulary">Vocabulary</span>
+                    <span class="question-tag" style="background:#D1FAE5; color:#047857;">Basic Noun</span>
+                </div>
+            </div>
+            <div class="question-stem">Pete lost a _______. The Tooth Fairy will come.</div>
+            <div class="options-grid">
+                <div class="option" data-value="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text">book</span>
+                </div>
+                <div class="option" data-value="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text">ball</span>
+                </div>
+                <div class="option" data-value="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text">tooth</span>
+                </div>
+                <div class="option" data-value="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text">shoe</span>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="analysis-header">📊 문항 분석</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">정답</div>
+                        <div class="correct-answer-box">C) tooth</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">측정 어휘</div>
+                        <div class="analysis-value">tooth (이, 치아) - PRE-A1 신체 부위 어휘</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 7 -->
+        <div class="question-card" data-question="7" data-section="vocabulary" data-answer="A">
+            <div class="question-header">
+                <div class="question-number">7</div>
+                <div class="question-meta">
+                    <span class="question-tag tag-vocabulary">Vocabulary</span>
+                    <span class="question-tag" style="background:#D1FAE5; color:#047857;">Basic Noun</span>
+                </div>
+            </div>
+            <div class="question-stem">Put the tooth under your _______.</div>
+            <div class="options-grid">
+                <div class="option" data-value="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text">pillow</span>
+                </div>
+                <div class="option" data-value="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text">window</span>
+                </div>
+                <div class="option" data-value="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text">blanket</span>
+                </div>
+                <div class="option" data-value="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text">carpet</span>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="analysis-header">📊 문항 분석</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">정답</div>
+                        <div class="correct-answer-box">A) pillow</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">측정 어휘</div>
+                        <div class="analysis-value">pillow (베개) - PRE-A1 가정용품 어휘</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 8 -->
+        <div class="question-card" data-question="8" data-section="vocabulary" data-answer="D">
+            <div class="question-header">
+                <div class="question-number">8</div>
+                <div class="question-meta">
+                    <span class="question-tag tag-vocabulary">Vocabulary</span>
+                    <span class="question-tag" style="background:#D1FAE5; color:#047857;">Basic Noun</span>
+                </div>
+            </div>
+            <div class="question-stem">Pete leaves a _______ for Callie.</div>
+            <div class="options-grid">
+                <div class="option" data-value="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text">candy</span>
+                </div>
+                <div class="option" data-value="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text">flower</span>
+                </div>
+                <div class="option" data-value="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text">letter</span>
+                </div>
+                <div class="option" data-value="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text">coin</span>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="analysis-header">📊 문항 분석</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">정답</div>
+                        <div class="correct-answer-box">D) coin</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">측정 어휘</div>
+                        <div class="analysis-value">coin (동전) - PRE-A1 일상생활 어휘</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 9 -->
+        <div class="question-card" data-question="9" data-section="vocabulary" data-answer="B">
+            <div class="question-header">
+                <div class="question-number">9</div>
+                <div class="question-meta">
+                    <span class="question-tag tag-vocabulary">Vocabulary</span>
+                    <span class="question-tag" style="background:#D1FAE5; color:#047857;">Basic Verb</span>
+                </div>
+            </div>
+            <div class="question-stem">Froggy _______ out of bed. (= got out of bed slowly)</div>
+            <div class="options-grid">
+                <div class="option" data-value="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text">jumped</span>
+                </div>
+                <div class="option" data-value="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text">crawled</span>
+                </div>
+                <div class="option" data-value="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text">ran</span>
+                </div>
+                <div class="option" data-value="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text">flew</span>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="analysis-header">📊 문항 분석</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">정답</div>
+                        <div class="correct-answer-box">B) crawled</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">측정 어휘</div>
+                        <div class="analysis-value">crawl (기다) - PRE-A1 기본 동작 동사</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 10 -->
+        <div class="question-card" data-question="10" data-section="vocabulary" data-answer="C">
+            <div class="question-header">
+                <div class="question-number">10</div>
+                <div class="question-meta">
+                    <span class="question-tag tag-vocabulary">Vocabulary</span>
+                    <span class="question-tag" style="background:#D1FAE5; color:#047857;">Basic Adjective</span>
+                </div>
+            </div>
+            <div class="question-stem">Alligator's tooth is very _______. Be careful!</div>
+            <div class="options-grid">
+                <div class="option" data-value="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text">soft</span>
+                </div>
+                <div class="option" data-value="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text">small</span>
+                </div>
+                <div class="option" data-value="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text">sharp</span>
+                </div>
+                <div class="option" data-value="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text">sweet</span>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="analysis-header">📊 문항 분석</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">정답</div>
+                        <div class="correct-answer-box">C) sharp</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">측정 어휘</div>
+                        <div class="analysis-value">sharp (날카로운) - PRE-A1 기본 형용사</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 11 -->
+        <div class="question-card" data-question="11" data-section="vocabulary" data-answer="A">
+            <div class="question-header">
+                <div class="question-number">11</div>
+                <div class="question-meta">
+                    <span class="question-tag tag-vocabulary">Vocabulary</span>
+                    <span class="question-tag" style="background:#D1FAE5; color:#047857;">Basic Noun</span>
+                </div>
+            </div>
+            <div class="question-stem">I see a _______ at the hobby store. It can fly in the sky.</div>
+            <div class="options-grid">
+                <div class="option" data-value="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text">kite</span>
+                </div>
+                <div class="option" data-value="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text">bike</span>
+                </div>
+                <div class="option" data-value="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text">boat</span>
+                </div>
+                <div class="option" data-value="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text">ball</span>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="analysis-header">📊 문항 분석</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">정답</div>
+                        <div class="correct-answer-box">A) kite</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">측정 어휘</div>
+                        <div class="analysis-value">kite (연) - PRE-A1 장난감/놀이 어휘</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 12 -->
+        <div class="question-card" data-question="12" data-section="vocabulary" data-answer="B">
+            <div class="question-header">
+                <div class="question-number">12</div>
+                <div class="question-meta">
+                    <span class="question-tag tag-vocabulary">Vocabulary</span>
+                    <span class="question-tag" style="background:#D1FAE5; color:#047857;">Basic Adjective</span>
+                </div>
+            </div>
+            <div class="question-stem">It is a very _______ day. The wind is blowing hard.</div>
+            <div class="options-grid">
+                <div class="option" data-value="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text">sunny</span>
+                </div>
+                <div class="option" data-value="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text">windy</span>
+                </div>
+                <div class="option" data-value="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text">rainy</span>
+                </div>
+                <div class="option" data-value="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text">cloudy</span>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="analysis-header">📊 문항 분석</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">정답</div>
+                        <div class="correct-answer-box">B) windy</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">측정 어휘</div>
+                        <div class="analysis-value">windy (바람 부는) - PRE-A1 날씨 어휘</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 13 -->
+        <div class="question-card" data-question="13" data-section="vocabulary" data-answer="D">
+            <div class="question-header">
+                <div class="question-number">13</div>
+                <div class="question-meta">
+                    <span class="question-tag tag-vocabulary">Vocabulary</span>
+                    <span class="question-tag" style="background:#D1FAE5; color:#047857;">Basic Noun</span>
+                </div>
+            </div>
+            <div class="question-stem">Bella gives Miss Kitty an _______. It is a red fruit.</div>
+            <div class="options-grid">
+                <div class="option" data-value="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text">orange</span>
+                </div>
+                <div class="option" data-value="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text">banana</span>
+                </div>
+                <div class="option" data-value="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text">grape</span>
+                </div>
+                <div class="option" data-value="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text">apple</span>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="analysis-header">📊 문항 분석</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">정답</div>
+                        <div class="correct-answer-box">D) apple</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">측정 어휘</div>
+                        <div class="analysis-value">apple (사과) - PRE-A1 과일 어휘</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3: CONVERSATION -->
+        <div class="section-header">
+            <div class="section-icon">💬</div>
+            <div class="section-info">
+                <h2>Section 3: Conversation</h2>
+                <p>대화 | 5문항</p>
+            </div>
+        </div>
+
+        <!-- Question 14 -->
+        <div class="question-card" data-question="14" data-section="conversation" data-answer="B">
+            <div class="question-header">
+                <div class="question-number">14</div>
+                <div class="question-meta">
+                    <span class="question-tag tag-conversation">Conversation</span>
+                    <span class="question-tag" style="background:#FCE7F3; color:#BE185D;">Response</span>
+                </div>
+            </div>
+            <div class="passage-box">
+                <p class="passage-text">
+                    <strong>A:</strong> Thank you for the coin!<br>
+                    <strong>B:</strong> _______
+                </p>
+            </div>
+            <div class="question-stem">What does B say?</div>
+            <div class="options-grid">
+                <div class="option" data-value="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text">I'm sorry.</span>
+                </div>
+                <div class="option" data-value="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text">You're welcome.</span>
+                </div>
+                <div class="option" data-value="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text">Good morning.</span>
+                </div>
+                <div class="option" data-value="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text">See you later.</span>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="analysis-header">📊 문항 분석</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">정답</div>
+                        <div class="correct-answer-box">B) You're welcome.</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">화용 기능</div>
+                        <div class="analysis-value">감사에 대한 응답 표현</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 15 -->
+        <div class="question-card" data-question="15" data-section="conversation" data-answer="A">
+            <div class="question-header">
+                <div class="question-number">15</div>
+                <div class="question-meta">
+                    <span class="question-tag tag-conversation">Conversation</span>
+                    <span class="question-tag" style="background:#FCE7F3; color:#BE185D;">Greeting</span>
+                </div>
+            </div>
+            <div class="passage-box">
+                <p class="passage-text">
+                    <strong>Pete:</strong> Good night, Gus!<br>
+                    <strong>Gus:</strong> _______
+                </p>
+            </div>
+            <div class="question-stem">What does Gus say?</div>
+            <div class="options-grid">
+                <div class="option" data-value="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text">Good night, Pete!</span>
+                </div>
+                <div class="option" data-value="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text">Good morning!</span>
+                </div>
+                <div class="option" data-value="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text">Hello, how are you?</span>
+                </div>
+                <div class="option" data-value="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text">Nice to meet you.</span>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="analysis-header">📊 문항 분석</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">정답</div>
+                        <div class="correct-answer-box">A) Good night, Pete!</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">화용 기능</div>
+                        <div class="analysis-value">인사말 (작별/밤인사) 응답</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 16 -->
+        <div class="question-card" data-question="16" data-section="conversation" data-answer="C">
+            <div class="question-header">
+                <div class="question-number">16</div>
+                <div class="question-meta">
+                    <span class="question-tag tag-conversation">Conversation</span>
+                    <span class="question-tag" style="background:#FCE7F3; color:#BE185D;">Question</span>
+                </div>
+            </div>
+            <div class="passage-box">
+                <p class="passage-text">
+                    <strong>Doctor:</strong> Now this may feel cold.<br>
+                    <strong>Froggy:</strong> Yikes! _______
+                </p>
+            </div>
+            <div class="question-stem">What does Froggy say?</div>
+            <div class="options-grid">
+                <div class="option" data-value="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text">It's very hot!</span>
+                </div>
+                <div class="option" data-value="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text">I'm hungry!</span>
+                </div>
+                <div class="option" data-value="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text">It's freezing!</span>
+                </div>
+                <div class="option" data-value="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text">I'm sleepy!</span>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="analysis-header">📊 문항 분석</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">정답</div>
+                        <div class="correct-answer-box">C) It's freezing!</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">화용 기능</div>
+                        <div class="analysis-value">감각/느낌 표현하기</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 17 -->
+        <div class="question-card" data-question="17" data-section="conversation" data-answer="D">
+            <div class="question-header">
+                <div class="question-number">17</div>
+                <div class="question-meta">
+                    <span class="question-tag tag-conversation">Conversation</span>
+                    <span class="question-tag" style="background:#FCE7F3; color:#BE185D;">Emotion</span>
+                </div>
+            </div>
+            <div class="passage-box">
+                <p class="passage-text">
+                    <strong>Child:</strong> My kite is broken. I am sad.<br>
+                    <strong>Dad:</strong> _______
+                </p>
+            </div>
+            <div class="question-stem">What does Dad say?</div>
+            <div class="options-grid">
+                <div class="option" data-value="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text">Go to your room.</span>
+                </div>
+                <div class="option" data-value="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text">That's very funny!</span>
+                </div>
+                <div class="option" data-value="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text">I don't like kites.</span>
+                </div>
+                <div class="option" data-value="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text">Don't worry. I can help.</span>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="analysis-header">📊 문항 분석</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">정답</div>
+                        <div class="correct-answer-box">D) Don't worry. I can help.</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">화용 기능</div>
+                        <div class="analysis-value">위로하기/도움 제안하기</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 18 -->
+        <div class="question-card" data-question="18" data-section="conversation" data-answer="B">
+            <div class="question-header">
+                <div class="question-number">18</div>
+                <div class="question-meta">
+                    <span class="question-tag tag-conversation">Conversation</span>
+                    <span class="question-tag" style="background:#FCE7F3; color:#BE185D;">Request</span>
+                </div>
+            </div>
+            <div class="passage-box">
+                <p class="passage-text">
+                    <strong>Mom:</strong> Froggy, it's time to get dressed!<br>
+                    <strong>Froggy:</strong> _______
+                </p>
+            </div>
+            <div class="question-stem">What does Froggy say?</div>
+            <div class="options-grid">
+                <div class="option" data-value="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text">I want some food.</span>
+                </div>
+                <div class="option" data-value="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text">Okay, Mom!</span>
+                </div>
+                <div class="option" data-value="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text">Where is Dad?</span>
+                </div>
+                <div class="option" data-value="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text">What is your name?</span>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="analysis-header">📊 문항 분석</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">정답</div>
+                        <div class="correct-answer-box">B) Okay, Mom!</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">화용 기능</div>
+                        <div class="analysis-value">지시/요청에 응답하기</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 4: GRAMMAR -->
+        <div class="section-header">
+            <div class="section-icon">✏️</div>
+            <div class="section-info">
+                <h2>Section 4: Grammar</h2>
+                <p>문법 | 7문항</p>
+            </div>
+        </div>
+
+        <!-- Question 19 -->
+        <div class="question-card" data-question="19" data-section="grammar" data-answer="A">
+            <div class="question-header">
+                <div class="question-number">19</div>
+                <div class="question-meta">
+                    <span class="question-tag tag-grammar">Grammar</span>
+                    <span class="question-tag" style="background:#FEF3C7; color:#B45309;">be동사</span>
+                </div>
+            </div>
+            <div class="question-stem">Pete _______ a cat.</div>
+            <div class="options-grid">
+                <div class="option" data-value="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text">is</span>
+                </div>
+                <div class="option" data-value="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text">am</span>
+                </div>
+                <div class="option" data-value="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text">are</span>
+                </div>
+                <div class="option" data-value="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text">be</span>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="analysis-header">📊 문항 분석</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">정답</div>
+                        <div class="correct-answer-box">A) is</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">문법 포인트</div>
+                        <div class="analysis-value">be동사 현재형 - 3인칭 단수 주어와 is의 일치</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 20 -->
+        <div class="question-card" data-question="20" data-section="grammar" data-answer="C">
+            <div class="question-header">
+                <div class="question-number">20</div>
+                <div class="question-meta">
+                    <span class="question-tag tag-grammar">Grammar</span>
+                    <span class="question-tag" style="background:#FEF3C7; color:#B45309;">대명사</span>
+                </div>
+            </div>
+            <div class="question-stem">Froggy forgot his underwear. _______ was embarrassed.</div>
+            <div class="options-grid">
+                <div class="option" data-value="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text">She</span>
+                </div>
+                <div class="option" data-value="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text">It</span>
+                </div>
+                <div class="option" data-value="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text">He</span>
+                </div>
+                <div class="option" data-value="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text">They</span>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="analysis-header">📊 문항 분석</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">정답</div>
+                        <div class="correct-answer-box">C) He</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">문법 포인트</div>
+                        <div class="analysis-value">인칭대명사 - 남성 단수 주어를 He로 대체</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 21 -->
+        <div class="question-card" data-question="21" data-section="grammar" data-answer="B">
+            <div class="question-header">
+                <div class="question-number">21</div>
+                <div class="question-meta">
+                    <span class="question-tag tag-grammar">Grammar</span>
+                    <span class="question-tag" style="background:#FEF3C7; color:#B45309;">지시대명사</span>
+                </div>
+            </div>
+            <div class="question-stem">_______ is Callie's lost tooth. (pointing at something near)</div>
+            <div class="options-grid">
+                <div class="option" data-value="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text">That</span>
+                </div>
+                <div class="option" data-value="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text">This</span>
+                </div>
+                <div class="option" data-value="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text">These</span>
+                </div>
+                <div class="option" data-value="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text">Those</span>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="analysis-header">📊 문항 분석</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">정답</div>
+                        <div class="correct-answer-box">B) This</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">문법 포인트</div>
+                        <div class="analysis-value">지시대명사 - 가까운 단수 대상에 This 사용</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 22 -->
+        <div class="question-card" data-question="22" data-section="grammar" data-answer="D">
+            <div class="question-header">
+                <div class="question-number">22</div>
+                <div class="question-meta">
+                    <span class="question-tag tag-grammar">Grammar</span>
+                    <span class="question-tag" style="background:#FEF3C7; color:#B45309;">복수형</span>
+                </div>
+            </div>
+            <div class="question-stem">Platypuses do not have _______.</div>
+            <div class="options-grid">
+                <div class="option" data-value="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text">tooth</span>
+                </div>
+                <div class="option" data-value="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text">tooths</span>
+                </div>
+                <div class="option" data-value="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text">toothes</span>
+                </div>
+                <div class="option" data-value="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text">teeth</span>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="analysis-header">📊 문항 분석</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">정답</div>
+                        <div class="correct-answer-box">D) teeth</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">문법 포인트</div>
+                        <div class="analysis-value">불규칙 복수형 - tooth → teeth</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 23 -->
+        <div class="question-card" data-question="23" data-section="grammar" data-answer="A">
+            <div class="question-header">
+                <div class="question-number">23</div>
+                <div class="question-meta">
+                    <span class="question-tag tag-grammar">Grammar</span>
+                    <span class="question-tag" style="background:#FEF3C7; color:#B45309;">be동사</span>
+                </div>
+            </div>
+            <div class="question-stem">I _______ ready to go!</div>
+            <div class="options-grid">
+                <div class="option" data-value="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text">am</span>
+                </div>
+                <div class="option" data-value="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text">is</span>
+                </div>
+                <div class="option" data-value="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text">are</span>
+                </div>
+                <div class="option" data-value="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text">be</span>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="analysis-header">📊 문항 분석</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">정답</div>
+                        <div class="correct-answer-box">A) am</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">문법 포인트</div>
+                        <div class="analysis-value">be동사 현재형 - 1인칭 단수 주어 I와 am의 일치</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 24 -->
+        <div class="question-card" data-question="24" data-section="grammar" data-answer="C">
+            <div class="question-header">
+                <div class="question-number">24</div>
+                <div class="question-meta">
+                    <span class="question-tag tag-grammar">Grammar</span>
+                    <span class="question-tag" style="background:#FEF3C7; color:#B45309;">의문문</span>
+                </div>
+            </div>
+            <div class="question-stem">_______ is your tooth, Gus?</div>
+            <div class="options-grid">
+                <div class="option" data-value="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text">What</span>
+                </div>
+                <div class="option" data-value="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text">Who</span>
+                </div>
+                <div class="option" data-value="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text">Where</span>
+                </div>
+                <div class="option" data-value="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text">When</span>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="analysis-header">📊 문항 분석</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">정답</div>
+                        <div class="correct-answer-box">C) Where</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">문법 포인트</div>
+                        <div class="analysis-value">의문사 - 장소를 묻는 Where의 사용</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 25 -->
+        <div class="question-card" data-question="25" data-section="grammar" data-answer="B">
+            <div class="question-header">
+                <div class="question-number">25</div>
+                <div class="question-meta">
+                    <span class="question-tag tag-grammar">Grammar</span>
+                    <span class="question-tag" style="background:#FEF3C7; color:#B45309;">be동사</span>
+                </div>
+            </div>
+            <div class="question-stem">The students _______ in the classroom.</div>
+            <div class="options-grid">
+                <div class="option" data-value="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text">is</span>
+                </div>
+                <div class="option" data-value="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text">are</span>
+                </div>
+                <div class="option" data-value="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text">am</span>
+                </div>
+                <div class="option" data-value="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text">be</span>
+                </div>
+            </div>
+            <div class="analysis-panel">
+                <div class="analysis-header">📊 문항 분석</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">정답</div>
+                        <div class="correct-answer-box">B) are</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">문법 포인트</div>
+                        <div class="analysis-value">be동사 현재형 - 복수 주어와 are의 일치</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 5: WRITING -->
+        <div class="section-header">
+            <div class="section-icon">📝</div>
+            <div class="section-info">
+                <h2>Section 5: Writing</h2>
+                <p>쓰기 | 1문항</p>
+            </div>
+        </div>
+
+        <!-- Question 26 - Writing -->
+        <div class="question-card" data-question="26" data-section="writing">
+            <div class="question-header">
+                <div class="question-number">26</div>
+                <div class="question-meta">
+                    <span class="question-tag" style="background:#DBEAFE; color:#1D4ED8;">Writing</span>
+                    <span class="question-tag" style="background:#F3E8FF; color:#7C3AED;">Self-Introduction</span>
+                </div>
+            </div>
+            <div class="writing-prompt">
+                <h4>📝 Writing Task</h4>
+                <p>자기 자신에 대해 3-5문장으로 영어로 써 보세요.</p>
+                <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #78350F;">
+                    <strong>힌트:</strong> 이름, 나이, 좋아하는 것을 포함해 보세요.<br>
+                    <em>Example: My name is ___. I am ___ years old. I like ___.</em>
+                </p>
+            </div>
+            <textarea class="writing-area" id="writing-answer" placeholder="Write about yourself here..."></textarea>
+            <div class="word-count">Word count: <span id="word-count">0</span> / 20-30 words</div>
+            
+            <div class="analysis-panel" style="display: block; margin-top: 1.5rem;">
+                <div class="analysis-header">📋 채점 기준 (Writing Rubric)</div>
+                <div class="analysis-content">
+                    <div class="analysis-item">
+                        <div class="analysis-label">W1 - 과제 달성 (Task Achievement)</div>
+                        <div class="analysis-value">자기소개 내용 포함 여부 (이름, 나이, 좋아하는 것)</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">W2 - 문장 구성 (Sentence Structure)</div>
+                        <div class="analysis-value">기본 문장 구조 (주어 + 동사) 사용</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">W3 - 문법 정확성 (Grammar)</div>
+                        <div class="analysis-value">be동사, 인칭대명사의 정확한 사용</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">W4 - 어휘 (Vocabulary)</div>
+                        <div class="analysis-value">PRE-A1 수준의 기본 어휘 사용</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="btn-container">
+            <button class="btn btn-primary" onclick="checkAllAnswers()">✅ 채점하기</button>
+            <button class="btn btn-secondary" onclick="showAllAnalysis()">📊 전체 해설 보기</button>
+            <button class="btn btn-secondary" onclick="resetTest()">🔄 다시 풀기</button>
+            <button class="btn btn-secondary" onclick="toggleTeacherMode()">👩‍🏫 교사용 모드 전환</button>
+            <button class="btn btn-secondary" onclick="downloadReport()">⬇️ 보고서 다운로드</button>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>🎓 CEFR-Architect v1.0 | PRE-A1 Breakthrough Level Test</p>
+        <p>© CEFR 기반 영어 레벨 테스트 문항 설계 시스템</p>
+    </footer>
+
+    <script>
+        // Track answers and scores
+        const userAnswers = {};
+        const teacherMode = new URLSearchParams(location.search).get('mode') === 'teacher' || localStorage.getItem('role') === 'teacher';
+        const sectionScores = {
+            reading: { correct: 0, total: 5 },
+            vocabulary: { correct: 0, total: 8 },
+            conversation: { correct: 0, total: 5 },
+            grammar: { correct: 0, total: 7 }
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click handlers to all options
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const card = this.closest('.question-card');
+                    const questionNum = card.dataset.question;
+                    
+                    // Remove selected from siblings
+                    card.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+                    
+                    // Add selected to clicked
+                    this.classList.add('selected');
+                    
+                    // Store answer
+                    userAnswers[questionNum] = this.dataset.value;
+                    
+                    // Update progress
+                    updateProgress();
+                });
+            });
+
+            // Word count for writing
+            const writingArea = document.getElementById('writing-answer');
+            if (writingArea) {
+                writingArea.addEventListener('input', function() {
+                    const words = this.value.trim().split(/\s+/).filter(w => w.length > 0);
+                    document.getElementById('word-count').textContent = words.length;
+                });
+            }
+        });
+
+        function updateProgress() {
+            const totalQuestions = 26;
+            const answeredCount = Object.keys(userAnswers).length;
+            const writingHasContent = document.getElementById('writing-answer').value.trim().length > 0;
+            const totalAnswered = answeredCount + (writingHasContent ? 1 : 0);
+            
+            const percent = Math.round((totalAnswered / totalQuestions) * 100);
+            
+            document.getElementById('progress-text').textContent = `진행률: ${totalAnswered}/${totalQuestions} 문항`;
+            document.getElementById('progress-percent').textContent = `${percent}%`;
+            document.getElementById('progress-fill').style.width = `${percent}%`;
+        }
+
+        function checkAllAnswers() {
+            // Reset scores
+            Object.keys(sectionScores).forEach(key => {
+                sectionScores[key].correct = 0;
+            });
+
+            // Check each question
+            document.querySelectorAll('.question-card[data-answer]').forEach(card => {
+                const questionNum = card.dataset.question;
+                const correctAnswer = card.dataset.answer;
+                const section = card.dataset.section;
+                const userAnswer = userAnswers[questionNum];
+
+                // Clear previous states
+                card.querySelectorAll('.option').forEach(opt => {
+                    opt.classList.remove('correct', 'incorrect');
+                });
+
+                if (userAnswer) {
+                    const selectedOption = card.querySelector(`.option[data-value="${userAnswer}"]`);
+                    const correctOption = card.querySelector(`.option[data-value="${correctAnswer}"]`);
+
+                    if (userAnswer === correctAnswer) {
+                        selectedOption.classList.add('correct');
+                        sectionScores[section].correct++;
+                    } else {
+                        selectedOption.classList.add('incorrect');
+                        if (teacherMode && correctOption) correctOption.classList.add('correct');
+                    }
+                } else {
+                    // Not answered
+                    if (teacherMode) {
+                        const correctOption = card.querySelector(`.option[data-value="${correctAnswer}"]`);
+                        if (correctOption) correctOption.classList.add('correct');
+                    }
+                }
+
+                // Show analysis only in teacher mode
+                if (teacherMode) {
+                    const panel = card.querySelector('.analysis-panel');
+                    if (panel) panel.classList.add('show');
+                }
+            });
+
+            // Calculate total
+            const totalCorrect = Object.values(sectionScores).reduce((sum, s) => sum + s.correct, 0);
+            const totalQuestions = Object.values(sectionScores).reduce((sum, s) => sum + s.total, 0);
+
+            // Update results panel
+            document.getElementById('final-score').textContent = `${totalCorrect}/${totalQuestions}`;
+            document.getElementById('reading-score').textContent = `${sectionScores.reading.correct}/${sectionScores.reading.total}`;
+            document.getElementById('vocab-score').textContent = `${sectionScores.vocabulary.correct}/${sectionScores.vocabulary.total}`;
+            document.getElementById('convo-score').textContent = `${sectionScores.conversation.correct}/${sectionScores.conversation.total}`;
+            document.getElementById('grammar-score').textContent = `${sectionScores.grammar.correct}/${sectionScores.grammar.total}`;
+
+            // Show results
+            document.getElementById('results-panel').classList.add('show');
+            document.getElementById('results-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function showAllAnalysis() {
+            if (!teacherMode) {
+                alert('교사용 모드에서만 해설을 볼 수 있습니다. 우측 버튼으로 교사용 모드로 전환하세요.');
+                return;
+            }
+            document.querySelectorAll('.analysis-panel').forEach(panel => {
+                panel.classList.add('show');
+            });
+        }
+
+        function resetTest() {
+            // Clear user answers
+            Object.keys(userAnswers).forEach(key => delete userAnswers[key]);
+
+            // Reset all options
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+
+            // Hide all analysis panels
+            document.querySelectorAll('.analysis-panel').forEach(panel => {
+                panel.classList.remove('show');
+            });
+
+            // Hide results
+            document.getElementById('results-panel').classList.remove('show');
+
+            // Clear writing
+            document.getElementById('writing-answer').value = '';
+            document.getElementById('word-count').textContent = '0';
+
+            // Reset progress
+            document.getElementById('progress-text').textContent = '진행률: 0/26 문항';
+            document.getElementById('progress-percent').textContent = '0%';
+            document.getElementById('progress-fill').style.width = '0%';
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleTeacherMode() {
+            if (teacherMode) {
+                localStorage.removeItem('role');
+                const u = new URL(location.href); u.searchParams.delete('mode'); location.href = u.toString();
+            } else {
+                localStorage.setItem('role','teacher');
+                const u = new URL(location.href); u.searchParams.set('mode','teacher'); location.href = u.toString();
+            }
+        }
+
+        function downloadReport() {
+            // Build a simple JSON report
+            const report = {
+                timestamp: new Date().toISOString(),
+                scores: {
+                    reading: sectionScores.reading,
+                    vocabulary: sectionScores.vocabulary,
+                    conversation: sectionScores.conversation,
+                    grammar: sectionScores.grammar
+                },
+                total: Object.values(sectionScores).reduce((sum, s) => sum + s.correct, 0),
+                totalQuestions: Object.values(sectionScores).reduce((sum, s) => sum + s.total, 0)
+            };
+            const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = 'pre-a1-report.json'; a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

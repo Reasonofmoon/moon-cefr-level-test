@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEFR B1 Level English Test</title>
+    <style>
+        :root {
+            --b1: #F59E0B;
+            --b1-light: #FEF3C7;
+            --b1-dark: #92400E;
+            --success: #10B981;
+            --background: #FFFBEB;
+            --card: #FFFFFF;
+            --text: #1E293B;
+            --muted: #64748B;
+            --border: #E2E8F0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.7;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .test-header {
+            background: linear-gradient(135deg, var(--b1) 0%, var(--b1-dark) 100%);
+            color: white;
+            padding: 35px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+        .test-header h1 { font-size: 2.2rem; margin-bottom: 10px; }
+        .level-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.25);
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        .test-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+        }
+        .section {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            border: 1px solid var(--border);
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-bottom: 18px;
+            border-bottom: 3px solid var(--b1-light);
+        }
+        .section-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--b1-light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+        .section-title { font-size: 1.4rem; color: var(--b1-dark); font-weight: 600; }
+        .section-count {
+            margin-left: auto;
+            background: var(--b1-light);
+            color: var(--b1-dark);
+            padding: 5px 14px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+        }
+        .question {
+            margin-bottom: 28px;
+            padding: 22px;
+            background: #FEFCE8;
+            border-radius: 12px;
+            border-left: 5px solid var(--b1);
+        }
+        .question-number {
+            display: inline-block;
+            background: var(--b1);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-right: 12px;
+        }
+        .question-text { font-weight: 500; margin-bottom: 16px; font-size: 1.02rem; }
+        .passage {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 22px;
+            margin-bottom: 22px;
+            font-size: 0.98rem;
+            line-height: 1.85;
+        }
+        .passage-label {
+            display: inline-block;
+            background: var(--b1);
+            color: white;
+            padding: 5px 14px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            margin-bottom: 14px;
+        }
+        .passage-source {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--muted);
+            font-style: italic;
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px dashed var(--border);
+        }
+        .options { display: flex; flex-direction: column; gap: 12px; }
+        .option {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px 18px;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .option:hover { border-color: var(--b1); background: var(--b1-light); }
+        .option input[type="radio"] { margin-top: 4px; accent-color: var(--b1); }
+        .option-letter { font-weight: 600; color: var(--b1-dark); min-width: 24px; }
+        .conversation {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 18px;
+        }
+        .dialogue-line { margin-bottom: 10px; padding: 10px 14px; border-radius: 8px; }
+        .dialogue-line:nth-child(odd) { background: #FEF9C3; }
+        .dialogue-line:nth-child(even) { background: #FEF3C7; }
+        .speaker { font-weight: 600; color: var(--b1-dark); }
+        .blank {
+            display: inline-block;
+            min-width: 150px;
+            border-bottom: 2px dashed var(--b1);
+            margin: 0 6px;
+        }
+        .grammar-sentence {
+            font-size: 1.1rem;
+            padding: 18px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            margin-bottom: 18px;
+            text-align: center;
+        }
+        .writing-prompt {
+            background: var(--b1-light);
+            border: 2px solid var(--b1);
+            border-radius: 10px;
+            padding: 24px;
+            margin-bottom: 22px;
+        }
+        .writing-prompt h4 { color: var(--b1-dark); margin-bottom: 12px; font-size: 1.1rem; }
+        .writing-criteria { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+        .criteria-item {
+            background: white;
+            padding: 8px 14px;
+            border-radius: 18px;
+            font-size: 0.88rem;
+            color: var(--muted);
+        }
+        .writing-area {
+            width: 100%;
+            min-height: 220px;
+            padding: 18px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+        }
+        .writing-area:focus { outline: none; border-color: var(--b1); }
+        .word-count { text-align: right; font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
+        .answer-key {
+            background: linear-gradient(135deg, #FEF9C3 0%, #FEF3C7 100%);
+            border: 2px solid var(--b1);
+            border-radius: 14px;
+            padding: 28px;
+            margin-top: 35px;
+        }
+        .answer-key h2 { color: var(--b1-dark); margin-bottom: 22px; font-size: 1.4rem; }
+        .answer-section-title { margin: 18px 0 12px 0; color: var(--b1-dark); font-size: 1rem; font-weight: 600; }
+        .answer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 10px;
+        }
+        .answer-item {
+            background: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.92rem;
+        }
+        .answer-item .q-num { color: var(--muted); }
+        .answer-item .ans { font-weight: 600; color: var(--b1-dark); }
+        .verification-report {
+            background: #FFFBEB;
+            border: 2px solid var(--b1);
+            border-radius: 14px;
+            padding: 28px;
+            margin-top: 35px;
+        }
+        .verification-report h3 { color: var(--b1-dark); margin-bottom: 22px; font-size: 1.3rem; }
+        .report-section { margin-bottom: 18px; padding-bottom: 15px; border-bottom: 1px solid var(--border); }
+        .report-section:last-child { border-bottom: none; }
+        .report-section h4 { color: var(--text); font-size: 1rem; margin-bottom: 10px; }
+        .report-section p { color: var(--muted); font-size: 0.92rem; line-height: 1.6; }
+        .check-list { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 8px; }
+        .check-list li { padding: 6px 0; display: flex; align-items: center; gap: 10px; font-size: 0.92rem; }
+        .check-list li::before { content: "✓"; color: var(--success); font-weight: bold; }
+        .test-footer { text-align: center; padding: 25px; color: var(--muted); font-size: 0.88rem; }
+        @media (max-width: 640px) {
+            body { padding: 12px; }
+            .test-header { padding: 22px; }
+            .test-header h1 { font-size: 1.6rem; }
+            .section { padding: 18px; }
+            .answer-grid { grid-template-columns: repeat(3, 1fr); }
+            .check-list { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header class="test-header">
+        <div class="level-badge">🎓 CEFR B1 Level</div>
+        <h1>English Level Test</h1>
+        <p style="margin-bottom: 15px;">Intermediate Level Assessment</p>
+        <div class="test-info">
+            <span>📝 43 Questions</span>
+            <span>⏱️ 60 Minutes</span>
+            <span>📊 Passing Score: 60/72</span>
+        </div>
+    </header>
+
+    <!-- Section 1: Reading -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-icon">📖</div>
+            <h2 class="section-title">Section 1: Reading Comprehension</h2>
+            <span class="section-count">10 Questions</span>
+        </div>
+
+        <div class="passage">
+            <span class="passage-label">📄 Passage 1</span>
+            <p>"This will be your third home in less than three years." Miss Ellis swept her golden head left to right. "I would be the last person to say that it was all your fault. The Dixons' move to Florida, for example. Just one of those unfortunate things. And Mrs. Richmond having to go into the hospital for her nerves."</p>
+            <p style="margin-top:12px">Gilly thought: <em>Well, I'm eleven now, folks. But I am not nice. I am brilliant. I am famous across this entire county. Nobody wants to tangle with the great Galadriel Hopkins. I am too clever and too hard to manage. Gruesome Gilly, they call me.</em></p>
+            <span class="passage-source">— "The Great Gilly Hopkins" by Katherine Paterson</span>
+        </div>
+
+        <div class="question">
+            <span class="question-number">1</span>
+            <span class="question-text">What can we infer about Gilly's experience with foster homes?</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q1" value="A"><span class="option-letter">A)</span><span class="option-text">She has had difficulty staying in one place for long.</span></label>
+                <label class="option"><input type="radio" name="q1" value="B"><span class="option-letter">B)</span><span class="option-text">She has always been treated well by foster families.</span></label>
+                <label class="option"><input type="radio" name="q1" value="C"><span class="option-letter">C)</span><span class="option-text">She prefers living in foster homes to her real home.</span></label>
+                <label class="option"><input type="radio" name="q1" value="D"><span class="option-letter">D)</span><span class="option-text">She has never caused any problems in her placements.</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">2</span>
+            <span class="question-text">How does Gilly view herself based on the passage?</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q2" value="A"><span class="option-letter">A)</span><span class="option-text">She sees herself as a quiet and obedient child.</span></label>
+                <label class="option"><input type="radio" name="q2" value="B"><span class="option-letter">B)</span><span class="option-text">She believes she is intelligent but difficult to handle.</span></label>
+                <label class="option"><input type="radio" name="q2" value="C"><span class="option-letter">C)</span><span class="option-text">She thinks she is unpopular and untalented.</span></label>
+                <label class="option"><input type="radio" name="q2" value="D"><span class="option-letter">D)</span><span class="option-text">She considers herself to be very kind and gentle.</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">3</span>
+            <span class="question-text">The phrase "having to go into the hospital for her nerves" suggests Mrs. Richmond:</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q3" value="A"><span class="option-letter">A)</span><span class="option-text">had a broken leg that needed treatment.</span></label>
+                <label class="option"><input type="radio" name="q3" value="B"><span class="option-letter">B)</span><span class="option-text">experienced mental or emotional health problems.</span></label>
+                <label class="option"><input type="radio" name="q3" value="C"><span class="option-letter">C)</span><span class="option-text">wanted to become a nurse at the hospital.</span></label>
+                <label class="option"><input type="radio" name="q3" value="D"><span class="option-letter">D)</span><span class="option-text">needed to visit a relative who was sick.</span></label>
+            </div>
+        </div>
+
+        <div class="passage">
+            <span class="passage-label">📄 Passage 2</span>
+            <p><strong>November 15</strong><br>Dear Mr. Henshaw,<br>At first I was pretty upset when I didn't get an answer to my letter in time for my report, but I worked it out OK. When your letter finally came I didn't want to read it to the class, because I didn't think Miss Martinez would like silly answers, like your real name is Messing A. Round.</p>
+            <p style="margin-top:12px">She said I had to read it. The class laughed and Miss Martinez smiled, but she didn't smile when I came to the part about your favorite animal was a purple monster who ate children who sent authors long lists of questions instead of learning to use the library.</p>
+            <span class="passage-source">— "Dear Mr. Henshaw" by Beverly Cleary</span>
+        </div>
+
+        <div class="question">
+            <span class="question-number">4</span>
+            <span class="question-text">Why was Leigh initially upset with Mr. Henshaw?</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q4" value="A"><span class="option-letter">A)</span><span class="option-text">Mr. Henshaw refused to write any books.</span></label>
+                <label class="option"><input type="radio" name="q4" value="B"><span class="option-letter">B)</span><span class="option-text">The reply didn't arrive before his report was due.</span></label>
+                <label class="option"><input type="radio" name="q4" value="C"><span class="option-letter">C)</span><span class="option-text">Mr. Henshaw never answered any of his letters.</span></label>
+                <label class="option"><input type="radio" name="q4" value="D"><span class="option-letter">D)</span><span class="option-text">The teacher gave Leigh a bad grade on his work.</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">5</span>
+            <span class="question-text">What was Mr. Henshaw's tone in his letter to Leigh?</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q5" value="A"><span class="option-letter">A)</span><span class="option-text">Serious and formal throughout the entire letter</span></label>
+                <label class="option"><input type="radio" name="q5" value="B"><span class="option-letter">B)</span><span class="option-text">Angry and disappointed with the student's request</span></label>
+                <label class="option"><input type="radio" name="q5" value="C"><span class="option-letter">C)</span><span class="option-text">Humorous but with a subtle message about research</span></label>
+                <label class="option"><input type="radio" name="q5" value="D"><span class="option-letter">D)</span><span class="option-text">Confused and unsure how to respond properly</span></label>
+            </div>
+        </div>
+
+        <div class="passage">
+            <span class="passage-label">📄 Passage 3</span>
+            <p>'Sawdust,' Mr. Wormwood would say proudly, 'is one of the great secrets of my success.' He explained: 'I'm always glad to buy a car when some fool has been crashing the gears so badly they're all worn out and rattle like mad. I get it cheap. Then all I do is mix a lot of sawdust with the oil in the gear-box and it runs as sweet as a nut.'</p>
+            <p style="margin-top:12px">'How long will it run like that?' Matilda asked. 'Long enough for the buyer to get a good distance away,' the father said. 'About a hundred miles.'</p>
+            <p style="margin-top:12px">'But that's dishonest, Daddy,' Matilda said. 'No one ever got rich being honest,' the father said. 'Customers are there to be diddled.'</p>
+            <span class="passage-source">— "Matilda" by Roald Dahl</span>
+        </div>
+
+        <div class="question">
+            <span class="question-number">6</span>
+            <span class="question-text">What is Mr. Wormwood's attitude toward his customers?</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q6" value="A"><span class="option-letter">A)</span><span class="option-text">He believes in providing excellent service to all buyers.</span></label>
+                <label class="option"><input type="radio" name="q6" value="B"><span class="option-letter">B)</span><span class="option-text">He sees them as people to be tricked for his profit.</span></label>
+                <label class="option"><input type="radio" name="q6" value="C"><span class="option-letter">C)</span><span class="option-text">He treats them with respect and builds relationships.</span></label>
+                <label class="option"><input type="radio" name="q6" value="D"><span class="option-letter">D)</span><span class="option-text">He feels guilty about selling them used vehicles.</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">7</span>
+            <span class="question-text">The phrase "runs as sweet as a nut" most likely means:</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q7" value="A"><span class="option-letter">A)</span><span class="option-text">the car tastes like sweet food.</span></label>
+                <label class="option"><input type="radio" name="q7" value="B"><span class="option-letter">B)</span><span class="option-text">the car operates very smoothly.</span></label>
+                <label class="option"><input type="radio" name="q7" value="C"><span class="option-letter">C)</span><span class="option-text">the car makes a crunching sound.</span></label>
+                <label class="option"><input type="radio" name="q7" value="D"><span class="option-letter">D)</span><span class="option-text">the car needs more fuel to run.</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">8</span>
+            <span class="question-text">How does Matilda's reaction differ from her father's perspective?</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q8" value="A"><span class="option-letter">A)</span><span class="option-text">She is impressed by his clever business strategies.</span></label>
+                <label class="option"><input type="radio" name="q8" value="B"><span class="option-letter">B)</span><span class="option-text">She recognizes the practice as morally wrong.</span></label>
+                <label class="option"><input type="radio" name="q8" value="C"><span class="option-letter">C)</span><span class="option-text">She wants to learn his methods to use later.</span></label>
+                <label class="option"><input type="radio" name="q8" value="D"><span class="option-letter">D)</span><span class="option-text">She thinks he should charge higher prices.</span></label>
+            </div>
+        </div>
+
+        <div class="passage">
+            <span class="passage-label">📄 Passage 4</span>
+            <p>From then on, Matilda would visit the library only once a week in order to take out new books and return the old ones. Her own small bedroom now became her reading-room and there she would sit and read most afternoons, often with a mug of hot chocolate beside her.</p>
+            <p style="margin-top:12px">The books transported her into new worlds and introduced her to amazing people who lived exciting lives. She went on olden-day sailing ships with Joseph Conrad. She went to Africa with Ernest Hemingway and to India with Rudyard Kipling. She travelled all over the world while sitting in her little room in an English village.</p>
+            <span class="passage-source">— "Matilda" by Roald Dahl</span>
+        </div>
+
+        <div class="question">
+            <span class="question-number">9</span>
+            <span class="question-text">What does the author mean by "the books transported her into new worlds"?</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q9" value="A"><span class="option-letter">A)</span><span class="option-text">Matilda physically traveled to different countries.</span></label>
+                <label class="option"><input type="radio" name="q9" value="B"><span class="option-letter">B)</span><span class="option-text">Reading allowed her to imagine being in different places.</span></label>
+                <label class="option"><input type="radio" name="q9" value="C"><span class="option-letter">C)</span><span class="option-text">The library sent her books from around the world.</span></label>
+                <label class="option"><input type="radio" name="q9" value="D"><span class="option-letter">D)</span><span class="option-text">Her parents took her on trips mentioned in books.</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">10</span>
+            <span class="question-text">Based on the passage, which statement best describes Matilda?</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q10" value="A"><span class="option-letter">A)</span><span class="option-text">She is a passionate reader with a rich imagination.</span></label>
+                <label class="option"><input type="radio" name="q10" value="B"><span class="option-letter">B)</span><span class="option-text">She dislikes spending time alone in her bedroom.</span></label>
+                <label class="option"><input type="radio" name="q10" value="C"><span class="option-letter">C)</span><span class="option-text">She prefers watching television to reading books.</span></label>
+                <label class="option"><input type="radio" name="q10" value="D"><span class="option-letter">D)</span><span class="option-text">She finds reading to be boring and difficult.</span></label>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Vocabulary -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-icon">📚</div>
+            <h2 class="section-title">Section 2: Vocabulary</h2>
+            <span class="section-count">12 Questions</span>
+        </div>
+
+        <div class="question">
+            <span class="question-number">11</span>
+            <span class="question-text">The word <strong>unfortunate</strong> in "one of those unfortunate things" means:</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q11" value="A"><span class="option-letter">A)</span><span class="option-text">lucky and beneficial</span></label>
+                <label class="option"><input type="radio" name="q11" value="B"><span class="option-letter">B)</span><span class="option-text">unlucky or regrettable</span></label>
+                <label class="option"><input type="radio" name="q11" value="C"><span class="option-letter">C)</span><span class="option-text">planned and expected</span></label>
+                <label class="option"><input type="radio" name="q11" value="D"><span class="option-letter">D)</span><span class="option-text">exciting and wonderful</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">12</span>
+            <span class="question-text">The word <strong>manage</strong> in "too hard to manage" means:</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q12" value="A"><span class="option-letter">A)</span><span class="option-text">to control or handle someone's behavior</span></label>
+                <label class="option"><input type="radio" name="q12" value="B"><span class="option-letter">B)</span><span class="option-text">to run a successful business</span></label>
+                <label class="option"><input type="radio" name="q12" value="C"><span class="option-letter">C)</span><span class="option-text">to achieve something difficult</span></label>
+                <label class="option"><input type="radio" name="q12" value="D"><span class="option-letter">D)</span><span class="option-text">to organize files and documents</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">13</span>
+            <span class="question-text">The word <strong>diddled</strong> in "Customers are there to be diddled" means:</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q13" value="A"><span class="option-letter">A)</span><span class="option-text">helped and supported</span></label>
+                <label class="option"><input type="radio" name="q13" value="B"><span class="option-letter">B)</span><span class="option-text">cheated or deceived</span></label>
+                <label class="option"><input type="radio" name="q13" value="C"><span class="option-letter">C)</span><span class="option-text">entertained and amused</span></label>
+                <label class="option"><input type="radio" name="q13" value="D"><span class="option-letter">D)</span><span class="option-text">ignored and avoided</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">14</span>
+            <span class="question-text">"I didn't stand on both feet" suggests Leigh:</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q14" value="A"><span class="option-letter">A)</span><span class="option-text">had poor posture during his presentation.</span></label>
+                <label class="option"><input type="radio" name="q14" value="B"><span class="option-letter">B)</span><span class="option-text">wrote a report that was too short.</span></label>
+                <label class="option"><input type="radio" name="q14" value="C"><span class="option-letter">C)</span><span class="option-text">made too many spelling mistakes.</span></label>
+                <label class="option"><input type="radio" name="q14" value="D"><span class="option-letter">D)</span><span class="option-text">chose a book that was too difficult.</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">15</span>
+            <span class="question-text">The phrase <strong>like mad</strong> in "rattle like mad" means:</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q15" value="A"><span class="option-letter">A)</span><span class="option-text">quietly and smoothly</span></label>
+                <label class="option"><input type="radio" name="q15" value="B"><span class="option-letter">B)</span><span class="option-text">very intensely or extremely</span></label>
+                <label class="option"><input type="radio" name="q15" value="C"><span class="option-letter">C)</span><span class="option-text">slowly and carefully</span></label>
+                <label class="option"><input type="radio" name="q15" value="D"><span class="option-letter">D)</span><span class="option-text">angrily and dangerously</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">16</span>
+            <span class="question-text">A <strong>professional</strong> voice sounds:</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q16" value="A"><span class="option-letter">A)</span><span class="option-text">emotional and upset</span></label>
+                <label class="option"><input type="radio" name="q16" value="B"><span class="option-letter">B)</span><span class="option-text">businesslike and controlled</span></label>
+                <label class="option"><input type="radio" name="q16" value="C"><span class="option-letter">C)</span><span class="option-text">loud and commanding</span></label>
+                <label class="option"><input type="radio" name="q16" value="D"><span class="option-letter">D)</span><span class="option-text">quiet and barely audible</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">17</span>
+            <span class="question-text">The word <strong>mischief</strong> refers to:</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q17" value="A"><span class="option-letter">A)</span><span class="option-text">serious criminal activity</span></label>
+                <label class="option"><input type="radio" name="q17" value="B"><span class="option-letter">B)</span><span class="option-text">playful troublemaking behavior</span></label>
+                <label class="option"><input type="radio" name="q17" value="C"><span class="option-letter">C)</span><span class="option-text">homework and school projects</span></label>
+                <label class="option"><input type="radio" name="q17" value="D"><span class="option-letter">D)</span><span class="option-text">cleaning and organizing tasks</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">18</span>
+            <span class="question-text"><strong>Transported</strong> in "books transported her" means:</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q18" value="A"><span class="option-letter">A)</span><span class="option-text">physically moved her to another location</span></label>
+                <label class="option"><input type="radio" name="q18" value="B"><span class="option-letter">B)</span><span class="option-text">carried her imagination to different settings</span></label>
+                <label class="option"><input type="radio" name="q18" value="C"><span class="option-letter">C)</span><span class="option-text">drove her to the library every week</span></label>
+                <label class="option"><input type="radio" name="q18" value="D"><span class="option-letter">D)</span><span class="option-text">transformed her into a different person</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">19</span>
+            <span class="question-text"><strong>Mammoth</strong> emphasizes that Mrs. Trotter was:</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q19" value="A"><span class="option-letter">A)</span><span class="option-text">extremely small and thin</span></label>
+                <label class="option"><input type="radio" name="q19" value="B"><span class="option-letter">B)</span><span class="option-text">very large in size</span></label>
+                <label class="option"><input type="radio" name="q19" value="C"><span class="option-letter">C)</span><span class="option-text">quite young and energetic</span></label>
+                <label class="option"><input type="radio" name="q19" value="D"><span class="option-letter">D)</span><span class="option-text">ancient and prehistoric</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">20</span>
+            <span class="question-text"><strong>Silly</strong> answers means answers that are:</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q20" value="A"><span class="option-letter">A)</span><span class="option-text">serious and thoughtful</span></label>
+                <label class="option"><input type="radio" name="q20" value="B"><span class="option-letter">B)</span><span class="option-text">humorous and not serious</span></label>
+                <label class="option"><input type="radio" name="q20" value="C"><span class="option-letter">C)</span><span class="option-text">angry and offensive</span></label>
+                <label class="option"><input type="radio" name="q20" value="D"><span class="option-letter">D)</span><span class="option-text">complicated and confusing</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">21</span>
+            <span class="question-text"><strong>Salvage</strong> means:</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q21" value="A"><span class="option-letter">A)</span><span class="option-text">to throw away completely</span></label>
+                <label class="option"><input type="radio" name="q21" value="B"><span class="option-letter">B)</span><span class="option-text">to save or rescue from loss</span></label>
+                <label class="option"><input type="radio" name="q21" value="C"><span class="option-letter">C)</span><span class="option-text">to purchase at a low price</span></label>
+                <label class="option"><input type="radio" name="q21" value="D"><span class="option-letter">D)</span><span class="option-text">to hide from other people</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">22</span>
+            <span class="question-text">Comparing his idea to "penicillin" suggests Mr. Wormwood thought it was:</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q22" value="A"><span class="option-letter">A)</span><span class="option-text">related to medicine and health</span></label>
+                <label class="option"><input type="radio" name="q22" value="B"><span class="option-letter">B)</span><span class="option-text">a brilliant and important discovery</span></label>
+                <label class="option"><input type="radio" name="q22" value="C"><span class="option-letter">C)</span><span class="option-text">dangerous and harmful to others</span></label>
+                <label class="option"><input type="radio" name="q22" value="D"><span class="option-letter">D)</span><span class="option-text">copied from another person's work</span></label>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Conversation -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-icon">💬</div>
+            <h2 class="section-title">Section 3: Conversation</h2>
+            <span class="section-count">8 Questions</span>
+        </div>
+
+        <div class="question">
+            <span class="question-number">23</span>
+            <span class="question-text">Choose the most appropriate response:</span>
+            <div class="conversation">
+                <div class="dialogue-line"><span class="speaker">Miss Ellis:</span> I need you to make an effort. Will you try?</div>
+                <div class="dialogue-line"><span class="speaker">Gilly:</span> <span class="blank">_______</span></div>
+            </div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q23" value="A"><span class="option-letter">A)</span><span class="option-text">I suppose I could give it a chance this time.</span></label>
+                <label class="option"><input type="radio" name="q23" value="B"><span class="option-letter">B)</span><span class="option-text">The weather is quite nice today, isn't it?</span></label>
+                <label class="option"><input type="radio" name="q23" value="C"><span class="option-letter">C)</span><span class="option-text">I had cereal for breakfast this morning.</span></label>
+                <label class="option"><input type="radio" name="q23" value="D"><span class="option-letter">D)</span><span class="option-text">What time does the library close today?</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">24</span>
+            <span class="question-text">Choose the most appropriate response:</span>
+            <div class="conversation">
+                <div class="dialogue-line"><span class="speaker">Matilda:</span> But Daddy, that's dishonest. It's cheating.</div>
+                <div class="dialogue-line"><span class="speaker">Mr. Wormwood:</span> <span class="blank">_______</span></div>
+            </div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q24" value="A"><span class="option-letter">A)</span><span class="option-text">You're right. I should change my practices.</span></label>
+                <label class="option"><input type="radio" name="q24" value="B"><span class="option-letter">B)</span><span class="option-text">No one ever got rich being honest.</span></label>
+                <label class="option"><input type="radio" name="q24" value="C"><span class="option-letter">C)</span><span class="option-text">I don't understand what you're talking about.</span></label>
+                <label class="option"><input type="radio" name="q24" value="D"><span class="option-letter">D)</span><span class="option-text">Would you like to go to the park tomorrow?</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">25</span>
+            <span class="question-text">Choose the most appropriate response:</span>
+            <div class="conversation">
+                <div class="dialogue-line"><span class="speaker">Student:</span> Why did you give such humorous answers?</div>
+                <div class="dialogue-line"><span class="speaker">Mr. Henshaw:</span> <span class="blank">_______</span></div>
+            </div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q25" value="A"><span class="option-letter">A)</span><span class="option-text">I was hoping to encourage you to do your own research.</span></label>
+                <label class="option"><input type="radio" name="q25" value="B"><span class="option-letter">B)</span><span class="option-text">I have never written any letters in my entire life.</span></label>
+                <label class="option"><input type="radio" name="q25" value="C"><span class="option-letter">C)</span><span class="option-text">My favorite food is pizza with extra cheese.</span></label>
+                <label class="option"><input type="radio" name="q25" value="D"><span class="option-letter">D)</span><span class="option-text">I don't remember sending you any letter at all.</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">26</span>
+            <span class="question-text">Choose the most appropriate response:</span>
+            <div class="conversation">
+                <div class="dialogue-line"><span class="speaker">Mrs. Trotter:</span> Welcome! You belong here now.</div>
+                <div class="dialogue-line"><span class="speaker">Gilly (thinking):</span> <span class="blank">_______</span></div>
+            </div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q26" value="A"><span class="option-letter">A)</span><span class="option-text">Here I come, ready or not. I'll be in charge soon.</span></label>
+                <label class="option"><input type="radio" name="q26" value="B"><span class="option-letter">B)</span><span class="option-text">This seems like the perfect home I've wanted.</span></label>
+                <label class="option"><input type="radio" name="q26" value="C"><span class="option-letter">C)</span><span class="option-text">I should call Miss Ellis to thank her.</span></label>
+                <label class="option"><input type="radio" name="q26" value="D"><span class="option-letter">D)</span><span class="option-text">I wonder what books they have here.</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">27</span>
+            <span class="question-text">Choose the most appropriate response:</span>
+            <div class="conversation">
+                <div class="dialogue-line"><span class="speaker">Librarian:</span> Matilda, you've finished all those books already?</div>
+                <div class="dialogue-line"><span class="speaker">Matilda:</span> <span class="blank">_______</span></div>
+            </div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q27" value="A"><span class="option-letter">A)</span><span class="option-text">Yes, and I'd love recommendations for more challenging ones.</span></label>
+                <label class="option"><input type="radio" name="q27" value="B"><span class="option-letter">B)</span><span class="option-text">No, I haven't started reading them yet.</span></label>
+                <label class="option"><input type="radio" name="q27" value="C"><span class="option-letter">C)</span><span class="option-text">I don't like reading books very much.</span></label>
+                <label class="option"><input type="radio" name="q27" value="D"><span class="option-letter">D)</span><span class="option-text">My father sells second-hand cars.</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">28</span>
+            <span class="question-text">Choose the most appropriate response:</span>
+            <div class="conversation">
+                <div class="dialogue-line"><span class="speaker">Teacher:</span> Leigh, you didn't include important details.</div>
+                <div class="dialogue-line"><span class="speaker">Leigh:</span> <span class="blank">_______</span></div>
+            </div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q28" value="A"><span class="option-letter">A)</span><span class="option-text">I'm sorry. The reply arrived after the deadline.</span></label>
+                <label class="option"><input type="radio" name="q28" value="B"><span class="option-letter">B)</span><span class="option-text">I've never written a report in my life before.</span></label>
+                <label class="option"><input type="radio" name="q28" value="C"><span class="option-letter">C)</span><span class="option-text">Who is the author you're referring to?</span></label>
+                <label class="option"><input type="radio" name="q28" value="D"><span class="option-letter">D)</span><span class="option-text">I don't think reports are important anyway.</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">29</span>
+            <span class="question-text">Choose the most appropriate response:</span>
+            <div class="conversation">
+                <div class="dialogue-line"><span class="speaker">Customer:</span> This car broke down after only 100 miles!</div>
+                <div class="dialogue-line"><span class="speaker">Honest Salesperson:</span> <span class="blank">_______</span></div>
+            </div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q29" value="A"><span class="option-letter">A)</span><span class="option-text">That's your problem now. All sales are final.</span></label>
+                <label class="option"><input type="radio" name="q29" value="B"><span class="option-letter">B)</span><span class="option-text">I'm very sorry. Let me arrange an inspection.</span></label>
+                <label class="option"><input type="radio" name="q29" value="C"><span class="option-letter">C)</span><span class="option-text">You should have driven more carefully.</span></label>
+                <label class="option"><input type="radio" name="q29" value="D"><span class="option-letter">D)</span><span class="option-text">I've never heard of cars breaking down.</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">30</span>
+            <span class="question-text">Choose the most appropriate response:</span>
+            <div class="conversation">
+                <div class="dialogue-line"><span class="speaker">Friend:</span> Why does Gilly behave so badly?</div>
+                <div class="dialogue-line"><span class="speaker">Social Worker:</span> <span class="blank">_______</span></div>
+            </div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q30" value="A"><span class="option-letter">A)</span><span class="option-text">She probably acts out because she's afraid of being hurt.</span></label>
+                <label class="option"><input type="radio" name="q30" value="B"><span class="option-letter">B)</span><span class="option-text">I have no idea who Gilly is.</span></label>
+                <label class="option"><input type="radio" name="q30" value="C"><span class="option-letter">C)</span><span class="option-text">All children are perfectly behaved.</span></label>
+                <label class="option"><input type="radio" name="q30" value="D"><span class="option-letter">D)</span><span class="option-text">The weather has been unpredictable lately.</span></label>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Grammar -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-icon">✏️</div>
+            <h2 class="section-title">Section 4: Grammar</h2>
+            <span class="section-count">12 Questions</span>
+        </div>
+
+        <div class="question">
+            <span class="question-number">31</span>
+            <span class="question-text">Matilda _______ hundreds of books by the time she was six.</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q31" value="A"><span class="option-letter">A)</span><span class="option-text">reads</span></label>
+                <label class="option"><input type="radio" name="q31" value="B"><span class="option-letter">B)</span><span class="option-text">had read</span></label>
+                <label class="option"><input type="radio" name="q31" value="C"><span class="option-letter">C)</span><span class="option-text">has read</span></label>
+                <label class="option"><input type="radio" name="q31" value="D"><span class="option-letter">D)</span><span class="option-text">is reading</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">32</span>
+            <span class="question-text">The letter _______ by Mr. Henshaw arrived late.</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q32" value="A"><span class="option-letter">A)</span><span class="option-text">wrote</span></label>
+                <label class="option"><input type="radio" name="q32" value="B"><span class="option-letter">B)</span><span class="option-text">writing</span></label>
+                <label class="option"><input type="radio" name="q32" value="C"><span class="option-letter">C)</span><span class="option-text">written</span></label>
+                <label class="option"><input type="radio" name="q32" value="D"><span class="option-letter">D)</span><span class="option-text">writes</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">33</span>
+            <span class="question-text">Gilly, _______ had been in several foster homes, arrived at Mrs. Trotter's.</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q33" value="A"><span class="option-letter">A)</span><span class="option-text">which</span></label>
+                <label class="option"><input type="radio" name="q33" value="B"><span class="option-letter">B)</span><span class="option-text">who</span></label>
+                <label class="option"><input type="radio" name="q33" value="C"><span class="option-letter">C)</span><span class="option-text">whom</span></label>
+                <label class="option"><input type="radio" name="q33" value="D"><span class="option-letter">D)</span><span class="option-text">what</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">34</span>
+            <span class="question-text">If Mr. Wormwood _______ honest, he would have fewer complaints.</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q34" value="A"><span class="option-letter">A)</span><span class="option-text">is</span></label>
+                <label class="option"><input type="radio" name="q34" value="B"><span class="option-letter">B)</span><span class="option-text">were</span></label>
+                <label class="option"><input type="radio" name="q34" value="C"><span class="option-letter">C)</span><span class="option-text">will be</span></label>
+                <label class="option"><input type="radio" name="q34" value="D"><span class="option-letter">D)</span><span class="option-text">has been</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">35</span>
+            <span class="question-text">The cars _______ by Mr. Wormwood often broke down.</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q35" value="A"><span class="option-letter">A)</span><span class="option-text">sold</span></label>
+                <label class="option"><input type="radio" name="q35" value="B"><span class="option-letter">B)</span><span class="option-text">selling</span></label>
+                <label class="option"><input type="radio" name="q35" value="C"><span class="option-letter">C)</span><span class="option-text">sell</span></label>
+                <label class="option"><input type="radio" name="q35" value="D"><span class="option-letter">D)</span><span class="option-text">to sell</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">36</span>
+            <span class="question-text">Leigh has been writing to Mr. Henshaw _______ he was in fourth grade.</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q36" value="A"><span class="option-letter">A)</span><span class="option-text">for</span></label>
+                <label class="option"><input type="radio" name="q36" value="B"><span class="option-letter">B)</span><span class="option-text">since</span></label>
+                <label class="option"><input type="radio" name="q36" value="C"><span class="option-letter">C)</span><span class="option-text">during</span></label>
+                <label class="option"><input type="radio" name="q36" value="D"><span class="option-letter">D)</span><span class="option-text">while</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">37</span>
+            <span class="question-text">Mrs. Trotter told Gilly that she _______ make friends with any child.</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q37" value="A"><span class="option-letter">A)</span><span class="option-text">can</span></label>
+                <label class="option"><input type="radio" name="q37" value="B"><span class="option-letter">B)</span><span class="option-text">could</span></label>
+                <label class="option"><input type="radio" name="q37" value="C"><span class="option-letter">C)</span><span class="option-text">will</span></label>
+                <label class="option"><input type="radio" name="q37" value="D"><span class="option-letter">D)</span><span class="option-text">may</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">38</span>
+            <span class="question-text">_______ reading the book, Matilda felt she had traveled the world.</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q38" value="A"><span class="option-letter">A)</span><span class="option-text">After</span></label>
+                <label class="option"><input type="radio" name="q38" value="B"><span class="option-letter">B)</span><span class="option-text">Although</span></label>
+                <label class="option"><input type="radio" name="q38" value="C"><span class="option-letter">C)</span><span class="option-text">Unless</span></label>
+                <label class="option"><input type="radio" name="q38" value="D"><span class="option-letter">D)</span><span class="option-text">Because</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">39</span>
+            <span class="question-text">Miss Ellis suggested that Gilly _______ to make an effort.</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q39" value="A"><span class="option-letter">A)</span><span class="option-text">tries</span></label>
+                <label class="option"><input type="radio" name="q39" value="B"><span class="option-letter">B)</span><span class="option-text">tried</span></label>
+                <label class="option"><input type="radio" name="q39" value="C"><span class="option-letter">C)</span><span class="option-text">try</span></label>
+                <label class="option"><input type="radio" name="q39" value="D"><span class="option-letter">D)</span><span class="option-text">trying</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">40</span>
+            <span class="question-text">The book _______ Leigh read was called "Ways to Amuse a Dog."</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q40" value="A"><span class="option-letter">A)</span><span class="option-text">who</span></label>
+                <label class="option"><input type="radio" name="q40" value="B"><span class="option-letter">B)</span><span class="option-text">which</span></label>
+                <label class="option"><input type="radio" name="q40" value="C"><span class="option-letter">C)</span><span class="option-text">whom</span></label>
+                <label class="option"><input type="radio" name="q40" value="D"><span class="option-letter">D)</span><span class="option-text">whose</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">41</span>
+            <span class="question-text">I wish I _______ in charge of my own life like Gilly wanted.</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q41" value="A"><span class="option-letter">A)</span><span class="option-text">am</span></label>
+                <label class="option"><input type="radio" name="q41" value="B"><span class="option-letter">B)</span><span class="option-text">were</span></label>
+                <label class="option"><input type="radio" name="q41" value="C"><span class="option-letter">C)</span><span class="option-text">will be</span></label>
+                <label class="option"><input type="radio" name="q41" value="D"><span class="option-letter">D)</span><span class="option-text">have been</span></label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">42</span>
+            <span class="question-text">The teacher made the students _______ their reports aloud.</span>
+            <div class="options">
+                <label class="option"><input type="radio" name="q42" value="A"><span class="option-letter">A)</span><span class="option-text">read</span></label>
+                <label class="option"><input type="radio" name="q42" value="B"><span class="option-letter">B)</span><span class="option-text">to read</span></label>
+                <label class="option"><input type="radio" name="q42" value="C"><span class="option-letter">C)</span><span class="option-text">reading</span></label>
+                <label class="option"><input type="radio" name="q42" value="D"><span class="option-letter">D)</span><span class="option-text">reads</span></label>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Writing -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-icon">✍️</div>
+            <h2 class="section-title">Section 5: Writing</h2>
+            <span class="section-count">1 Question</span>
+        </div>
+
+        <div class="question">
+            <span class="question-number">43</span>
+            <span class="question-text">Writing Task</span>
+            <div class="writing-prompt">
+                <h4>📝 Write an opinion essay about honesty in business (100-120 words)</h4>
+                <p>In <em>Matilda</em>, Mr. Wormwood cheats his customers to make money. Express your opinion about whether honesty is important in business.</p>
+                <div class="writing-criteria">
+                    <span class="criteria-item">📌 State your opinion clearly</span>
+                    <span class="criteria-item">📌 Give two supporting reasons</span>
+                    <span class="criteria-item">📌 Include an example</span>
+                    <span class="criteria-item">📌 Write a conclusion</span>
+                </div>
+            </div>
+            <textarea class="writing-area" placeholder="In my opinion, honesty in business is...
+
+First of all, ...
+
+Furthermore, ...
+
+For example, ...
+
+In conclusion, ..."></textarea>
+            <div class="word-count">Target: 100-120 words</div>
+        </div>
+    </section>
+
+    <!-- Answer Key -->
+    <section class="answer-key">
+        <h2>📋 Answer Key</h2>
+        <h3 class="answer-section-title">Section 1: Reading Comprehension</h3>
+        <div class="answer-grid">
+            <div class="answer-item"><span class="q-num">Q1</span><span class="ans">A</span></div>
+            <div class="answer-item"><span class="q-num">Q2</span><span class="ans">B</span></div>
+            <div class="answer-item"><span class="q-num">Q3</span><span class="ans">B</span></div>
+            <div class="answer-item"><span class="q-num">Q4</span><span class="ans">B</span></div>
+            <div class="answer-item"><span class="q-num">Q5</span><span class="ans">C</span></div>
+            <div class="answer-item"><span class="q-num">Q6</span><span class="ans">B</span></div>
+            <div class="answer-item"><span class="q-num">Q7</span><span class="ans">B</span></div>
+            <div class="answer-item"><span class="q-num">Q8</span><span class="ans">B</span></div>
+            <div class="answer-item"><span class="q-num">Q9</span><span class="ans">B</span></div>
+            <div class="answer-item"><span class="q-num">Q10</span><span class="ans">A</span></div>
+        </div>
+        <h3 class="answer-section-title">Section 2: Vocabulary</h3>
+        <div class="answer-grid">
+            <div class="answer-item"><span class="q-num">Q11</span><span class="ans">B</span></div>
+            <div class="answer-item"><span class="q-num">Q12</span><span class="ans">A</span></div>
+            <div class="answer-item"><span class="q-num">Q13</span><span class="ans">B</span></div>
+            <div class="answer-item"><span class="q-num">Q14</span><span class="ans">A</span></div>
+            <div class="answer-item"><span class="q-num">Q15</span><span class="ans">B</span></div>
+            <div class="answer-item"><span class="q-num">Q16</span><span class="ans">B</span></div>
+            <div class="answer-item"><span class="q-num">Q17</span><span class="ans">B</span></div>
+            <div class="answer-item"><span class="q-num">Q18</span><span class="ans">B</span></div>
+            <div class="answer-item"><span class="q-num">Q19</span><span class="ans">B</span></div>
+            <div class="answer-item"><span class="q-num">Q20</span><span class="ans">B</span></div>
+            <div class="answer-item"><span class="q-num">Q21</span><span class="ans">B</span></div>
+            <div class="answer-item"><span class="q-num">Q22</span><span class="ans">B</span></div>
+        </div>
+        <h3 class="answer-section-title">Section 3: Conversation</h3>
+        <div class="answer-grid">
+            <div class="answer-item"><span class="q-num">Q23</span><span class="ans">A</span></div>
+            <div class="answer-item"><span class="q-num">Q24</span><span class="ans">B</span></div>
+            <div class="answer-item"><span class="q-num">Q25</span><span class="ans">A</span></div>
+            <div class="answer-item"><span class="q-num">Q26</span><span class="ans">A</span></div>
+            <div class="answer-item"><span class="q-num">Q27</span><span class="ans">A</span></div>
+            <div class="answer-item"><span class="q-num">Q28</span><span class="ans">A</span></div>
+            <div class="answer-item"><span class="q-num">Q29</span><span class="ans">B</span></div>
+            <div class="answer-item"><span class="q-num">Q30</span><span class="ans">A</span></div>
+        </div>
+        <h3 class="answer-section-title">Section 4: Grammar</h3>
+        <div class="answer-grid">
+            <div class="answer-item"><span class="q-num">Q31</span><span class="ans">B</span></div>
+            <div class="answer-item"><span class="q-num">Q32</span><span class="ans">C</span></div>
+            <div class="answer-item"><span class="q-num">Q33</span><span class="ans">B</span></div>
+            <div class="answer-item"><span class="q-num">Q34</span><span class="ans">B</span></div>
+            <div class="answer-item"><span class="q-num">Q35</span><span class="ans">A</span></div>
+            <div class="answer-item"><span class="q-num">Q36</span><span class="ans">B</span></div>
+            <div class="answer-item"><span class="q-num">Q37</span><span class="ans">B</span></div>
+            <div class="answer-item"><span class="q-num">Q38</span><span class="ans">A</span></div>
+            <div class="answer-item"><span class="q-num">Q39</span><span class="ans">C</span></div>
+            <div class="answer-item"><span class="q-num">Q40</span><span class="ans">B</span></div>
+            <div class="answer-item"><span class="q-num">Q41</span><span class="ans">B</span></div>
+            <div class="answer-item"><span class="q-num">Q42</span><span class="ans">A</span></div>
+        </div>
+    </section>
+
+    <!-- Verification Report -->
+    <section class="verification-report">
+        <h3>📊 CEFR-Architect 자체 검증 보고서</h3>
+        <div class="report-section">
+            <h4>📌 기본 정보</h4>
+            <p><strong>목표 레벨:</strong> B1 (Intermediate) | <strong>총 문항:</strong> 43문항 | <strong>시험 시간:</strong> 60분</p>
+        </div>
+        <div class="report-section">
+            <h4>🎯 CEFR B1 정합성</h4>
+            <p><strong>Can-Do:</strong> "Can understand main points of clear standard input on familiar matters. Can deal with most situations likely to arise whilst travelling. Can produce simple connected text on familiar topics."</p>
+        </div>
+        <div class="report-section">
+            <h4>📚 원문 활용</h4>
+            <p>• The Great Gilly Hopkins (Katherine Paterson): Q1-3, Q11-12, Q19, Q21, Q23, Q26, Q30, Q33</p>
+            <p>• Dear Mr. Henshaw (Beverly Cleary): Q4-5, Q14, Q20, Q25, Q28, Q36, Q40</p>
+            <p>• Matilda (Roald Dahl): Q6-10, Q13, Q15-18, Q22, Q24, Q27, Q29, Q31-32, Q34-35, Q37-39, Q41-43</p>
+        </div>
+        <div class="report-section">
+            <h4>✅ 품질 체크리스트</h4>
+            <ul class="check-list">
+                <li>B1 레벨 어휘/문법 범위 준수</li>
+                <li>추론 문항 포함 (Q1, Q3, Q5, Q9)</li>
+                <li>관용표현 이해 측정 (Q7, Q15)</li>
+                <li>현재완료, 관계사, 수동태 포함</li>
+                <li>가정법 기초 및 간접화법 적용</li>
+                <li>100-150단어 지문 길이 준수</li>
+            </ul>
+        </div>
+    </section>
+
+    <footer class="test-footer">
+        <p>© CEFR-Architect v1.0 | Based on: The Great Gilly Hopkins, Dear Mr. Henshaw, Matilda</p>
+    </footer>
+</div>
+</body>
+</html>

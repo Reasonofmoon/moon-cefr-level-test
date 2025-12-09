@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEFR 영어 레벨 테스트 시스템</title>
+    <style>
+        :root {
+            --primary: #3B82F6;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --dark: #1E293B;
+            --muted: #64748B;
+            --border: #E2E8F0;
+            --background: #F8FAFC;
+            
+            /* Level Colors */
+            --prea1: #EC4899;
+            --a1: #3B82F6;
+            --a2: #10B981;
+            --b1: #F59E0B;
+            --b2: #8B5CF6;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            background: var(--background);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%);
+            color: white;
+            text-align: center;
+            padding: 50px 30px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* Sections */
+        .section {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: var(--dark);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        /* Student Info Form */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        /* Level Cards */
+        .level-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .level-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .level-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .level-card.prea1 { border-color: var(--prea1); }
+        .level-card.a1 { border-color: var(--a1); }
+        .level-card.a2 { border-color: var(--a2); }
+        .level-card.b1 { border-color: var(--b1); }
+        .level-card.b2 { border-color: var(--b2); }
+        
+        .level-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .level-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .level-card.prea1 .level-name { color: var(--prea1); }
+        .level-card.a1 .level-name { color: var(--a1); }
+        .level-card.a2 .level-name { color: var(--a2); }
+        .level-card.b1 .level-name { color: var(--b1); }
+        .level-card.b2 .level-name { color: var(--b2); }
+        
+        .level-subtitle {
+            font-size: 1rem;
+            color: var(--muted);
+            margin-bottom: 15px;
+        }
+        
+        .level-info {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin: 12px 0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .level-description {
+            font-size: 0.95rem;
+            color: var(--dark);
+            margin: 15px 0;
+            line-height: 1.6;
+        }
+        
+        /* Buttons */
+        .btn {
+            padding: 14px 32px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            display: inline-block;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, #1E40AF 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+        
+        .btn-level {
+            width: 100%;
+            margin-top: 15px;
+        }
+        
+        .btn-level.prea1 {
+            background: linear-gradient(135deg, var(--prea1) 0%, #BE185D 100%);
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+        }
+        
+        .btn-level.a1 {
+            background: linear-gradient(135deg, var(--a1) 0%, #1E40AF 100%);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn-level.a2 {
+            background: linear-gradient(135deg, var(--a2) 0%, #059669 100%);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        
+        .btn-level.b1 {
+            background: linear-gradient(135deg, var(--b1) 0%, #D97706 100%);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+        
+        .btn-level.b2 {
+            background: linear-gradient(135deg, var(--b2) 0%, #5B21B6 100%);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+        
+        /* Hidden sections */
+        .hidden {
+            display: none;
+        }
+        
+        /* Instructions */
+        .instructions {
+            background: #EFF6FF;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+        
+        .instructions h3 {
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        
+        .instructions ul {
+            margin-left: 20px;
+            color: var(--dark);
+        }
+        
+        .instructions li {
+            margin: 8px 0;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-top: 50px;
+        }
+        
+        /* Teacher Dashboard Link */
+        .teacher-link {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--dark);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .teacher-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .header p { font-size: 1rem; }
+            .level-cards { grid-template-columns: 1fr; }
+            .section { padding: 25px; }
+            .teacher-link {
+                bottom: 15px;
+                right: 15px;
+                padding: 12px 20px;
+            }
+        }
+        
+        /* Alert */
+        .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-weight: 500;
+        }
+        
+        .alert-warning {
+            background: #FEF3C7;
+            color: #92400E;
+            border-left: 4px solid var(--warning);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🎓 CEFR 영어 레벨 테스트</h1>
+            <p>국제 표준 CEFR 기준에 따른 체계적인 영어 실력 진단 시스템</p>
+        </header>
+        
+        <!-- Step 1: Student Information -->
+        <section class="section" id="step-info">
+            <h2 class="section-title">📝 학생 정보 입력</h2>
+            
+            <div class="instructions">
+                <h3>✨ 테스트를 시작하기 전에</h3>
+                <ul>
+                    <li>정확한 레벨 진단을 위해 솔직하게 답변해주세요</li>
+                    <li>모르는 문제는 추측하지 말고 건너뛰어도 됩니다</li>
+                    <li>시간 제한은 참고용이며, 여유있게 풀어주세요</li>
+                    <li>테스트는 자동 저장되므로 중간에 중단해도 됩니다</li>
+                </ul>
+            </div>
+            
+            <form id="student-form">
+                <div class="form-group">
+                    <label for="student-name">이름 *</label>
+                    <input type="text" id="student-name" required placeholder="홍길동">
+                </div>
+                
+                <div class="form-group">
+                    <label for="student-grade">학년</label>
+                    <select id="student-grade">
+                        <option value="">선택하세요</option>
+                        <option value="초1">초등학교 1학년</option>
+                        <option value="초2">초등학교 2학년</option>
+                        <option value="초3">초등학교 3학년</option>
+                        <option value="초4">초등학교 4학년</option>
+                        <option value="초5">초등학교 5학년</option>
+                        <option value="초6">초등학교 6학년</option>
+                        <option value="중1">중학교 1학년</option>
+                        <option value="중2">중학교 2학년</option>
+                        <option value="중3">중학교 3학년</option>
+                        <option value="고1">고등학교 1학년</option>
+                        <option value="고2">고등학교 2학년</option>
+                        <option value="고3">고등학교 3학년</option>
+                        <option value="성인">성인</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="academy-name">학원명 (선택사항)</label>
+                    <input type="text" id="academy-name" placeholder="예: ABC 영어학원">
+                </div>
+                
+                <div class="form-group">
+                    <label for="class-name">반 이름 (선택사항)</label>
+                    <input type="text" id="class-name" placeholder="예: 초급반, A반">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">다음 단계: 레벨 선택 →</button>
+            </form>
+        </section>
+        
+        <!-- Step 2: Level Selection -->
+        <section class="section hidden" id="step-level">
+            <h2 class="section-title">🎯 레벨 선택</h2>
+            
+            <div class="alert alert-warning">
+                <strong>💡 레벨을 모르시나요?</strong> 처음 테스트하시는 분은 PRE-A1부터 시작하거나, 
+                영어 학습 경험이 있으시다면 A1 또는 A2부터 시작하세요.
+            </div>
+            
+            <div class="level-cards">
+                <!-- PRE-A1 -->
+                <div class="level-card prea1" onclick="selectLevel('prea1')">
+                    <div class="level-icon">🌱</div>
+                    <h3 class="level-name">PRE-A1</h3>
+                    <p class="level-subtitle">Breakthrough</p>
+                    <div class="level-info">
+                        <span>📝 25문항</span>
+                        <span>⏱️ 30분</span>
+                    </div>
+                    <p class="level-description">
+                        완전 초보자를 위한 테스트<br>
+                        기초 인사, 숫자, 색상, 간단한 단어
+                    </p>
+                    <button class="btn btn-level prea1">테스트 시작</button>
+                </div>
+                
+                <!-- A1 -->
+                <div class="level-card a1" onclick="selectLevel('a1')">
+                    <div class="level-icon">🌿</div>
+                    <h3 class="level-name">A1</h3>
+                    <p class="level-subtitle">Beginner</p>
+                    <div class="level-info">
+                        <span>📝 35문항</span>
+                        <span>⏱️ 50분</span>
+                    </div>
+                    <p class="level-description">
+                        초급 학습자를 위한 테스트<br>
+                        간단한 문장, 일상 어휘, 기초 문법
+                    </p>
+                    <button class="btn btn-level a1">테스트 시작</button>
+                </div>
+                
+                <!-- A2 -->
+                <div class="level-card a2" onclick="selectLevel('a2')">
+                    <div class="level-icon">🌳</div>
+                    <h3 class="level-name">A2</h3>
+                    <p class="level-subtitle">Elementary</p>
+                    <div class="level-info">
+                        <span>📝 40문항</span>
+                        <span>⏱️ 60분</span>
+                    </div>
+                    <p class="level-description">
+                        초중급 학습자를 위한 테스트<br>
+                        과거형, 진행형, 일상 대화 가능
+                    </p>
+                    <button class="btn btn-level a2">테스트 시작</button>
+                </div>
+                
+                <!-- B1 -->
+                <div class="level-card b1" onclick="selectLevel('b1')">
+                    <div class="level-icon">🏔️</div>
+                    <h3 class="level-name">B1</h3>
+                    <p class="level-subtitle">Intermediate</p>
+                    <div class="level-info">
+                        <span>📝 42문항</span>
+                        <span>⏱️ 60분</span>
+                    </div>
+                    <p class="level-description">
+                        중급 학습자를 위한 테스트<br>
+                        복잡한 문법, 관용표현, 추론 능력
+                    </p>
+                    <button class="btn btn-level b1">테스트 시작</button>
+                </div>
+                
+                <!-- B2 -->
+                <div class="level-card b2" onclick="selectLevel('b2')">
+                    <div class="level-icon">⛰️</div>
+                    <h3 class="level-name">B2</h3>
+                    <p class="level-subtitle">Upper Intermediate</p>
+                    <div class="level-info">
+                        <span>📝 42문항</span>
+                        <span>⏱️ 60분</span>
+                    </div>
+                    <p class="level-description">
+                        중상급 학습자를 위한 테스트<br>
+                        고급 어휘, 학술적 표현, 추상적 개념
+                    </p>
+                    <button class="btn btn-level b2">테스트 시작</button>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn" style="background: var(--muted); color: white;" onclick="goBack()">← 이전으로</button>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <p><strong>CEFR-Architect v2.0</strong> | 통합 레벨 테스트 시스템</p>
+            <p style="margin-top: 10px;">
+                💼 학원 관리자/교사이신가요? 
+                <a href="teacher-dashboard.html" style="color: var(--primary); text-decoration: underline;">교사 대시보드 바로가기</a>
+            </p>
+        </footer>
+    </div>
+    
+    <!-- Teacher Dashboard Link (Floating) -->
+    <a href="teacher-dashboard.html" class="teacher-link">👨‍🏫 교사 대시보드</a>
+    
+    <script>
+        // Store student information
+        let studentInfo = {
+            name: '',
+            grade: '',
+            academy: '',
+            class: '',
+            date: new Date().toISOString()
+        };
+        
+        // Handle form submission
+        document.getElementById('student-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Save student info
+            studentInfo.name = document.getElementById('student-name').value;
+            studentInfo.grade = document.getElementById('student-grade').value;
+            studentInfo.academy = document.getElementById('academy-name').value;
+            studentInfo.class = document.getElementById('class-name').value;
+            
+            // Store in localStorage
+            localStorage.setItem('cefr_student_info', JSON.stringify(studentInfo));
+            
+            // Show level selection
+            document.getElementById('step-info').classList.add('hidden');
+            document.getElementById('step-level').classList.remove('hidden');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Handle level selection
+        function selectLevel(level) {
+            // Store selected level
+            localStorage.setItem('cefr_selected_level', level);
+            
+            // Map to test files
+            const testFiles = {
+                'prea1': 'CEFR_PRE-A1_English_Level_Test_Student.html',
+                'a1': 'CEFR_A1_English_Level_Test_Student.html',
+                'a2': 'CEFR_A2_English_Level_Test_Student.html',
+                'b1': 'CEFR_B1_English_Level_Test_Student.html',
+                'b2': 'CEFR_B2_English_Level_Test_Student.html'
+            };
+            
+            // Redirect to test
+            window.location.href = testFiles[level];
+        }
+        
+        // Go back button
+        function goBack() {
+            document.getElementById('step-level').classList.add('hidden');
+            document.getElementById('step-info').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // Load saved student info if exists
+        window.addEventListener('load', function() {
+            const savedInfo = localStorage.getItem('cefr_student_info');
+            if (savedInfo) {
+                const info = JSON.parse(savedInfo);
+                document.getElementById('student-name').value = info.name || '';
+                document.getElementById('student-grade').value = info.grade || '';
+                document.getElementById('academy-name').value = info.academy || '';
+                document.getElementById('class-name').value = info.class || '';
+            }
+        });
+    </script>
+</body>
+</html>

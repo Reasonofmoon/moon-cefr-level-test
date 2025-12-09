@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEFR PRE-A1 Level English Test - Teacher Version</title>
+    <style>
+        :root {
+            --prea1: #EC4899;
+            --prea1-light: #F9A8D4;
+            --prea1-dark: #BE185D;
+            --success: #10B981;
+            --error: #EF4444;
+            --warning: #F59E0B;
+            --background: #FDF2F8;
+            --card: #FFFFFF;
+            --text: #1E293B;
+            --muted: #64748B;
+            --border: #E2E8F0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.7;
+            padding: 20px;
+        }
+        .container { max-width: 1100px; margin: 0 auto; }
+        .teacher-badge {
+            display: inline-block;
+            background: var(--error);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+        .test-header {
+            background: linear-gradient(135deg, var(--prea1) 0%, var(--prea1-dark) 100%);
+            color: white;
+            padding: 35px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+        }
+        .test-header h1 { font-size: 2.2rem; margin-bottom: 10px; }
+        .level-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.25);
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        .test-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+        }
+        .section {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            border: 1px solid var(--border);
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-bottom: 18px;
+            border-bottom: 3px solid var(--prea1-light);
+        }
+        .section-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--prea1-light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+        .section-title { font-size: 1.4rem; color: var(--prea1-dark); font-weight: 600; }
+        .section-count {
+            margin-left: auto;
+            background: var(--prea1-light);
+            color: var(--prea1-dark);
+            padding: 5px 14px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+        }
+        .question-block {
+            margin-bottom: 28px;
+            padding: 22px;
+            background: #FDF2F8;
+            border-radius: 12px;
+            border-left: 5px solid var(--prea1);
+        }
+        .question-number {
+            display: inline-block;
+            background: var(--prea1);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-right: 12px;
+        }
+        .question-text { font-weight: 500; margin-bottom: 16px; font-size: 1.02rem; }
+        .options-display {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .option-display {
+            padding: 12px 16px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+        .option-letter { font-weight: 600; color: var(--prea1-dark); min-width: 24px; }
+        .correct-answer {
+            background: #DCFCE7;
+            border: 2px solid var(--success);
+            font-weight: 600;
+            color: var(--success);
+        }
+        .answer-display {
+            margin-top: 16px;
+            padding: 16px;
+            background: #DCFCE7;
+            border-left: 5px solid var(--success);
+            border-radius: 8px;
+            font-weight: 600;
+            color: var(--success);
+        }
+        .teacher-info {
+            padding: 18px;
+            background: #FEF3C7;
+            border-left: 5px solid var(--warning);
+            border-radius: 8px;
+            margin-bottom: 18px;
+            font-size: 0.95rem;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .info-box {
+            padding: 16px;
+            background: var(--prea1-light);
+            border-radius: 8px;
+            border-left: 4px solid var(--prea1);
+        }
+        .info-box-label { font-weight: 600; color: var(--prea1-dark); font-size: 0.9rem; }
+        .info-box-value { font-size: 1.3rem; font-weight: bold; color: var(--prea1); margin-top: 8px; }
+        .cefr-section {
+            background: #E0F2FE;
+            border: 2px solid #0284C7;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 30px 0;
+        }
+        .cefr-section h3 {
+            color: #0284C7;
+            margin-bottom: 16px;
+            font-size: 1.3rem;
+        }
+        .cefr-section ul {
+            margin-left: 20px;
+            color: var(--text);
+        }
+        .cefr-section li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        .evaluation-rubric {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 20px 0;
+        }
+        .rubric-row {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .rubric-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .rubric-label { font-weight: 600; color: var(--prea1-dark); }
+        .score-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-right: 12px;
+        }
+        .score-excellent { background: #DCFCE7; color: var(--success); }
+        .score-good { background: #DBEAFE; color: #0284C7; }
+        .score-fair { background: #FEF3C7; color: var(--warning); }
+        .score-pass { background: #F3E8FF; color: #A855F7; }
+        .score-fail { background: #FEE2E2; color: var(--error); }
+        .test-footer { text-align: center; padding: 25px; color: var(--muted); font-size: 0.88rem; }
+        .print-section { display: none; }
+        @media print {
+            .print-section { display: block; }
+            body { padding: 10px; }
+            .section { page-break-inside: avoid; }
+        }
+        @media (max-width: 640px) {
+            body { padding: 12px; }
+            .test-header { padding: 22px; }
+            .test-header h1 { font-size: 1.6rem; }
+            .options-display { grid-template-columns: 1fr; }
+            .info-grid { grid-template-columns: 1fr; }
+            .rubric-row { grid-template-columns: 1fr; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="teacher-badge">👨‍🏫 Teacher Version - Answer Key</div>
+
+    <header class="test-header">
+        <div class="level-badge">🎓 CEFR PRE-A1 Level</div>
+        <h1>English Level Test</h1>
+        <p style="margin-bottom: 15px;">Breakthrough Level Assessment</p>
+        <div class="test-info">
+            <span>📝 25 Questions</span>
+            <span>⏱️ 30 Minutes</span>
+            <span>📊 Passing Score: 50%</span>
+        </div>
+    </header>
+
+    <!-- Test Overview for Teachers -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-icon">📋</div>
+            <h2 class="section-title">Test Overview & Grading Guide</h2>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-box">
+                <div class="info-box-label">Total Questions</div>
+                <div class="info-box-value">25</div>
+            </div>
+            <div class="info-box">
+                <div class="info-box-label">Points per Question</div>
+                <div class="info-box-value">4 points</div>
+            </div>
+            <div class="info-box">
+                <div class="info-box-label">Total Points</div>
+                <div class="info-box-value">100 points</div>
+            </div>
+            <div class="info-box">
+                <div class="info-box-label">Passing Score</div>
+                <div class="info-box-value">50 points (50%)</div>
+            </div>
+        </div>
+
+        <div class="teacher-info">
+            <strong>📌 Grading Notes:</strong><br>
+            • Each question is worth 4 points (25 questions × 4 = 100 total)<br>
+            • Minimum passing score is 50 points (50% correct answers)<br>
+            • Score range: 0-100 points, displayed as percentage and count<br>
+            • This is an objective multiple-choice test with single correct answer per question
+        </div>
+    </section>
+
+    <!-- Score Interpretation -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-icon">📊</div>
+            <h2 class="section-title">Score Interpretation & Feedback</h2>
+        </div>
+
+        <div class="evaluation-rubric">
+            <div class="rubric-row">
+                <div class="rubric-label">90-100%</div>
+                <div>
+                    <span class="score-badge score-excellent">EXCELLENT</span>
+                    Student has mastered PRE-A1 breakthrough level. Ready for A1 level instruction. Can recognize basic greetings, introduce themselves, count 1-10, and identify common objects/colors.
+                </div>
+            </div>
+            <div class="rubric-row">
+                <div class="rubric-label">80-89%</div>
+                <div>
+                    <span class="score-badge score-good">VERY GOOD</span>
+                    Student demonstrates strong PRE-A1 competency. Ready for A1 level with minor additional support. Shows solid foundation in basic vocabulary and "be" verb.
+                </div>
+            </div>
+            <div class="rubric-row">
+                <div class="rubric-label">70-79%</div>
+                <div>
+                    <span class="score-badge score-fair">GOOD</span>
+                    Student shows reasonable PRE-A1 understanding. Recommend continued practice before A1 transition. Areas for improvement: present tense verbs, family relationships.
+                </div>
+            </div>
+            <div class="rubric-row">
+                <div class="rubric-label">50-69%</div>
+                <div>
+                    <span class="score-badge score-pass">PASSING</span>
+                    Student has achieved PRE-A1 baseline. Can proceed to A1 with structured guidance. Requires focused review of basic verb forms and vocabulary retention.
+                </div>
+            </div>
+            <div class="rubric-row">
+                <div class="rubric-label">Below 50%</div>
+                <div>
+                    <span class="score-badge score-fail">NEEDS IMPROVEMENT</span>
+                    Student requires additional PRE-A1 practice before advancing. Recommend targeted vocabulary and grammar review using foundational materials.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CEFR Framework -->
+    <div class="cefr-section">
+        <h3>🎯 CEFR PRE-A1 "Can Do" Statements</h3>
+        <p style="margin-bottom: 16px;"><strong>Students at PRE-A1 level can:</strong></p>
+        <ul>
+            <li><strong>Listening:</strong> Recognize basic greetings (hello, goodbye) and single words for common objects, colors, and numbers 1-10</li>
+            <li><strong>Reading:</strong> Understand simple, isolated words and phrases related to familiar topics (greetings, numbers, basic family vocabulary)</li>
+            <li><strong>Speaking:</strong> Produce basic greetings and introduce self with name (highly controlled, memorized phrases)</li>
+            <li><strong>Writing:</strong> Write isolated words from a familiar list (with visual support); copy simple greetings and numbers</li>
+            <li><strong>Grammar:</strong> Recognize present tense "be" verb (I am, You are, He/She is, It is) in context</li>
+            <li><strong>Vocabulary:</strong> Know 500-700 basic words: greetings, numbers 1-10, common objects, animals, colors, simple family relationships</li>
+        </ul>
+    </div>
+
+    <!-- Answer Key by Section -->
+
+    <!-- Section 1: Greeting & Basic Vocabulary -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-icon">👋</div>
+            <h2 class="section-title">Section 1: Greeting & Introductions</h2>
+            <span class="section-count">5 Questions</span>
+        </div>
+
+        <div class="question-block">
+            <span class="question-number">1</span>
+            <span class="question-text">What do you say when you meet someone?</span>
+            <div class="options-display">
+                <div class="option-display">
+                    <span class="option-letter">A)</span> Hello
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">B)</span> Goodbye
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">C)</span> Thank you
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">D)</span> Sorry
+                </div>
+            </div>
+            <div class="answer-display">✓ Correct Answer: A) Hello</div>
+            <div class="teacher-info">
+                <strong>Teaching Note:</strong> This tests basic greeting recognition. "Hello" is the standard greeting when meeting someone. Use this to assess listening comprehension of fundamental social expressions.
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-number">2</span>
+            <span class="question-text">My name _______ Alex.</span>
+            <div class="options-display">
+                <div class="option-display">
+                    <span class="option-letter">A)</span> am
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">B)</span> is
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">C)</span> are
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">D)</span> be
+                </div>
+            </div>
+            <div class="answer-display">✓ Correct Answer: A) am</div>
+            <div class="teacher-info">
+                <strong>Grammar Focus:</strong> Present tense "be" verb with first person singular (I). Students must understand subject-verb agreement. This is foundational for PRE-A1 self-introduction.
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-number">3</span>
+            <span class="question-text">What is the opposite of "hello"?</span>
+            <div class="options-display">
+                <div class="option-display">
+                    <span class="option-letter">A)</span> Goodbye
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">B)</span> Please
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">C)</span> Yes
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">D)</span> No
+                </div>
+            </div>
+            <div class="answer-display">✓ Correct Answer: A) Goodbye</div>
+            <div class="teacher-info">
+                <strong>Semantic Understanding:</strong> Tests comprehension of antonyms and basic social expressions. "Goodbye" is the natural opposite to "hello" in greeting contexts.
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-number">4</span>
+            <span class="question-text">I _______ from France.</span>
+            <div class="options-display">
+                <div class="option-display">
+                    <span class="option-letter">A)</span> am
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">B)</span> is
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">C)</span> are
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">D)</span> have
+                </div>
+            </div>
+            <div class="answer-display">✓ Correct Answer: A) am</div>
+            <div class="teacher-info">
+                <strong>Grammar Focus:</strong> Present tense "be" verb for expressing nationality/origin. First person singular requires "am". Critical for introducing oneself.
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-number">5</span>
+            <span class="question-text">Nice to _______ you.</span>
+            <div class="options-display">
+                <div class="option-display">
+                    <span class="option-letter">A)</span> see
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">B)</span> know
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">C)</span> meet
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">D)</span> go
+                </div>
+            </div>
+            <div class="answer-display">✓ Correct Answer: A) see</div>
+            <div class="teacher-info">
+                <strong>Fixed Phrase Recognition:</strong> "Nice to see you" is a common PRE-A1 greeting phrase. Tests both vocabulary and formulaic expression recognition.
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Numbers 1-10 -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-icon">🔢</div>
+            <h2 class="section-title">Section 2: Numbers (1-10)</h2>
+            <span class="section-count">5 Questions</span>
+        </div>
+
+        <div class="question-block">
+            <span class="question-number">6</span>
+            <span class="question-text">What is the number after 3?</span>
+            <div class="options-display">
+                <div class="option-display">
+                    <span class="option-letter">A)</span> Two
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">B)</span> Four
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">C)</span> Five
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">D)</span> Six
+                </div>
+            </div>
+            <div class="answer-display">✓ Correct Answer: B) Four</div>
+            <div class="teacher-info">
+                <strong>Foundational Skill:</strong> Number sequence recognition. Essential for PRE-A1 students to understand cardinal numbers 1-10 and their order.
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-number">7</span>
+            <span class="question-text">I have _______ apples. (2)</span>
+            <div class="options-display">
+                <div class="option-display">
+                    <span class="option-letter">A)</span> one
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">B)</span> two
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">C)</span> three
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">D)</span> four
+                </div>
+            </div>
+            <div class="answer-display">✓ Correct Answer: B) two</div>
+            <div class="teacher-info">
+                <strong>Applied Number Usage:</strong> Tests ability to match number words to quantities in context. The visual cue "(2)" helps lower-level learners.
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-number">8</span>
+            <span class="question-text">What is 5 + 5?</span>
+            <div class="options-display">
+                <div class="option-display">
+                    <span class="option-letter">A)</span> Seven
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">B)</span> Eight
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">C)</span> Nine
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">D)</span> Ten
+                </div>
+            </div>
+            <div class="answer-display">✓ Correct Answer: D) Ten</div>
+            <div class="teacher-info">
+                <strong>Number Cognition:</strong> Simple addition combined with number word recognition. Assesses both mathematical and English language skills at PRE-A1 level.
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-number">9</span>
+            <span class="question-text">She has _______ brothers. (1)</span>
+            <div class="options-display">
+                <div class="option-display">
+                    <span class="option-letter">A)</span> one
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">B)</span> two
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">C)</span> three
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">D)</span> four
+                </div>
+            </div>
+            <div class="answer-display">✓ Correct Answer: A) one</div>
+            <div class="teacher-info">
+                <strong>Contextual Number Usage:</strong> Combines number recognition with family vocabulary. Tests ability to apply numbers in meaningful contexts about family.
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-number">10</span>
+            <span class="question-text">The number between 7 and 9 is:</span>
+            <div class="options-display">
+                <div class="option-display">
+                    <span class="option-letter">A)</span> Six
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">B)</span> Seven
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">C)</span> Eight
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">D)</span> Nine
+                </div>
+            </div>
+            <div class="answer-display">✓ Correct Answer: C) Eight</div>
+            <div class="teacher-info">
+                <strong>Sequence Reasoning:</strong> Tests understanding of number order and sequencing. Important for establishing numerical foundation at PRE-A1.
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Common Objects & Colors -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-icon">🎨</div>
+            <h2 class="section-title">Section 3: Objects & Colors</h2>
+            <span class="section-count">5 Questions</span>
+        </div>
+
+        <div class="question-block">
+            <span class="question-number">11</span>
+            <span class="question-text">What color is the sky?</span>
+            <div class="options-display">
+                <div class="option-display">
+                    <span class="option-letter">A)</span> Red
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">B)</span> Green
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">C)</span> Blue
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">D)</span> Yellow
+                </div>
+            </div>
+            <div class="answer-display">✓ Correct Answer: C) Blue</div>
+            <div class="teacher-info">
+                <strong>Real-World Knowledge:</strong> Tests color vocabulary combined with environmental awareness. "Blue" is the primary color of sky, requiring color vocabulary knowledge.
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-number">12</span>
+            <span class="question-text">A cat is a _______.</span>
+            <div class="options-display">
+                <div class="option-display">
+                    <span class="option-letter">A)</span> tree
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">B)</span> animal
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">C)</span> food
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">D)</span> color
+                </div>
+            </div>
+            <div class="answer-display">✓ Correct Answer: B) animal</div>
+            <div class="teacher-info">
+                <strong>Semantic Classification:</strong> Tests ability to categorize and understand word relationships. Requires basic taxonomic knowledge (cat belongs to animal category).
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-number">13</span>
+            <span class="question-text">What color is snow?</span>
+            <div class="options-display">
+                <div class="option-display">
+                    <span class="option-letter">A)</span> Black
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">B)</span> White
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">C)</span> Gray
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">D)</span> Brown
+                </div>
+            </div>
+            <div class="answer-display">✓ Correct Answer: B) White</div>
+            <div class="teacher-info">
+                <strong>Real-World Vocabulary:</strong> Another environmental knowledge question testing color vocabulary in context. "White" is the prototypical color for snow.
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-number">14</span>
+            <span class="question-text">We write with a _______.</span>
+            <div class="options-display">
+                <div class="option-display">
+                    <span class="option-letter">A)</span> book
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">B)</span> pen
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">C)</span> table
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">D)</span> chair
+                </div>
+            </div>
+            <div class="answer-display">✓ Correct Answer: B) pen</div>
+            <div class="teacher-info">
+                <strong>Functional Object Knowledge:</strong> Tests understanding of object purpose and function. "Pen" is the tool used for writing in classroom contexts.
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-number">15</span>
+            <span class="question-text">What is the opposite of black?</span>
+            <div class="options-display">
+                <div class="option-display">
+                    <span class="option-letter">A)</span> Red
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">B)</span> Green
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">C)</span> White
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">D)</span> Blue
+                </div>
+            </div>
+            <div class="answer-display">✓ Correct Answer: C) White</div>
+            <div class="teacher-info">
+                <strong>Semantic Relations:</strong> Tests understanding of color antonyms. "Black" and "white" are the primary color opposites, fundamental to color vocabulary.
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Family & Animals -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-icon">👨‍👩‍👧</div>
+            <h2 class="section-title">Section 4: Family & Animals</h2>
+            <span class="section-count">5 Questions</span>
+        </div>
+
+        <div class="question-block">
+            <span class="question-number">16</span>
+            <span class="question-text">My mother's mother is my _______.</span>
+            <div class="options-display">
+                <div class="option-display">
+                    <span class="option-letter">A)</span> sister
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">B)</span> grandmother
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">C)</span> aunt
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">D)</span> cousin
+                </div>
+            </div>
+            <div class="answer-display">✓ Correct Answer: B) grandmother</div>
+            <div class="teacher-info">
+                <strong>Family Relationships:</strong> Tests understanding of family hierarchy and terminology. Requires logical reasoning about generational relationships.
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-number">17</span>
+            <span class="question-text">A dog is _______.</span>
+            <div class="options-display">
+                <div class="option-display">
+                    <span class="option-letter">A)</span> a fruit
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">B)</span> a pet
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">C)</span> a vehicle
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">D)</span> a color
+                </div>
+            </div>
+            <div class="answer-display">✓ Correct Answer: B) a pet</div>
+            <div class="teacher-info">
+                <strong>Semantic Classification:</strong> Tests classification of animals and understanding of relationship between dogs and human household contexts. PRE-A1 students should know dog as common pet.
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-number">18</span>
+            <span class="question-text">My father's son is my _______.</span>
+            <div class="options-display">
+                <div class="option-display">
+                    <span class="option-letter">A)</span> brother
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">B)</span> sister
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">C)</span> cousin
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">D)</span> uncle
+                </div>
+            </div>
+            <div class="answer-display">✓ Correct Answer: A) brother</div>
+            <div class="teacher-info">
+                <strong>Family Logic:</strong> Tests ability to determine family relationships through logical reasoning. Fundamental family vocabulary for PRE-A1 self-description.
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-number">19</span>
+            <span class="question-text">What animal says "meow"?</span>
+            <div class="options-display">
+                <div class="option-display">
+                    <span class="option-letter">A)</span> Dog
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">B)</span> Cat
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">C)</span> Bird
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">D)</span> Fish
+                </div>
+            </div>
+            <div class="answer-display">✓ Correct Answer: B) Cat</div>
+            <div class="teacher-info">
+                <strong>Animal Sounds & Knowledge:</strong> Tests animal vocabulary combined with onomatopoeia. "Meow" is universally recognized as cat sound across cultures and languages.
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-number">20</span>
+            <span class="question-text">Is a bird an animal?</span>
+            <div class="options-display">
+                <div class="option-display">
+                    <span class="option-letter">A)</span> Yes
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">B)</span> No
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">C)</span> Maybe
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">D)</span> I don't know
+                </div>
+            </div>
+            <div class="answer-display">✓ Correct Answer: A) Yes</div>
+            <div class="teacher-info">
+                <strong>Classification & Logic:</strong> Tests understanding of category relationships. All birds are animals, requiring factual/biological knowledge and comprehension of yes/no questions.
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Basic Actions & Verbs -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-icon">🏃</div>
+            <h2 class="section-title">Section 5: Basic Verbs & Actions</h2>
+            <span class="section-count">5 Questions</span>
+        </div>
+
+        <div class="question-block">
+            <span class="question-number">21</span>
+            <span class="question-text">I _______ a book.</span>
+            <div class="options-display">
+                <div class="option-display">
+                    <span class="option-letter">A)</span> run
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">B)</span> read
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">C)</span> eat
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">D)</span> drink
+                </div>
+            </div>
+            <div class="answer-display">✓ Correct Answer: B) read</div>
+            <div class="teacher-info">
+                <strong>Verb-Object Collocation:</strong> Tests understanding of appropriate verb-noun combinations. "Read a book" is fundamental action vocabulary at PRE-A1.
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-number">22</span>
+            <span class="question-text">He _______ to school every day.</span>
+            <div class="options-display">
+                <div class="option-display">
+                    <span class="option-letter">A)</span> go
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">B)</span> goes
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">C)</span> going
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">D)</span> gone
+                </div>
+            </div>
+            <div class="answer-display">✓ Correct Answer: B) goes</div>
+            <div class="teacher-info">
+                <strong>Third Person Singular Present:</strong> Critical grammar point for PRE-A1. "He/She" requires third person singular "-s" ending. Tests verb conjugation understanding.
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-number">23</span>
+            <span class="question-text">I _______ water when I am thirsty.</span>
+            <div class="options-display">
+                <div class="option-display">
+                    <span class="option-letter">A)</span> eat
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">B)</span> drink
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">C)</span> sleep
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">D)</span> run
+                </div>
+            </div>
+            <div class="answer-display">✓ Correct Answer: B) drink</div>
+            <div class="teacher-info">
+                <strong>Contextual Verb Usage:</strong> Tests ability to select appropriate action verb based on situational context ("thirsty" + water). Essential for functional language use.
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-number">24</span>
+            <span class="question-text">She _______ to music.</span>
+            <div class="options-display">
+                <div class="option-display">
+                    <span class="option-letter">A)</span> listen
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">B)</span> listens
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">C)</span> eat
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">D)</span> write
+                </div>
+            </div>
+            <div class="answer-display">✓ Correct Answer: B) listens</div>
+            <div class="teacher-info">
+                <strong>Third Person Singular with Preposition:</strong> Tests "listen to" collocation and third person verb conjugation. Assesses both grammar and fixed phrases.
+            </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-number">25</span>
+            <span class="question-text">I _______ when I am tired.</span>
+            <div class="options-display">
+                <div class="option-display">
+                    <span class="option-letter">A)</span> eat
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">B)</span> run
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">C)</span> sleep
+                </div>
+                <div class="option-display">
+                    <span class="option-letter">D)</span> work
+                </div>
+            </div>
+            <div class="answer-display">✓ Correct Answer: C) sleep</div>
+            <div class="teacher-info">
+                <strong>Contextual Action Selection:</strong> Tests logical connection between physical state ("tired") and appropriate action ("sleep"). Assesses comprehension and real-world logic.
+            </div>
+        </div>
+    </section>
+
+    <!-- Comprehensive Guidance for Teachers -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-icon">🎓</div>
+            <h2 class="section-title">Teacher Guidance & Assessment Notes</h2>
+        </div>
+
+        <div class="teacher-info" style="margin-bottom: 20px;">
+            <strong>Assessment Strategy:</strong><br>
+            This PRE-A1 test assesses foundational English competencies aligned with CEFR breakthrough level. The test covers five interconnected domains essential for absolute beginners: social greetings, numeracy, object recognition, family relationships, and basic actions.
+        </div>
+
+        <div class="teacher-info" style="margin-bottom: 20px;">
+            <strong>Question Distribution:</strong><br>
+            • Section 1 (Greeting): Tests social formulas and "be" verb (4 questions + 1 fixed phrase)<br>
+            • Section 2 (Numbers): Tests cardinal numbers 1-10 and sequencing (5 questions)<br>
+            • Section 3 (Objects/Colors): Tests object and color vocabulary with semantic relationships (5 questions)<br>
+            • Section 4 (Family/Animals): Tests family terminology and animal knowledge (5 questions)<br>
+            • Section 5 (Verbs): Tests basic action verbs and verb conjugation (5 questions)
+        </div>
+
+        <div class="teacher-info" style="margin-bottom: 20px;">
+            <strong>Difficulty Progression:</strong><br>
+            ✓ Easy (Q1-5, Q11-15): Direct vocabulary and recognition<br>
+            ✓ Medium (Q6-10, Q16-20): Application and reasoning<br>
+            ✓ Challenging (Q21-25): Grammar and contextual understanding
+        </div>
+
+        <div class="teacher-info" style="margin-bottom: 20px;">
+            <strong>Common Errors to Watch:</strong><br>
+            • Confusion between "am/is/are" - recommend explicit "be" verb practice<br>
+            • Third person singular "-s" omission - common across L1 backgrounds<br>
+            • Family relationship logic errors - use family tree diagrams for remediation<br>
+            • Verb-object collocation mistakes - teach phrasal chunks, not isolated words
+        </div>
+
+        <div class="teacher-info" style="margin-bottom: 20px;">
+            <strong>Remediation Recommendations by Score Range:</strong><br>
+            <strong>90-100%:</strong> Advance to A1. Consider challenge activities (simple dialogues, basic writing).<br>
+            <strong>80-89%:</strong> A1 ready. Monitor "be" verb and verb conjugation during A1 instruction.<br>
+            <strong>70-79%:</strong> Conditional A1 entry. Provide 1-2 weeks targeted PRE-A1 review before A1.<br>
+            <strong>50-69%:</strong> Extend PRE-A1 instruction. Focus on vocabulary retention and grammar fundamentals.<br>
+            <strong>&lt;50%:</strong> Recommend individual support or alternative teaching method. May need L1 support initially.
+        </div>
+
+        <div class="cefr-section">
+            <h3>📚 Recommended Follow-Up Activities</h3>
+            <ul>
+                <li><strong>For Advanced Students (90%+):</strong> Introduce A1 speaking tasks (self-introductions), simple present tense expansion, basic questions and answers</li>
+                <li><strong>For Proficient Students (80-89%):</strong> Reinforce through dialogues, listening to simple stories, controlled writing exercises</li>
+                <li><strong>For Borderline Students (70-79%):</strong> Intensive vocabulary drills, grammar pattern practice, peer learning activities</li>
+                <li><strong>For Struggling Students (50-69%):</strong> Multisensory vocabulary learning, repetition through songs/games, visual support materials</li>
+                <li><strong>For At-Risk Students (&lt;50%):</strong> Individualized review, alternative instruction methods, L1 clarification as needed</li>
+            </ul>
+        </div>
+    </section>
+
+    <footer class="test-footer">
+        <p>© CEFR-Architect v1.0 | CEFR PRE-A1 Breakthrough Level | Teacher Version</p>
+        <p style="margin-top: 10px; font-size: 0.8rem;">This teacher version is for educational purposes only. Keep student version separate for test integrity.</p>
+    </footer>
+</div>
+
+</body>
+</html>

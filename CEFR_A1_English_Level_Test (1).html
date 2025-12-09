@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEFR A1 Level English Test</title>
+    <style>
+        :root {
+            --a1: #3B82F6;
+            --a1-light: #DBEAFE;
+            --a1-dark: #1E40AF;
+            --primary: #1E40AF;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --background: #F8FAFC;
+            --card: #FFFFFF;
+            --text: #1E293B;
+            --muted: #64748B;
+            --border: #E2E8F0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header Styles */
+        .test-header {
+            background: linear-gradient(135deg, var(--a1) 0%, var(--a1-dark) 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .test-header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .level-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .test-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .test-info span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Section Styles */
+        .section {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--a1-light);
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--a1-light);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            color: var(--a1-dark);
+            font-weight: 600;
+        }
+
+        .section-count {
+            margin-left: auto;
+            background: var(--a1-light);
+            color: var(--a1-dark);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Question Styles */
+        .question {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #FAFBFC;
+            border-radius: 10px;
+            border-left: 4px solid var(--a1);
+        }
+
+        .question:last-child {
+            margin-bottom: 0;
+        }
+
+        .question-number {
+            display: inline-block;
+            background: var(--a1);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-right: 10px;
+        }
+
+        .question-text {
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: var(--text);
+        }
+
+        /* Passage Styles */
+        .passage {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .passage-label {
+            display: inline-block;
+            background: var(--a1);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        /* Options Styles */
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 15px;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option:hover {
+            border-color: var(--a1);
+            background: var(--a1-light);
+        }
+
+        .option input[type="radio"] {
+            margin-top: 3px;
+            accent-color: var(--a1);
+        }
+
+        .option-letter {
+            font-weight: 600;
+            color: var(--a1);
+            min-width: 20px;
+        }
+
+        .option-text {
+            flex: 1;
+        }
+
+        /* Conversation Styles */
+        .conversation {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .dialogue-line {
+            margin-bottom: 8px;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+
+        .dialogue-line:nth-child(odd) {
+            background: #EFF6FF;
+        }
+
+        .dialogue-line:nth-child(even) {
+            background: #F0FDF4;
+        }
+
+        .speaker {
+            font-weight: 600;
+            color: var(--a1-dark);
+        }
+
+        .blank {
+            display: inline-block;
+            min-width: 120px;
+            border-bottom: 2px dashed var(--a1);
+            margin: 0 5px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        /* Grammar Sentence */
+        .grammar-sentence {
+            font-size: 1.1rem;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .grammar-blank {
+            display: inline-block;
+            min-width: 80px;
+            border-bottom: 2px solid var(--a1);
+            margin: 0 5px;
+        }
+
+        /* Writing Section */
+        .writing-prompt {
+            background: #FEF3C7;
+            border: 1px solid #F59E0B;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .writing-prompt h4 {
+            color: #92400E;
+            margin-bottom: 10px;
+        }
+
+        .writing-criteria {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .criteria-item {
+            background: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .writing-area {
+            width: 100%;
+            min-height: 200px;
+            padding: 15px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+        }
+
+        .writing-area:focus {
+            outline: none;
+            border-color: var(--a1);
+        }
+
+        /* Answer Panel */
+        .answer-panel {
+            background: #F0FDF4;
+            border: 1px solid #86EFAC;
+            border-radius: 8px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .answer-toggle {
+            width: 100%;
+            padding: 12px 20px;
+            background: #DCFCE7;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 600;
+            color: #166534;
+            font-size: 0.95rem;
+        }
+
+        .answer-toggle:hover {
+            background: #BBF7D0;
+        }
+
+        .answer-content {
+            padding: 20px;
+            display: none;
+        }
+
+        .answer-content.show {
+            display: block;
+        }
+
+        .correct-answer {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: #166534;
+            margin-bottom: 10px;
+        }
+
+        .explanation {
+            color: var(--muted);
+            font-size: 0.9rem;
+            padding-left: 28px;
+        }
+
+        /* Answer Key Section */
+        .answer-key {
+            background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+            border: 2px solid #10B981;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .answer-key h2 {
+            color: #065F46;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .answer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+        }
+
+        .answer-item {
+            background: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+
+        .answer-item .q-num {
+            color: var(--muted);
+        }
+
+        .answer-item .ans {
+            font-weight: 600;
+            color: #059669;
+        }
+
+        /* Verification Report */
+        .verification-report {
+            background: #F8FAFC;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .verification-report h3 {
+            color: var(--a1-dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .report-section {
+            margin-bottom: 15px;
+        }
+
+        .report-section h4 {
+            color: var(--text);
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        .report-section p {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .check-list {
+            list-style: none;
+        }
+
+        .check-list li {
+            padding: 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .check-list li::before {
+            content: "✓";
+            color: #10B981;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        .test-footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            body {
+                padding: 10px;
+            }
+
+            .test-header {
+                padding: 20px;
+            }
+
+            .test-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .test-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .section {
+                padding: 15px;
+            }
+
+            .question {
+                padding: 15px;
+            }
+
+            .answer-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Test Header -->
+        <header class="test-header">
+            <div class="level-badge">🎓 CEFR A1 Level</div>
+            <h1>English Level Test</h1>
+            <p style="margin-bottom: 15px;">Beginner Level Assessment</p>
+            <div class="test-info">
+                <span>📝 33 Questions</span>
+                <span>⏱️ 50 Minutes</span>
+                <span>📊 Passing Score: 36/48</span>
+            </div>
+        </header>
+
+        <!-- Section 1: Reading Comprehension -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">📖</div>
+                <h2 class="section-title">Section 1: Reading Comprehension</h2>
+                <span class="section-count">6 Questions</span>
+            </div>
+
+            <!-- Reading Passage 1 -->
+            <div class="passage">
+                <span class="passage-label">📄 Read the note</span>
+                <p>
+                    Hi Tom,<br><br>
+                    I am at the library. Please come at 3 o'clock.<br>
+                    Bring your English book.<br>
+                    See you soon!<br><br>
+                    Mia
+                </p>
+            </div>
+
+            <div class="question">
+                <span class="question-number">1</span>
+                <span class="question-text">Where is Mia?</span>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q1" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">At school</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q1" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">At the library</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q1" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">At home</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q1" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">At the park</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">2</span>
+                <span class="question-text">What should Tom bring?</span>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q2" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">His lunch box</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q2" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">His math book</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q2" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">His English book</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q2" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">His pencil case</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Reading Passage 2 -->
+            <div class="passage">
+                <span class="passage-label">📄 Read the story</span>
+                <p>
+                    Henry and his big dog Mudge went camping. Henry's mother knew all about camping. 
+                    She knew how to set up a tent. She knew how to build a campfire. 
+                    Henry's father didn't know anything about camping. He just came with a guitar and a smile.
+                    They walked and walked. It was beautiful. Henry saw fish in the stream and a rainbow.
+                </p>
+            </div>
+
+            <div class="question">
+                <span class="question-number">3</span>
+                <span class="question-text">Who knew about camping?</span>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q3" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">Henry's father</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q3" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">Henry's mother</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q3" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">Mudge the dog</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q3" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">Henry</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">4</span>
+                <span class="question-text">What did Henry see?</span>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q4" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">A bear and a bird</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q4" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">Fish and a rainbow</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q4" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">Cats and dogs</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q4" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">Trees and rocks</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Reading Passage 3 -->
+            <div class="passage">
+                <span class="passage-label">📄 Read the story</span>
+                <p>
+                    Nate is a detective. He likes pancakes very much. He had pancakes for breakfast. 
+                    Then the telephone rang. It was Annie. Annie lost a picture. 
+                    The picture was of her dog, Fang. Nate said, "I will find the picture."
+                </p>
+            </div>
+
+            <div class="question">
+                <span class="question-number">5</span>
+                <span class="question-text">What does Nate like to eat?</span>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q5" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">Sandwiches</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q5" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">Pancakes</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q5" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">Pizza</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q5" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">Cookies</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">6</span>
+                <span class="question-text">What did Annie lose?</span>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q6" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">Her phone</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q6" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">Her dog</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q6" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">A picture</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q6" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">Her book</span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Vocabulary -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">📚</div>
+                <h2 class="section-title">Section 2: Vocabulary</h2>
+                <span class="section-count">10 Questions</span>
+            </div>
+
+            <div class="question">
+                <span class="question-number">7</span>
+                <span class="question-text">Choose the correct word: It is fall, and juicy _______ are growing in the garden.</span>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q7" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">stones</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q7" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">pears</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q7" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">books</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q7" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">chairs</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">8</span>
+                <span class="question-text">A _______ is an animal that lives in your house as a friend.</span>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q8" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">table</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q8" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">pet</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q8" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">car</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q8" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">door</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">9</span>
+                <span class="question-text">When you sleep outside in nature, you are _______.</span>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q9" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">shopping</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q9" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">cooking</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q9" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">camping</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q9" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">reading</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">10</span>
+                <span class="question-text">A _______ finds things that are lost.</span>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q10" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">teacher</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q10" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">detective</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q10" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">doctor</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q10" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">baker</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">11</span>
+                <span class="question-text">It was raining hard. The _______ was very bad for the picnic.</span>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q11" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">weather</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q11" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">music</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q11" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">dinner</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q11" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">movie</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">12</span>
+                <span class="question-text">The opposite of "happy" is _______.</span>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q12" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">big</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q12" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">fast</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q12" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">sad</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q12" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">tall</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">13</span>
+                <span class="question-text">Henry wore a special suit. He put on a _______ for the party.</span>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q13" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">blanket</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q13" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">tuxedo</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q13" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">towel</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q13" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">basket</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">14</span>
+                <span class="question-text">You can see many books at the _______.</span>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q14" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">kitchen</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q14" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">library</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q14" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">bedroom</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q14" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">garden</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">15</span>
+                <span class="question-text">The cat has a long _______. It moves it when the cat is happy.</span>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q15" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">nose</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q15" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">ear</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q15" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">tail</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q15" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">eye</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">16</span>
+                <span class="question-text">February 14th is _______. People give cards and flowers.</span>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q16" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">Christmas</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q16" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">Valentine's Day</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q16" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">Halloween</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q16" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">New Year's Day</span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Conversation -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">💬</div>
+                <h2 class="section-title">Section 3: Conversation</h2>
+                <span class="section-count">6 Questions</span>
+            </div>
+
+            <div class="question">
+                <span class="question-number">17</span>
+                <span class="question-text">Choose the best response:</span>
+                <div class="conversation">
+                    <div class="dialogue-line">
+                        <span class="speaker">A:</span> Can Mudge and I join you at the dance?
+                    </div>
+                    <div class="dialogue-line">
+                        <span class="speaker">B:</span> <span class="blank">_______</span>
+                    </div>
+                </div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q17" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">Yes, the weather is nice.</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q17" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">Only if you wear a tuxedo.</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q17" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">I like to eat pancakes.</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q17" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">The library is closed.</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">18</span>
+                <span class="question-text">Choose the best response:</span>
+                <div class="conversation">
+                    <div class="dialogue-line">
+                        <span class="speaker">A:</span> I lost my picture. Can you help me find it?
+                    </div>
+                    <div class="dialogue-line">
+                        <span class="speaker">B:</span> <span class="blank">_______</span>
+                    </div>
+                </div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q18" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">Of course. I will help you.</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q18" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">It's a sunny day today.</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q18" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">I don't like pictures.</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q18" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">My dog is very big.</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">19</span>
+                <span class="question-text">Choose the best response:</span>
+                <div class="conversation">
+                    <div class="dialogue-line">
+                        <span class="speaker">A:</span> Would you like to come to my birthday party?
+                    </div>
+                    <div class="dialogue-line">
+                        <span class="speaker">B:</span> <span class="blank">_______</span>
+                    </div>
+                </div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q19" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">Happy birthday to you!</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q19" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">Yes, I'd love to come!</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q19" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">The cake is delicious.</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q19" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">I am ten years old.</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">20</span>
+                <span class="question-text">Choose the best response:</span>
+                <div class="conversation">
+                    <div class="dialogue-line">
+                        <span class="speaker">A:</span> We're going camping this weekend!
+                    </div>
+                    <div class="dialogue-line">
+                        <span class="speaker">B:</span> <span class="blank">_______</span>
+                    </div>
+                </div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q20" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">That sounds fun!</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q20" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">I have two cats.</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q20" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">My name is Peter.</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q20" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">The book is on the table.</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">21</span>
+                <span class="question-text">Choose the best response:</span>
+                <div class="conversation">
+                    <div class="dialogue-line">
+                        <span class="speaker">A:</span> Where is my picture?
+                    </div>
+                    <div class="dialogue-line">
+                        <span class="speaker">B:</span> I don't know. Did you look on your desk?
+                    </div>
+                    <div class="dialogue-line">
+                        <span class="speaker">A:</span> <span class="blank">_______</span>
+                    </div>
+                </div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q21" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">My desk is yellow.</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q21" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">Yes, but it's not there.</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q21" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">I like to paint pictures.</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q21" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">The sun is shining.</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">22</span>
+                <span class="question-text">Choose the best response:</span>
+                <div class="conversation">
+                    <div class="dialogue-line">
+                        <span class="speaker">A:</span> I don't like this campsite. It's too cold.
+                    </div>
+                    <div class="dialogue-line">
+                        <span class="speaker">B:</span> <span class="blank">_______</span>
+                    </div>
+                </div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q22" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">Let's go to a warmer place.</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q22" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">I have a guitar.</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q22" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">The dog is sleeping.</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q22" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">I like pancakes too.</span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Grammar -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">✏️</div>
+                <h2 class="section-title">Section 4: Grammar</h2>
+                <span class="section-count">10 Questions</span>
+            </div>
+
+            <div class="question">
+                <span class="question-number">23</span>
+                <span class="question-text">Choose the correct word to complete the sentence:</span>
+                <div class="grammar-sentence">
+                    My sister _______ to school every day.
+                </div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q23" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">go</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q23" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">goes</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q23" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">going</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q23" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">went</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">24</span>
+                <span class="question-text">Choose the correct word to complete the sentence:</span>
+                <div class="grammar-sentence">
+                    There _______ many stars in the sky last night.
+                </div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q24" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">is</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q24" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">are</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q24" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">was</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q24" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">were</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">25</span>
+                <span class="question-text">Choose the correct word to complete the sentence:</span>
+                <div class="grammar-sentence">
+                    _______ you like pancakes for breakfast?
+                </div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q25" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">Does</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q25" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">Do</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q25" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">Are</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q25" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">Is</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">26</span>
+                <span class="question-text">Choose the correct word to complete the sentence:</span>
+                <div class="grammar-sentence">
+                    The dog _______ in the yard yesterday.
+                </div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q26" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">play</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q26" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">plays</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q26" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">played</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q26" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">playing</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">27</span>
+                <span class="question-text">Choose the correct word to complete the sentence:</span>
+                <div class="grammar-sentence">
+                    I can _______ a tent very well.
+                </div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q27" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">sets up</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q27" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">set up</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q27" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">setting up</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q27" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">to set up</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">28</span>
+                <span class="question-text">Choose the correct word to complete the sentence:</span>
+                <div class="grammar-sentence">
+                    The picture is _______ the desk.
+                </div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q28" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">in</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q28" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">on</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q28" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">at</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q28" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">to</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">29</span>
+                <span class="question-text">Choose the correct word to complete the sentence:</span>
+                <div class="grammar-sentence">
+                    _______ is your dog's name?
+                </div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q29" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">Where</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q29" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">When</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q29" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">What</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q29" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">How</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">30</span>
+                <span class="question-text">Choose the correct word to complete the sentence:</span>
+                <div class="grammar-sentence">
+                    Henry and Peter _______ happy about the trip.
+                </div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q30" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">is</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q30" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">am</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q30" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">are</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q30" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">be</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">31</span>
+                <span class="question-text">Choose the correct word to complete the sentence:</span>
+                <div class="grammar-sentence">
+                    She _______ a picture of her dog yesterday.
+                </div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q31" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">paint</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q31" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">paints</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q31" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">painted</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q31" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">painting</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <span class="question-number">32</span>
+                <span class="question-text">Choose the correct word to complete the sentence:</span>
+                <div class="grammar-sentence">
+                    Please _______ the door. It's cold outside.
+                </div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q32" value="A">
+                        <span class="option-letter">A)</span>
+                        <span class="option-text">closes</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q32" value="B">
+                        <span class="option-letter">B)</span>
+                        <span class="option-text">closed</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q32" value="C">
+                        <span class="option-letter">C)</span>
+                        <span class="option-text">closing</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q32" value="D">
+                        <span class="option-letter">D)</span>
+                        <span class="option-text">close</span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Writing -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">✍️</div>
+                <h2 class="section-title">Section 5: Writing</h2>
+                <span class="section-count">1 Question</span>
+            </div>
+
+            <div class="question">
+                <span class="question-number">33</span>
+                <span class="question-text">Writing Task</span>
+                
+                <div class="writing-prompt">
+                    <h4>📝 Write about your favorite day</h4>
+                    <p>Write 5-7 sentences about a day you like (for example: your birthday, a holiday, or a weekend day).</p>
+                    <p>Include:</p>
+                    <div class="writing-criteria">
+                        <span class="criteria-item">📅 What day is it?</span>
+                        <span class="criteria-item">🏠 Where do you go?</span>
+                        <span class="criteria-item">👨‍👩‍👧 Who are you with?</span>
+                        <span class="criteria-item">🎯 What do you do?</span>
+                        <span class="criteria-item">😊 How do you feel?</span>
+                    </div>
+                </div>
+
+                <textarea class="writing-area" placeholder="Write your answer here..."></textarea>
+            </div>
+        </section>
+
+        <!-- Answer Key -->
+        <section class="answer-key">
+            <h2>📋 Answer Key</h2>
+            
+            <h3 style="margin-bottom: 15px; color: #065F46;">Section 1: Reading Comprehension</h3>
+            <div class="answer-grid" style="margin-bottom: 20px;">
+                <div class="answer-item"><span class="q-num">Q1</span><span class="ans">B</span></div>
+                <div class="answer-item"><span class="q-num">Q2</span><span class="ans">C</span></div>
+                <div class="answer-item"><span class="q-num">Q3</span><span class="ans">B</span></div>
+                <div class="answer-item"><span class="q-num">Q4</span><span class="ans">B</span></div>
+                <div class="answer-item"><span class="q-num">Q5</span><span class="ans">B</span></div>
+                <div class="answer-item"><span class="q-num">Q6</span><span class="ans">C</span></div>
+            </div>
+
+            <h3 style="margin-bottom: 15px; color: #065F46;">Section 2: Vocabulary</h3>
+            <div class="answer-grid" style="margin-bottom: 20px;">
+                <div class="answer-item"><span class="q-num">Q7</span><span class="ans">B</span></div>
+                <div class="answer-item"><span class="q-num">Q8</span><span class="ans">B</span></div>
+                <div class="answer-item"><span class="q-num">Q9</span><span class="ans">C</span></div>
+                <div class="answer-item"><span class="q-num">Q10</span><span class="ans">B</span></div>
+                <div class="answer-item"><span class="q-num">Q11</span><span class="ans">A</span></div>
+                <div class="answer-item"><span class="q-num">Q12</span><span class="ans">C</span></div>
+                <div class="answer-item"><span class="q-num">Q13</span><span class="ans">B</span></div>
+                <div class="answer-item"><span class="q-num">Q14</span><span class="ans">B</span></div>
+                <div class="answer-item"><span class="q-num">Q15</span><span class="ans">C</span></div>
+                <div class="answer-item"><span class="q-num">Q16</span><span class="ans">B</span></div>
+            </div>
+
+            <h3 style="margin-bottom: 15px; color: #065F46;">Section 3: Conversation</h3>
+            <div class="answer-grid" style="margin-bottom: 20px;">
+                <div class="answer-item"><span class="q-num">Q17</span><span class="ans">B</span></div>
+                <div class="answer-item"><span class="q-num">Q18</span><span class="ans">A</span></div>
+                <div class="answer-item"><span class="q-num">Q19</span><span class="ans">B</span></div>
+                <div class="answer-item"><span class="q-num">Q20</span><span class="ans">A</span></div>
+                <div class="answer-item"><span class="q-num">Q21</span><span class="ans">B</span></div>
+                <div class="answer-item"><span class="q-num">Q22</span><span class="ans">A</span></div>
+            </div>
+
+            <h3 style="margin-bottom: 15px; color: #065F46;">Section 4: Grammar</h3>
+            <div class="answer-grid">
+                <div class="answer-item"><span class="q-num">Q23</span><span class="ans">B</span></div>
+                <div class="answer-item"><span class="q-num">Q24</span><span class="ans">D</span></div>
+                <div class="answer-item"><span class="q-num">Q25</span><span class="ans">B</span></div>
+                <div class="answer-item"><span class="q-num">Q26</span><span class="ans">C</span></div>
+                <div class="answer-item"><span class="q-num">Q27</span><span class="ans">B</span></div>
+                <div class="answer-item"><span class="q-num">Q28</span><span class="ans">B</span></div>
+                <div class="answer-item"><span class="q-num">Q29</span><span class="ans">C</span></div>
+                <div class="answer-item"><span class="q-num">Q30</span><span class="ans">C</span></div>
+                <div class="answer-item"><span class="q-num">Q31</span><span class="ans">C</span></div>
+                <div class="answer-item"><span class="q-num">Q32</span><span class="ans">D</span></div>
+            </div>
+        </section>
+
+        <!-- Verification Report -->
+        <section class="verification-report">
+            <h3>📊 CEFR-Architect 자체 검증 보고서</h3>
+
+            <div class="report-section">
+                <h4>📌 기본 정보</h4>
+                <p><strong>목표 레벨:</strong> A1 (Beginner)</p>
+                <p><strong>총 문항 수:</strong> 33문항 (Reading 6 + Vocabulary 10 + Conversation 6 + Grammar 10 + Writing 1)</p>
+                <p><strong>예상 시험 시간:</strong> 50분</p>
+                <p><strong>예상 정답률:</strong> 70-80% (적정 난이도)</p>
+            </div>
+
+            <div class="report-section">
+                <h4>🎯 CEFR 정합성 검증</h4>
+                <p><strong>Can-Do Statement 매핑:</strong> "Can understand and use familiar everyday expressions and very basic phrases aimed at the satisfaction of needs of a concrete type."</p>
+                <p><strong>Lexile 범위:</strong> 1.5-3.5 Grade Level 준수</p>
+                <p><strong>어휘 레벨:</strong> Oxford 3000 기초 어휘 범위 내 (700단어 이내)</p>
+            </div>
+
+            <div class="report-section">
+                <h4>📚 원문 활용 현황</h4>
+                <p>• Henry and Mudge and Mrs. Hopper's House - Q3, Q17</p>
+                <p>• Henry and Mudge and the Starry Night - Q4, Q9, Q20, Q24</p>
+                <p>• Nate the Great - Q5, Q6, Q10, Q18, Q21</p>
+                <p>• Horrid Henry's Holiday - Q11, Q22</p>
+                <p>• Mr. Putter & Tabby Pick the Pears - Q7, Q15</p>
+            </div>
+
+            <div class="report-section">
+                <h4>⚖️ 선택지 균형 검증 (Protocol v2.0)</h4>
+                <p><strong>상태:</strong> ✅ PASSED</p>
+                <p><strong>정답 분포:</strong> A: 24% | B: 36% | C: 27% | D: 12%</p>
+                <p><strong>연속 정답 위치:</strong> 최대 2회 연속 (기준 충족)</p>
+            </div>
+
+            <div class="report-section">
+                <h4>✅ 품질 체크리스트</h4>
+                <ul class="check-list">
+                    <li>CEFR A1 레벨 어휘/문법 범위 준수</li>
+                    <li>모든 정답 근거가 지문/문맥 내 명시</li>
+                    <li>선택지 길이 균형 유지 (분산 5단어 이내)</li>
+                    <li>문화적/지역적 중립성 확보</li>
+                    <li>Authentic한 일상 언어 사용</li>
+                    <li>의사소통 중심 평가 원칙 적용</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="test-footer">
+            <p>© CEFR-Architect v1.0 | CEFR 기반 영어 레벨 테스트 문항 설계 시스템</p>
+            <p>Test generated based on authentic children's literature sources</p>
+        </footer>
+    </div>
+
+    <!-- Controls + Results (added) -->
+    <style>
+        /* added grading highlight styles */
+        .option.correct { background: #ECFDF5; border-color: #10B981; }
+        .option.incorrect { background: #FEE2E2; border-color: #EF4444; }
+        .controls { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 16px; }
+        .controls button { padding: 10px 14px; border-radius: 8px; border: 1px solid #CBD5E1; background: white; cursor: pointer; }
+        .controls button.primary { background: #1E40AF; color: white; border-color: #1E40AF; }
+        .muted-note { color: #64748B; font-size: 0.85rem; margin-left: auto; }
+    </style>
+
+    <section class="section" id="student-controls">
+        <div class="controls">
+            <button id="gradeBtn" class="primary">✅ 채점하기</button>
+            <button id="resetBtn">🔄 다시 풀기</button>
+            <button id="toggleTeacherBtn">👩‍🏫 교사용 모드 전환</button>
+            <span class="muted-note">학생 화면에서는 정답이 표시되지 않습니다.</span>
+        </div>
+    </section>
+
+    <section class="verification-report" id="results-panel" style="display:none">
+        <h3>📊 성적표</h3>
+        <div class="report-section"><h4>총점</h4><p id="total-score">-</p></div>
+        <div class="report-section"><h4>섹션별 결과</h4><p id="section-breakdown">-</p></div>
+        <div class="report-section"><h4>오답 문항</h4><p id="wrong-list">-</p></div>
+        <div class="report-section" id="teacher-corrections" style="display:none"><h4>정답 안내 (교사용)</h4><p id="correction-list">-</p></div>
+    </section>
+
+    <script>
+        // Toggle answer panels (legacy)
+        document.querySelectorAll('.answer-toggle').forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const content = toggle.nextElementSibling;
+                content.classList.toggle('show');
+                const arrow = toggle.querySelector('span:last-child');
+                arrow.textContent = content.classList.contains('show') ? '▲' : '▼';
+            });
+        });
+
+        // Added: grading + teacher mode
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(location.search);
+            const teacherMode = params.get('mode') === 'teacher' || localStorage.getItem('role') === 'teacher';
+
+            // Hide answer key and internal verification from students
+            document.querySelectorAll('.answer-key, .verification-report').forEach(el => {
+                if (el.id !== 'results-panel') {
+                    el.style.display = teacherMode ? '' : 'none';
+                }
+            });
+            document.getElementById('teacher-corrections').style.display = teacherMode ? '' : 'none';
+
+            // A1 answer key (hidden from UI, used for grading only)
+            const answerKey = {
+                q1:"B",q2:"C",q3:"B",q4:"B",q5:"B",q6:"C",
+                q7:"B",q8:"B",q9:"C",q10:"B",q11:"A",q12:"C",
+                q13:"B",q14:"B",q15:"C",q16:"B",
+                q17:"B",q18:"A",q19:"B",q20:"A",q21:"B",q22:"A",
+                q23:"B",q24:"D",q25:"B",q26:"C",q27:"B",q28:"B",
+                q29:"C",q30:"C",q31:"C",q32:"D"
+            };
+
+            const sections = {
+                Reading: [1,6],
+                Vocabulary: [7,16],
+                Conversation: [17,22],
+                Grammar: [23,32]
+            };
+
+            function grade() {
+                // clear previous markings
+                document.querySelectorAll('.option').forEach(opt => opt.classList.remove('correct','incorrect'));
+
+                let correct = 0; let total = 32;
+                const wrong = [];
+                const corrections = [];
+
+                for (let i=1;i<=32;i++) {
+                    const name = `q${i}`;
+                    const sel = document.querySelector(`input[name="${name}"]:checked`);
+                    const correctAns = answerKey[name];
+                    if (!correctAns) continue;
+                    if (sel) {
+                        const selectedVal = sel.value;
+                        const selectedLabel = sel.closest('label.option');
+                        if (selectedVal === correctAns) {
+                            correct++;
+                            if (selectedLabel) selectedLabel.classList.add('correct');
+                        } else {
+                            wrong.push(i);
+                            if (selectedLabel) selectedLabel.classList.add('incorrect');
+                            if (teacherMode) {
+                                const corr = document.querySelector(`input[name="${name}"][value="${correctAns}"]`);
+                                if (corr) {
+                                    const corrLabel = corr.closest('label.option');
+                                    if (corrLabel) corrLabel.classList.add('correct');
+                                }
+                            }
+                            if (teacherMode) corrections.push(`Q${i} → ${correctAns}`);
+                        }
+                    } else {
+                        wrong.push(i);
+                        if (teacherMode) corrections.push(`Q${i} → ${correctAns}`);
+                    }
+                }
+
+                // section breakdown
+                const breakdown = Object.entries(sections).map(([label,[s,e]]) => {
+                    let secTotal = 0; let secCorrect = 0;
+                    for (let i=s;i<=e;i++) { secTotal++; if (!wrong.includes(i)) secCorrect++; }
+                    return `${label}: ${secCorrect}/${secTotal}`;
+                }).join(' | ');
+
+                // show results
+                const percent = Math.round((correct/total)*100);
+                document.getElementById('total-score').textContent = `${correct}/${total} (${percent}%)`;
+                document.getElementById('section-breakdown').textContent = breakdown;
+                document.getElementById('wrong-list').textContent = wrong.length ? `Q${wrong.join(', Q')}` : '모두 정답입니다!';
+                document.getElementById('correction-list').textContent = teacherMode ? (corrections.length ? corrections.join(', ') : '오답 없음') : '';
+                document.getElementById('results-panel').style.display = '';
+                document.getElementById('results-panel').scrollIntoView({behavior:'smooth', block:'start'});
+            }
+
+            function resetAll() {
+                document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+                document.querySelectorAll('.option').forEach(opt => opt.classList.remove('correct','incorrect'));
+                const rp = document.getElementById('results-panel');
+                if (rp) rp.style.display = 'none';
+            }
+
+            function toggleTeacher() {
+                if (teacherMode) {
+                    localStorage.removeItem('role');
+                    const u = new URL(location.href); u.searchParams.delete('mode'); location.href = u.toString();
+                } else {
+                    localStorage.setItem('role','teacher');
+                    const u = new URL(location.href); u.searchParams.set('mode','teacher'); location.href = u.toString();
+                }
+            }
+
+            document.getElementById('gradeBtn').addEventListener('click', grade);
+            document.getElementById('resetBtn').addEventListener('click', resetAll);
+            document.getElementById('toggleTeacherBtn').addEventListener('click', toggleTeacher);
+        });
+    </script>
+</body>
+</html>

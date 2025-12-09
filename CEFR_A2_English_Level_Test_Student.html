@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEFR A2 Level English Test - Student Version</title>
+    <style>
+        :root {
+            --a2: #10B981;
+            --a2-light: #D1FAE5;
+            --a2-dark: #065F46;
+            --success: #10B981;
+            --error: #EF4444;
+            --background: #F8FAFC;
+            --card: #FFFFFF;
+            --text: #1E293B;
+            --muted: #64748B;
+            --border: #E2E8F0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .test-header {
+            background: linear-gradient(135deg, var(--a2) 0%, var(--a2-dark) 100%);
+            color: white;
+            padding: 35px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+        .test-header h1 { font-size: 2rem; margin-bottom: 10px; }
+        .level-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.25);
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        .test-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+        }
+        .section {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--a2-light);
+        }
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--a2-light);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        .section-title { font-size: 1.3rem; color: var(--a2-dark); font-weight: 600; }
+        .section-count {
+            margin-left: auto;
+            background: var(--a2-light);
+            color: var(--a2-dark);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .question {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #F0FDF4;
+            border-radius: 10px;
+            border-left: 4px solid var(--a2);
+        }
+        .question-number {
+            display: inline-block;
+            background: var(--a2);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-right: 10px;
+        }
+        .question-text { font-weight: 500; margin-bottom: 15px; color: var(--text); }
+        .passage {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+        .passage-label {
+            display: inline-block;
+            background: var(--a2);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+        .options { display: flex; flex-direction: column; gap: 10px; }
+        .option {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 15px;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .option:hover { border-color: var(--a2); background: var(--a2-light); }
+        .option input[type="radio"] { margin-top: 3px; accent-color: var(--a2); }
+        .option-letter { font-weight: 600; color: var(--a2); min-width: 20px; }
+        .submit-btn {
+            display: block;
+            margin: 30px auto;
+            padding: 16px 48px;
+            background: linear-gradient(135deg, var(--a2) 0%, var(--a2-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+        .result-card {
+            padding: 30px;
+            border-radius: 12px;
+            background: white;
+            border: 2px solid var(--border);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+        .result-card h3 { color: var(--a2-dark); margin-bottom: 25px; font-size: 1.8rem; }
+        .score-display {
+            display: flex;
+            align-items: baseline;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #D1FAE5 0%, #ECFDF5 100%);
+            border-radius: 12px;
+        }
+        .score-label { font-size: 1.2rem; font-weight: 600; color: var(--text); }
+        .score-value { font-size: 3rem; font-weight: bold; color: var(--a2); }
+        .feedback-section {
+            padding: 20px;
+            background: var(--a2-light);
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 5px solid var(--a2);
+        }
+        .feedback-section h4 { color: var(--a2-dark); margin-bottom: 12px; font-size: 1.1rem; }
+        .feedback-section p { color: var(--text); line-height: 1.6; }
+        .incorrect-list { margin-top: 25px; }
+        .incorrect-list h4 { color: var(--text); margin-bottom: 18px; font-size: 1.1rem; }
+        .incorrect-item {
+            padding: 15px;
+            margin-bottom: 12px;
+            background: #FEE2E2;
+            border: 1px solid #FCA5A5;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .incorrect-item .question-info { font-weight: 600; color: var(--error); min-width: 60px; }
+        .test-footer { text-align: center; padding: 20px; color: var(--muted); font-size: 0.85rem; }
+        .no-incorrect {
+            padding: 20px;
+            background: #DCFCE7;
+            border: 2px solid var(--success);
+            border-radius: 8px;
+            color: var(--success);
+            font-weight: 600;
+            text-align: center;
+        }
+        #result-container { display: none; }
+        @media (max-width: 640px) {
+            body { padding: 10px; }
+            .test-header { padding: 20px; }
+            .test-header h1 { font-size: 1.5rem; }
+            .section { padding: 15px; }
+            .score-value { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header class="test-header">
+        <div class="level-badge">🎓 CEFR A2 Level</div>
+        <h1>English Level Test</h1>
+        <p style="margin-bottom: 15px;">Elementary Level Assessment</p>
+        <div class="test-info">
+            <span>📝 40 Questions</span>
+            <span>⏱️ 60 Minutes</span>
+            <span>📊 Passing Score: 60%</span>
+        </div>
+    </header>
+
+    <!-- Section 1: Reading Comprehension -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-icon">📖</div>
+            <h2 class="section-title">Section 1: Reading Comprehension</h2>
+            <span class="section-count">8 Questions</span>
+        </div>
+
+        <div class="passage">
+            <span class="passage-label">📄 Read the story</span>
+            <p>Drake looked out at the crowd of people waiting by the castle gates. It was a special day. The new Dragon Master was coming! Drake stood with the other Dragon Masters—Ana, Rori, and Bo—in front of the castle.<br><br>"Griffith, did the Dragon Stone tell you what the new Dragon Master will be like?" Drake asked the wizard. Griffith shook his head. "All I know is that her name is Petra. She comes from the southern lands. And she is eight years old, like all of you."<br><br>Each of the Dragon Masters had been chosen by the magical Dragon Stone. The stone chose children who could connect with dragons.</p>
+        </div>
+
+        <div class="question"><span class="question-number">1</span><span class="question-text">Why was it a special day at the castle?</span><div class="options"><label class="option"><input type="radio" name="q1" value="A"><span class="option-letter">A)</span><span>The king was having a birthday party.</span></label><label class="option"><input type="radio" name="q1" value="B"><span class="option-letter">B)</span><span>A new Dragon Master was arriving.</span></label><label class="option"><input type="radio" name="q1" value="C"><span class="option-letter">C)</span><span>The dragons were learning to fly.</span></label></div></div>
+
+        <div class="question"><span class="question-number">2</span><span class="question-text">How old was the new Dragon Master?</span><div class="options"><label class="option"><input type="radio" name="q2" value="A"><span class="option-letter">A)</span><span>Six years old</span></label><label class="option"><input type="radio" name="q2" value="B"><span class="option-letter">B)</span><span>Eight years old</span></label><label class="option"><input type="radio" name="q2" value="C"><span class="option-letter">C)</span><span>Ten years old</span></label></div></div>
+
+        <div class="passage">
+            <span class="passage-label">📄 Read the story</span>
+            <p>"Help! A monster!" said Annie. "Yeah, sure," said Jack. "A real monster in Frog Creek, Pennsylvania." Annie loved pretend stuff. But Jack was eight and a half. He liked real things.<br><br>Annie had disappeared into the woods. Jack followed her and found her standing under a tall oak tree. "Look," she said. She was pointing at a rope ladder. The longest rope ladder Jack had ever seen. The ladder went all the way up to the top of the tree. There—at the top—was a tree house filled with books.<br><br>Jack loved books. He pushed his glasses into place and climbed up the ladder.</p>
+        </div>
+
+        <div class="question"><span class="question-number">3</span><span class="question-text">What did Annie and Jack find in the woods?</span><div class="options"><label class="option"><input type="radio" name="q3" value="A"><span class="option-letter">A)</span><span>A real monster</span></label><label class="option"><input type="radio" name="q3" value="B"><span class="option-letter">B)</span><span>A tree house with books</span></label><label class="option"><input type="radio" name="q3" value="C"><span class="option-letter">C)</span><span>A secret cave</span></label></div></div>
+
+        <div class="question"><span class="question-number">4</span><span class="question-text">What was different about Jack and Annie?</span><div class="options"><label class="option"><input type="radio" name="q4" value="A"><span class="option-letter">A)</span><span>Jack liked pretend, Annie liked real</span></label><label class="option"><input type="radio" name="q4" value="B"><span class="option-letter">B)</span><span>Annie liked pretend, Jack liked real</span></label><label class="option"><input type="radio" name="q4" value="C"><span class="option-letter">C)</span><span>Both loved magic</span></label></div></div>
+
+        <div class="passage">
+            <span class="passage-label">📄 Read the story</span>
+            <p>"I'm going shopping in the village," George's mother said on Saturday morning. "Be a good boy and don't get into mischief." George was bored. He didn't have a brother or sister. His father was a farmer and the farm was miles away from anywhere. He never had children to play with. He was especially tired of living with grumpy old Grandma.<br><br>"You can make me a nice cup of tea," Grandma said to George. "That'll keep you out of mischief."</p>
+        </div>
+
+        <div class="question"><span class="question-number">5</span><span class="question-text">Why was George bored?</span><div class="options"><label class="option"><input type="radio" name="q5" value="A"><span class="option-letter">A)</span><span>Too much homework</span></label><label class="option"><input type="radio" name="q5" value="B"><span class="option-letter">B)</span><span>No children to play with</span></label><label class="option"><input type="radio" name="q5" value="C"><span class="option-letter">C)</span><span>Cold weather</span></label></div></div>
+
+        <div class="question"><span class="question-number">6</span><span class="question-text">What did Grandma ask George to do?</span><div class="options"><label class="option"><input type="radio" name="q6" value="A"><span class="option-letter">A)</span><span>Clean her room</span></label><label class="option"><input type="radio" name="q6" value="B"><span class="option-letter">B)</span><span>Make her tea</span></label><label class="option"><input type="radio" name="q6" value="C"><span class="option-letter">C)</span><span>Go shopping</span></label></div></div>
+
+        <div class="passage">
+            <span class="passage-label">📄 Read the story</span>
+            <p>"Our class will play a football match at lunchtime," said Miss Battleaxe. "The player of the match will win football tickets. I'm the referee and my decision is final." Horrid Henry was stunned. He had to go to the game. He just had to!</p>
+        </div>
+
+        <div class="question"><span class="question-number">7</span><span class="question-text">How could students win the tickets?</span><div class="options"><label class="option"><input type="radio" name="q7" value="A"><span class="option-letter">A)</span><span>Get best grades</span></label><label class="option"><input type="radio" name="q7" value="B"><span class="option-letter">B)</span><span>Be player of the match</span></label><label class="option"><input type="radio" name="q7" value="C"><span class="option-letter">C)</span><span>Ask their teacher</span></label></div></div>
+
+        <div class="question"><span class="question-number">8</span><span class="question-text">How did Henry feel about the tickets?</span><div class="options"><label class="option"><input type="radio" name="q8" value="A"><span class="option-letter">A)</span><span>He didn't care</span></label><label class="option"><input type="radio" name="q8" value="B"><span class="option-letter">B)</span><span>He really wanted them</span></label><label class="option"><input type="radio" name="q8" value="C"><span class="option-letter">C)</span><span>He wanted to give them away</span></label></div></div>
+    </section>
+
+    <!-- Section 2: Vocabulary -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-icon">📚</div>
+            <h2 class="section-title">Section 2: Vocabulary</h2>
+            <span class="section-count">12 Questions</span>
+        </div>
+
+        <div class="question"><span class="question-number">9</span><span class="question-text">The Dragon Stone was _______. It could choose children.</span><div class="options"><label class="option"><input type="radio" name="q9" value="A"><span class="option-letter">A)</span><span>heavy</span></label><label class="option"><input type="radio" name="q9" value="B"><span class="option-letter">B)</span><span>magical</span></label><label class="option"><input type="radio" name="q9" value="C"><span class="option-letter">C)</span><span>ordinary</span></label></div></div>
+
+        <div class="question"><span class="question-number">10</span><span class="question-text">George's mother told him not to get into _______.</span><div class="options"><label class="option"><input type="radio" name="q10" value="A"><span class="option-letter">A)</span><span>breakfast</span></label><label class="option"><input type="radio" name="q10" value="B"><span class="option-letter">B)</span><span>mischief</span></label><label class="option"><input type="radio" name="q10" value="C"><span class="option-letter">C)</span><span>homework</span></label></div></div>
+
+        <div class="question"><span class="question-number">11</span><span class="question-text">A person who does magic spells is called a _______.</span><div class="options"><label class="option"><input type="radio" name="q11" value="A"><span class="option-letter">A)</span><span>farmer</span></label><label class="option"><input type="radio" name="q11" value="B"><span class="option-letter">B)</span><span>teacher</span></label><label class="option"><input type="radio" name="q11" value="C"><span class="option-letter">C)</span><span>wizard</span></label></div></div>
+
+        <div class="question"><span class="question-number">12</span><span class="question-text">The tree house was at the _______ of the tall tree.</span><div class="options"><label class="option"><input type="radio" name="q12" value="A"><span class="option-letter">A)</span><span>bottom</span></label><label class="option"><input type="radio" name="q12" value="B"><span class="option-letter">B)</span><span>middle</span></label><label class="option"><input type="radio" name="q12" value="C"><span class="option-letter">C)</span><span>top</span></label></div></div>
+
+        <div class="question"><span class="question-number">13</span><span class="question-text">Horrid Henry was _______ when he heard about the tickets.</span><div class="options"><label class="option"><input type="radio" name="q13" value="A"><span class="option-letter">A)</span><span>bored</span></label><label class="option"><input type="radio" name="q13" value="B"><span class="option-letter">B)</span><span>stunned</span></label><label class="option"><input type="radio" name="q13" value="C"><span class="option-letter">C)</span><span>sleepy</span></label></div></div>
+
+        <div class="question"><span class="question-number">14</span><span class="question-text">The opposite of "grumpy" is _______.</span><div class="options"><label class="option"><input type="radio" name="q14" value="A"><span class="option-letter">A)</span><span>cheerful</span></label><label class="option"><input type="radio" name="q14" value="B"><span class="option-letter">B)</span><span>hungry</span></label><label class="option"><input type="radio" name="q14" value="C"><span class="option-letter">C)</span><span>tired</span></label></div></option></div>
+
+        <div class="question"><span class="question-number">15</span><span class="question-text">A _______ is a large building where kings live.</span><div class="options"><label class="option"><input type="radio" name="q15" value="A"><span class="option-letter">A)</span><span>farm</span></label><label class="option"><input type="radio" name="q15" value="B"><span class="option-letter">B)</span><span>school</span></label><label class="option"><input type="radio" name="q15" value="C"><span class="option-letter">C)</span><span>castle</span></label></div></div>
+
+        <div class="question"><span class="question-number">16</span><span class="question-text">The wizard's poison was very _______. It could melt rocks!</span><div class="options"><label class="option"><input type="radio" name="q16" value="A"><span class="option-letter">A)</span><span>weak</span></label><label class="option"><input type="radio" name="q16" value="B"><span class="option-letter">B)</span><span>strong</span></label><label class="option"><input type="radio" name="q16" value="C"><span class="option-letter">C)</span><span>sweet</span></label></div></div>
+
+        <div class="question"><span class="question-number">17</span><span class="question-text">Jack climbed up the _______ to reach the tree house.</span><div class="options"><label class="option"><input type="radio" name="q17" value="A"><span class="option-letter">A)</span><span>stairs</span></label><label class="option"><input type="radio" name="q17" value="B"><span class="option-letter">B)</span><span>rope ladder</span></label><label class="option"><input type="radio" name="q17" value="C"><span class="option-letter">C)</span><span>elevator</span></label></div></div>
+
+        <div class="question"><span class="question-number">18</span><span class="question-text">The _______ decides who wins in a football match.</span><div class="options"><label class="option"><input type="radio" name="q18" value="A"><span class="option-letter">A)</span><span>captain</span></label><label class="option"><input type="radio" name="q18" value="B"><span class="option-letter">B)</span><span>goalkeeper</span></label><label class="option"><input type="radio" name="q18" value="C"><span class="option-letter">C)</span><span>referee</span></label></div></div>
+
+        <div class="question"><span class="question-number">19</span><span class="question-text">George decided to make a new _______ for Grandma.</span><div class="options"><label class="option"><input type="radio" name="q19" value="A"><span class="option-letter">A)</span><span>breakfast</span></label><label class="option"><input type="radio" name="q19" value="B"><span class="option-letter">B)</span><span>medicine</span></label><label class="option"><input type="radio" name="q19" value="C"><span class="option-letter">C)</span><span>toy</span></label></div></div>
+
+        <div class="question"><span class="question-number">20</span><span class="question-text">When something "disappeared," it means it _______.</span><div class="options"><label class="option"><input type="radio" name="q20" value="A"><span class="option-letter">A)</span><span>became bigger</span></label><label class="option"><input type="radio" name="q20" value="B"><span class="option-letter">B)</span><span>went away and couldn't be seen</span></label><label class="option"><input type="radio" name="q20" value="C"><span class="option-letter">C)</span><span>changed color</span></label></div></div>
+    </section>
+
+    <!-- Section 3: Conversation -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-icon">💬</div>
+            <h2 class="section-title">Section 3: Conversation & Listening</h2>
+            <span class="section-count">8 Questions</span>
+        </div>
+
+        <div class="question"><span class="question-number">21</span><span class="question-text"><strong>Drake:</strong> Did the Dragon Stone tell you about the new Dragon Master?<br><strong>Griffith:</strong> _______</span><div class="options"><label class="option"><input type="radio" name="q21" value="A"><span class="option-letter">A)</span><span>I don't know much, only her name.</span></label><label class="option"><input type="radio" name="q21" value="B"><span class="option-letter">B)</span><span>The weather is nice.</span></label><label class="option"><input type="radio" name="q21" value="C"><span class="option-letter">C)</span><span>I had breakfast.</span></label></div></div>
+
+        <div class="question"><span class="question-number">22</span><span class="question-text"><strong>Annie:</strong> Look! A rope ladder to the tree house!<br><strong>Jack:</strong> _______</span><div class="options"><label class="option"><input type="radio" name="q22" value="A"><span class="option-letter">A)</span><span>I'm hungry.</span></label><label class="option"><input type="radio" name="q22" value="B"><span class="option-letter">B)</span><span>Let's climb up and see!</span></label><label class="option"><input type="radio" name="q22" value="C"><span class="option-letter">C)</span><span>I don't like trees.</span></label></div></div>
+
+        <div class="question"><span class="question-number">23</span><span class="question-text"><strong>Grandma:</strong> Make me a cup of tea, please.<br><strong>George:</strong> _______</span><div class="options"><label class="option"><input type="radio" name="q23" value="A"><span class="option-letter">A)</span><span>Yes, Grandma. How much sugar?</span></label><label class="option"><input type="radio" name="q23" value="B"><span class="option-letter">B)</span><span>I went to school.</span></label><label class="option"><input type="radio" name="q23" value="C"><span class="option-letter">C)</span><span>The farm has animals.</span></label></div></div>
+
+        <div class="question"><span class="question-number">24</span><span class="question-text"><strong>Miss:</strong> The player of the match wins tickets.<br><strong>Henry:</strong> _______</span><div class="options"><label class="option"><input type="radio" name="q24" value="A"><span class="option-letter">A)</span><span>I don't like football.</span></label><label class="option"><input type="radio" name="q24" value="B"><span class="option-letter">B)</span><span>I have to win those tickets!</span></label><label class="option"><input type="radio" name="q24" value="C"><span class="option-letter">C)</span><span>What time is lunch?</span></label></div></div>
+
+        <div class="question"><span class="question-number">25</span><span class="question-text"><strong>Rori:</strong> The new Dragon Master is coming!<br><strong>Bo:</strong> _______</span><div class="options"><label class="option"><input type="radio" name="q25" value="A"><span class="option-letter">A)</span><span>I hope she's friendly!</span></label><label class="option"><input type="radio" name="q25" value="B"><span class="option-letter">B)</span><span>The sky is blue.</span></label><label class="option"><input type="radio" name="q25" value="C"><span class="option-letter">C)</span><span>I had eggs.</span></label></div></div>
+
+        <div class="question"><span class="question-number">26</span><span class="question-text"><strong>Mother:</strong> Be good and don't get into mischief.<br><strong>George:</strong> _______</span><div class="options"><label class="option"><input type="radio" name="q26" value="A"><span class="option-letter">A)</span><span>The shop is far.</span></label><label class="option"><input type="radio" name="q26" value="B"><span class="option-letter">B)</span><span>Don't worry, I'll be good.</span></label><label class="option"><input type="radio" name="q26" value="C"><span class="option-letter">C)</span><span>I like my friends.</span></label></div></div>
+
+        <div class="question"><span class="question-number">27</span><span class="question-text"><strong>Jack:</strong> Where are we?<br><strong>Annie:</strong> There's a real dinosaur outside!<br><strong>Jack:</strong> _______</span><div class="options"><label class="option"><input type="radio" name="q27" value="A"><span class="option-letter">A)</span><span>That's impossible!</span></label><label class="option"><input type="radio" name="q27" value="B"><span class="option-letter">B)</span><span>I want ice cream.</span></label><label class="option"><input type="radio" name="q27" value="C"><span class="option-letter">C)</span><span>The library closes early.</span></label></div></div>
+
+        <div class="question"><span class="question-number">28</span><span class="question-text"><strong>Drake:</strong> How old are you?<br><strong>Petra:</strong> _______</span><div class="options"><label class="option"><input type="radio" name="q28" value="A"><span class="option-letter">A)</span><span>I am nine years old.</span></label><label class="option"><input type="radio" name="q28" value="B"><span class="option-letter">B)</span><span>I am eight years old.</span></label><label class="option"><input type="radio" name="q28" value="C"><span class="option-letter">C)</span><span>I am ten years old.</span></label></div></div>
+    </section>
+
+    <!-- Section 4: Grammar -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-icon">✏️</div>
+            <h2 class="section-title">Section 4: Grammar</h2>
+            <span class="section-count">10 Questions</span>
+        </div>
+
+        <div class="question"><span class="question-number">29</span><span class="question-text">The Dragon Masters _______ at the gates yesterday.</span><div class="options"><label class="option"><input type="radio" name="q29" value="A"><span class="option-letter">A)</span><span>wait</span></label><label class="option"><input type="radio" name="q29" value="B"><span class="option-letter">B)</span><span>waits</span></label><label class="option"><input type="radio" name="q29" value="C"><span class="option-letter">C)</span><span>waited</span></label></div></div>
+
+        <div class="question"><span class="question-number">30</span><span class="question-text">George _______ going to make medicine for Grandma.</span><div class="options"><label class="option"><input type="radio" name="q30" value="A"><span class="option-letter">A)</span><span>is</span></label><label class="option"><input type="radio" name="q30" value="B"><span class="option-letter">B)</span><span>are</span></label><label class="option"><input type="radio" name="q30" value="C"><span class="option-letter">C)</span><span>am</span></label></div></div>
+
+        <div class="question"><span class="question-number">31</span><span class="question-text">Annie ran into the woods _______ Jack stayed.</span><div class="options"><label class="option"><input type="radio" name="q31" value="A"><span class="option-letter">A)</span><span>because</span></label><label class="option"><input type="radio" name="q31" value="B"><span class="option-letter">B)</span><span>but</span></label><label class="option"><input type="radio" name="q31" value="C"><span class="option-letter">C)</span><span>and</span></label></div></div>
+
+        <div class="question"><span class="question-number">32</span><span class="question-text">Henry wanted to win _______ he practiced hard.</span><div class="options"><label class="option"><input type="radio" name="q32" value="A"><span class="option-letter">A)</span><span>but</span></label><label class="option"><input type="radio" name="q32" value="B"><span class="option-letter">B)</span><span>or</span></label><label class="option"><input type="radio" name="q32" value="C"><span class="option-letter">C)</span><span>so</span></label></div></div>
+
+        <div class="question"><span class="question-number">33</span><span class="question-text">The hydra is _______ than a normal dragon.</span><div class="options"><label class="option"><input type="radio" name="q33" value="A"><span class="option-letter">A)</span><span>dangerous</span></label><label class="option"><input type="radio" name="q33" value="B"><span class="option-letter">B)</span><span>more dangerous</span></label><label class="option"><input type="radio" name="q33" value="C"><span class="option-letter">C)</span><span>most dangerous</span></label></div></div>
+
+        <div class="question"><span class="question-number">34</span><span class="question-text">Jack _______ already climbed when Annie called him.</span><div class="options"><label class="option"><input type="radio" name="q34" value="A"><span class="option-letter">A)</span><span>has</span></label><label class="option"><input type="radio" name="q34" value="B"><span class="option-letter">B)</span><span>had</span></label><label class="option"><input type="radio" name="q34" value="C"><span class="option-letter">C)</span><span>have</span></label></div></div>
+
+        <div class="question"><span class="question-number">35</span><span class="question-text">George _______ make tea every morning.</span><div class="options"><label class="option"><input type="radio" name="q35" value="A"><span class="option-letter">A)</span><span>have to</span></label><label class="option"><input type="radio" name="q35" value="B"><span class="option-letter">B)</span><span>has to</span></label><label class="option"><input type="radio" name="q35" value="C"><span class="option-letter">C)</span><span>had to</span></label></div></div>
+
+        <div class="question"><span class="question-number">36</span><span class="question-text">The children _______ playing when it rained.</span><div class="options"><label class="option"><input type="radio" name="q36" value="A"><span class="option-letter">A)</span><span>was</span></label><label class="option"><input type="radio" name="q36" value="B"><span class="option-letter">B)</span><span>were</span></label><label class="option"><input type="radio" name="q36" value="C"><span class="option-letter">C)</span><span>are</span></label></div></div>
+
+        <div class="question"><span class="question-number">37</span><span class="question-text">If the medicine works, Grandma _______ feel better.</span><div class="options"><label class="option"><input type="radio" name="q37" value="A"><span class="option-letter">A)</span><span>will</span></label><label class="option"><input type="radio" name="q37" value="B"><span class="option-letter">B)</span><span>would</span></label><label class="option"><input type="radio" name="q37" value="C"><span class="option-letter">C)</span><span>does</span></label></div></div>
+
+        <div class="question"><span class="question-number">38</span><span class="question-text">_______ you ever seen a real dragon?</span><div class="options"><label class="option"><input type="radio" name="q38" value="A"><span class="option-letter">A)</span><span>Did</span></label><label class="option"><input type="radio" name="q38" value="B"><span class="option-letter">B)</span><span>Have</span></label><label class="option"><input type="radio" name="q38" value="C"><span class="option-letter">C)</span><span>Do</span></label></div></option></div>
+    </section>
+
+    <!-- Section 5: Writing -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-icon">✍️</div>
+            <h2 class="section-title">Section 5: Writing</h2>
+            <span class="section-count">2 Questions</span>
+        </div>
+
+        <div class="question">
+            <span class="question-number">39</span>
+            <span class="question-text">Write a short email (60-80 words) to a friend about a book you read.</span>
+            <textarea style="width:100%; min-height:150px; padding:15px; border:2px solid var(--border); border-radius:8px;" name="q39" placeholder="Hi friend,&#10;I just finished reading..."></textarea>
+        </div>
+
+        <div class="question">
+            <span class="question-number">40</span>
+            <span class="question-text">Describe your favorite place (50-70 words).</span>
+            <textarea style="width:100%; min-height:150px; padding:15px; border:2px solid var(--border); border-radius:8px;" name="q40" placeholder="My favorite place is..."></textarea>
+        </div>
+    </section>
+
+    <!-- Submit Button -->
+    <section class="section">
+        <div style="text-align:center;">
+            <button id="submit-test" class="submit-btn">제출하고 점수 보기</button>
+        </div>
+    </section>
+
+    <!-- Result Container -->
+    <div id="result-container">
+        <div class="result-card">
+            <h3>📊 Your Test Results</h3>
+            <div class="score-display">
+                <span class="score-label">Your Score:</span>
+                <span class="score-value" id="score-text"></span>
+            </div>
+            <div id="feedback-section" class="feedback-section">
+                <h4>Feedback</h4>
+                <p id="feedback-text"></p>
+            </div>
+            <div id="incorrect-list" class="incorrect-list">
+                <h4>Incorrect Answers</h4>
+                <div id="incorrect-items"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="test-footer">
+        <p>© CEFR-Architect v1.0 | CEFR A2 Elementary Level | Student Version</p>
+    </footer>
+</div>
+
+<script>
+(function(){var answerKey={'Q1':'B','Q2':'B','Q3':'B','Q4':'B','Q5':'B','Q6':'B','Q7':'B','Q8':'B','Q9':'B','Q10':'B','Q11':'C','Q12':'C','Q13':'B','Q14':'A','Q15':'C','Q16':'B','Q17':'B','Q18':'C','Q19':'B','Q20':'B','Q21':'A','Q22':'B','Q23':'A','Q24':'B','Q25':'A','Q26':'B','Q27':'A','Q28':'B','Q29':'C','Q30':'A','Q31':'B','Q32':'C','Q33':'B','Q34':'B','Q35':'B','Q36':'B','Q37':'A','Q38':'B'};var submitBtn=document.getElementById('submit-test');var resultContainer=document.getElementById('result-container');var scoreText=document.getElementById('score-text');var feedbackText=document.getElementById('feedback-text');var incorrectItems=document.getElementById('incorrect-items');submitBtn.addEventListener('click',function(){var correctCount=0;var incorrectAnswers=[];for(var i=1;i<=38;i++){var qName='Q'+i;var selectedAnswer=getSelectedAnswer(qName);if(selectedAnswer===answerKey[qName]){correctCount++;}else if(selectedAnswer){incorrectAnswers.push({question:qName,selected:selectedAnswer,correct:answerKey[qName]});}}var score=Math.round((correctCount/38)*100);displayResults(score,correctCount,38,incorrectAnswers);});function getSelectedAnswer(qName){var inputs=document.querySelectorAll('input[name="'+qName+'"]');for(var i=0;i<inputs.length;i++){if(inputs[i].checked){return inputs[i].value;}}return null;}function displayResults(score,correct,total,incorrect){scoreText.textContent=score+'% ('+correct+'/'+total+')';var feedback='';if(score>=90){feedback='🎉 Excellent! You\'ve mastered A2 elementary level!';}else if(score>=80){feedback='👍 Very good! You\'re ready for B1 level.';}else if(score>=70){feedback='📚 Good effort! Keep practicing.';}else if(score>=60){feedback='💪 You passed A2! Continue learning.';}else{feedback='📖 Keep studying and try again.';}feedbackText.textContent=feedback;incorrectItems.innerHTML='';if(incorrect.length>0){incorrect.forEach(function(item){var div=document.createElement('div');div.className='incorrect-item';div.innerHTML='<span class="question-info">'+item.question+'</span><span>Your: '+item.selected+' | Correct: '+item.correct+'</span>';incorrectItems.appendChild(div);});}else{incorrectItems.innerHTML='<div class="no-incorrect">Perfect! All correct! 🏆</div>';}resultContainer.style.display='block';resultContainer.scrollIntoView({behavior:'smooth'});}})();
+</script>
+</body>
+</html>
